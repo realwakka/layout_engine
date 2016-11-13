@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "run.h"
+#include "enter_run.h"
 
 namespace le {
 
@@ -13,11 +13,12 @@ class Paragraph
   Paragraph();
   virtual ~Paragraph();
 
-  Run* getEnterRun() const { return &enter_; }
+  EnterRun* getEnterRun() { return &enter_; }
+  void insertBefore(Run* run, Run* ref);
   
  private:
   std::vector<Run*> runs_;
-  Run enter_;
+  EnterRun enter_;
 };
 
 

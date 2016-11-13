@@ -1,6 +1,8 @@
 #ifndef LE_ENTER_RUN_H_
 #define LE_ENTER_RUN_H_
 
+#include "run.h"
+
 namespace le {
 
 class EnterRun : public Run

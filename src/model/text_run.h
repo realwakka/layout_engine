@@ -2,6 +2,7 @@
 #define LE_TEXT_RUN_H_
 
 #include "run.h"
+#include <string>
 
 namespace le {
 
@@ -12,6 +13,10 @@ class TextRun : public Run
   virtual ~TextRun();
 
   virtual void insertRun(Run* run) override;
+
+ private:
+  std::string text_;
+  
   
 };
 

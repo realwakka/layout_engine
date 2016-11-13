@@ -10,6 +10,7 @@ include_directories(
 set(LE_SRCS
   render_text.cc
   model/text_run.cc
+  model/paragraph.cc
   controller/paragraph_controller.cc)
 
 
