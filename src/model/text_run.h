@@ -14,6 +14,8 @@ class TextRun : public Run
 
   virtual void insertRun(Run* run) override;
 
+  void setText(std::string text) { text_ = text; }
+
  private:
   std::string text_;
   
