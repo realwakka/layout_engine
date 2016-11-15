@@ -5,15 +5,9 @@
 
 namespace le {
 
-
-class Selection
-{
- public:
-  
-};
-
 class Paragraph;
 class Run;
+class Character;
 
 class ParagraphController
 {
@@ -24,6 +18,8 @@ class ParagraphController
   void insertText(std::string text);
 
  private:
+    Character* selected_;
+    
   Paragraph* paragraph_;
   Run* selected_run_;
   int selected_index_;

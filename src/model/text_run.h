@@ -9,8 +9,8 @@ namespace le {
 class TextRun : public Run
 {
  public:
-  TextRun();
-  virtual ~TextRun();
+    TextRun(std::string text);
+    virtual ~TextRun();
 
   virtual void insertRun(Run* run) override;
 
