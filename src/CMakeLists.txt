@@ -3,6 +3,8 @@ project(le)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
+find_package(Freetype REQUIRED)
+
 include_directories(
     ${CMAKE_CURRENT_LIST_DIR})
 
