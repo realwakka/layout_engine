@@ -5,9 +5,19 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g")
 
 find_package(Freetype REQUIRED)
 
-include_directories(
-    ${CMAKE_CURRENT_LIST_DIR})
+MESSAGE( STATUS "FREETYPE_INC_DIRS:" ${FREETYPE_INCLUDE_DIR_freetype2} )
 
+if(FREETYPE_FOUND)
+  set(FREETYPE2_INCLUDE ${FREETYPE_INCLUDE_DIR_freetype2})
+else()
+  message( FATAL_ERROR "cannot build without freetype" )
+endif()
+
+include_directories( 
+    ${CMAKE_CURRENT_LIST_DIR}
+    ${FREETYPE2_INCLUDE}
+    "/usr/include/"
+)
 
 set(LE_SRCS
   render_text.cc
@@ -15,6 +25,7 @@ set(LE_SRCS
   model/enter_run.cc
   model/paragraph.cc
   model/character.cc
+  model/glyph/glyph.cc
   controller/paragraph_controller.cc)
 
 
