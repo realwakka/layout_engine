@@ -22,6 +22,7 @@ class ParagraphController
     
   Paragraph* paragraph_;
   Run* selected_run_;
+  Character* selected_char_;
   int selected_index_;
   
 };
