@@ -2,6 +2,7 @@
 #define LE_PARAGRAPH_CONTROLLER_H_
 
 #include <string>
+#include "model/paragraph.h"
 
 namespace le {
 
@@ -20,7 +21,7 @@ class ParagraphController
  private:
     Character* selected_;
     
-  Paragraph* paragraph_;
+  Paragraph paragraph_;
   Run* selected_run_;
   Character* selected_char_;
   int selected_index_;

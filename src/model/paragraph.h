@@ -2,8 +2,8 @@
 #define LE_PARAGRAPH_H_
 
 #include <vector>
-
 #include "enter_run.h"
+#include "character.h"
 
 namespace le {
 
@@ -19,6 +19,7 @@ class Paragraph
  private:
   std::vector<Run*> runs_;
   EnterRun enter_;
+
 };
 
 

@@ -1,5 +1,7 @@
 #include "text_run.h"
 
+#include <algorithm>
+
 #include "character.h"
 
 namespace le {
@@ -24,9 +26,10 @@ void TextRun::insertRun(Run* run)
 
 void TextRun::insertText(std::string text, Character* character)
 {
-  auto it = std::find(chars_.begin(), chars_.end(), character);
+  auto char_it = std::find(chars_.begin(), chars_.end(), character);
   for( auto it = text.rbegin() ; it != text.rend() ; ++it ) {
-    
+    auto new_char = new Character(*it);
+    char_it = chars_.emplace(char_it, new_char);
   }
 }
 

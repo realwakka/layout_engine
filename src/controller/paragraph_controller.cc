@@ -7,7 +7,7 @@ namespace le {
 
 ParagraphController::ParagraphController()
 {
-
+  
 }
 
 ParagraphController::~ParagraphController()
