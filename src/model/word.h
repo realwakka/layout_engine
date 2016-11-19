@@ -5,11 +5,15 @@
 
 namespace le {
 
+class Character;
+
 class Word
 {
  public:
   Word();
   virtual ~Word();
+
+  void InsertBefore(Character* character, Character* reference);
 
  private:
   std::vector<Character*> chars_;

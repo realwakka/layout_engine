@@ -5,7 +5,8 @@ namespace le {
 
 class CharacterView;
 class Word;
-class TextRun;
+class Run;
+class Glyph;
 
 class Character
 {
@@ -13,21 +14,24 @@ class Character
   Character(char c);
   virtual ~Character();
 
-  char getChar() { return c_; }
+  char GetChar() { return c_; }
 
-  void SetTextRun(TextRun* run) { run_ = run; }
-  TextRun* GetTextRun() { return run_; }
+  void SetRun(Run* run) { run_ = run; }
+  Run* GetRun() { return run_; }
 
   void SetWord(Word* word) { word_ = word; }
   Word* GetWord() { return word_; }
 
   void InsertChar(Character* character);
-    
+
+  void SetGlyph(Glyph* glyph){ glyph_ = glyph; }
+  Glyph* GetGlyph(){ return glyph_; }
 
  private:
-  TextRun* run_;
+  Run* run_;
   Word* word_;
   CharacterView* view_;
+  Glyph* glyph_;
   char c_;
     
   

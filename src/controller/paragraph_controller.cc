@@ -19,16 +19,8 @@ void ParagraphController::insertText(std::string text)
 {
   for( char c : text ) {
     auto character = new Character(c);
-    auto run = selected_char_->GetTextRun();
-    auto word = selected_char_->GetWord();
-    
-    
+    selected_char_->InsertChar(character);
   }
-  
-  auto text_run = new TextRun(text);
-  selected_char_->GetTextRun();
-
-  
 }
 
 }  // tmaxoffice

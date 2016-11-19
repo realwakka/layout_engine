@@ -4,14 +4,15 @@
 namespace le {
 
 class Paragraph;
+class Character;
 
 class Run
 {
  public:
-  virtual void insertRun(Run* run) = 0;
-  
-  void setParagraph(Paragraph* paragraph) { paragraph_ = paragraph; }
-  Paragraph* getParagraph() { return paragraph_; }
+  void SetParagraph(Paragraph* paragraph) { paragraph_ = paragraph; }
+  Paragraph* GetParagraph() { return paragraph_; }
+
+  virtual void InsertBefore(Character* character, Character* reference) = 0;
 
  private:
   Paragraph* paragraph_;

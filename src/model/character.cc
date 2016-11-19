@@ -1,5 +1,8 @@
 #include "character.h"
 
+#include "run.h"
+#include "word.h"
+
 namespace le {
 
 Character::Character(char c)
@@ -11,9 +14,8 @@ Character::~Character()
 
 void Character::InsertChar(Character* character)
 {
-  run_->insertBefore(character, this);
-  word_->insertBefore(character, this);
-
+  run_->InsertBefore(character, this);
+  word_->InsertBefore(character, this);
 }
 
 

@@ -25,6 +25,7 @@ set(LE_SRCS
   model/enter_run.cc
   model/paragraph.cc
   model/character.cc
+  model/word.cc
   model/glyph/glyph.cc
   controller/paragraph_controller.cc)
 

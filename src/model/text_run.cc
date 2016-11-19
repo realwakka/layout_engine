@@ -14,23 +14,22 @@ TextRun::TextRun(std::string text)
   }
 }
 
+TextRun::TextRun(Character* character)
+{
+  text_.push_back(character->GetChar());
+  chars_.emplace_back(character);
+}
+
 TextRun::~TextRun()
 {
 
 }
 
-void TextRun::insertRun(Run* run)
+void TextRun::InsertBefore(Character* character, Character* reference)
 {
+  auto it = std::find(chars_.begin(), chars_.end(), reference);
+  chars_.emplace(it, character);
   
-}
-
-void TextRun::insertText(std::string text, Character* character)
-{
-  auto char_it = std::find(chars_.begin(), chars_.end(), character);
-  for( auto it = text.rbegin() ; it != text.rend() ; ++it ) {
-    auto new_char = new Character(*it);
-    char_it = chars_.emplace(char_it, new_char);
-  }
 }
 
 }  // le

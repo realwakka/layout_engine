@@ -10,7 +10,7 @@ Paragraph::Paragraph()
 Paragraph::~Paragraph()
 {}
 
-void Paragraph::insertBefore(Run* run, Run* ref)
+void Paragraph::InsertBefore(Run* run, Run* ref)
 {
   auto it = std::find(runs_.begin(), runs_.end(), ref);
   if( it == runs_.end() ) {

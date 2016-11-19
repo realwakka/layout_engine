@@ -1,6 +1,7 @@
 #include "enter_run.h"
 
 #include "paragraph.h"
+#include "text_run.h"
 
 namespace le {
 
@@ -11,9 +12,18 @@ EnterRun::EnterRun()
 EnterRun::~EnterRun()
 {}
 
-void EnterRun::insertRun(Run* run)
+void EnterRun::InsertBefore(Character* character, Character* reference)
 {
-  getParagraph()->insertBefore(run, this);
+  auto runs = GetParagraph()->GetRuns();
+  if( runs.empty() ) {
+    auto text_run = new TextRun(character);
+    GetParagraph()->InsertBefore(text_run, nullptr);
+    
+  }
+  else {
+
+  }
 }
+
 
 }  // le

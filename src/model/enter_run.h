@@ -12,9 +12,8 @@ class EnterRun : public Run
   EnterRun();
   virtual ~EnterRun();
 
-  virtual void insertRun(Run* run) override;
-
   Character* getEnterChar() { return &enter_char_; }
+  virtual void InsertBefore(Character* character, Character* reference) override;
 
  private:
   Character enter_char_;

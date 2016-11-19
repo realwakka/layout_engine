@@ -15,7 +15,9 @@ class Paragraph
   virtual ~Paragraph();
 
   EnterRun* getEnterRun() { return &enter_; }
-  void insertBefore(Run* run, Run* ref);
+  void InsertBefore(Run* run, Run* ref);
+
+  std::vector<Run*> GetRuns() const { return runs_; }
   
  private:
   std::vector<Run*> runs_;
