@@ -4,6 +4,7 @@
 #include <vector>
 #include "enter_run.h"
 #include "character.h"
+#include "word.h"
 
 namespace le {
 
@@ -18,6 +19,7 @@ class Paragraph
   
  private:
   std::vector<Run*> runs_;
+  std::vector<Word*> words_;
   EnterRun enter_;
 
 };

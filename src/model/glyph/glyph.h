@@ -16,7 +16,6 @@ class Glyph
 
 };
 
-
 }  // le
 
 #endif /* LE_GLYPH_H_ */

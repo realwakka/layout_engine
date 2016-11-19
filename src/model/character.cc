@@ -9,8 +9,12 @@ Character::Character(char c)
 Character::~Character()
 {}
 
+void Character::InsertChar(Character* character)
+{
+  run_->insertBefore(character, this);
+  word_->insertBefore(character, this);
 
-
+}
 
 
 }  // le
