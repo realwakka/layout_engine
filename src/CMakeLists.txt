@@ -27,11 +27,13 @@ set(LE_SRCS
   model/character.cc
   model/word.cc
   model/glyph/glyph.cc
+  model/face/face.cc
+  model/face/face_manager.cc
   controller/paragraph_controller.cc)
 
 
 add_library(le SHARED ${LE_SRCS})
-
+target_link_libraries(le LINK_PUBLIC freetype)
 
 
 add_executable(test test.cc)

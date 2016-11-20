@@ -21,7 +21,9 @@ void EnterRun::InsertBefore(Character* character, Character* reference)
     
   }
   else {
-
+    auto last_run = runs.back();
+    last_run->InsertBefore(character, nullptr);
+    
   }
 }
 
