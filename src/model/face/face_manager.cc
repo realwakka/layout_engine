@@ -14,21 +14,20 @@ FaceManager* FaceManager::instance_ = nullptr;
 
 FT_Error FaceRequester( FTC_FaceID face_id, FT_Library library, FT_Pointer request_data, FT_Face *aface )
 {
-  FcPattern *pat = FcPatternCreate();
-  FcChar8* family = FcStrCopy(static_cast<const FcChar8*>(face_id));
+  auto pat = FcPatternCreate();
+  auto family = FcStrCopy(static_cast<const FcChar8*>(face_id));
   FcPatternAddString( pat, "family", family );
 
-  FcObjectSet *os = FcObjectSetBuild(FC_FAMILY, FC_SIZE, FC_OUTLINE, FC_LANG, FC_FILE, FC_CHARSET, FC_FONT_FEATURES, FC_FT_FACE, (char *) 0);
-  FcFontSet *fs = FcFontList(nullptr, pat, os);
+  auto os = FcObjectSetBuild(FC_FAMILY, FC_SIZE, FC_OUTLINE, FC_LANG, FC_FILE, FC_CHARSET, FC_FONT_FEATURES, FC_FT_FACE, (char *) 0);
+  auto fs = FcFontList(nullptr, pat, os);
 
   if( fs->nfont ) {
-    
-
+    auto pattern = fs->fonts[0];
+    FcPatternGetFTFace(pattern, FC_FT_FACE, 0, aface);
   }
   else {
     //throw std::exception;
   }
-
   
   return 0;
 }
