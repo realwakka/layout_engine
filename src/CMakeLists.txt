@@ -8,14 +8,14 @@ find_package(Freetype REQUIRED)
 MESSAGE( STATUS "FREETYPE_INC_DIRS:" ${FREETYPE_INCLUDE_DIR_freetype2} )
 
 if(FREETYPE_FOUND)
-  set(FREETYPE2_INCLUDE ${FREETYPE_INCLUDE_DIR_freetype2})
+  set(FREETYPE2_INCLUDE ${FREETYPE_INCLUDE_DIRS})
 else()
   message( FATAL_ERROR "cannot build without freetype" )
 endif()
 
 include_directories( 
     ${CMAKE_CURRENT_LIST_DIR}
-    ${FREETYPE2_INCLUDE}
+    ${FREETYPE_INCLUDE_DIRS}
     "/usr/include/"
 )
 
@@ -29,11 +29,12 @@ set(LE_SRCS
   model/glyph/glyph.cc
   model/face/face.cc
   model/face/face_manager.cc
+  model/run.cc
   controller/paragraph_controller.cc)
 
 
 add_library(le SHARED ${LE_SRCS})
-target_link_libraries(le LINK_PUBLIC freetype)
+target_link_libraries(le LINK_PUBLIC freetype fontconfig)
 
 
 add_executable(test test.cc)

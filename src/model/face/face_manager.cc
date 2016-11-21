@@ -1,6 +1,12 @@
 #include "face_manager.h"
 
+#include <fontconfig/fontconfig.h>
+#include <fontconfig/fcfreetype.h>
+
+#include <exception>
+
 #include "face.h"
+
 
 namespace le {
 
@@ -8,7 +14,23 @@ FaceManager* FaceManager::instance_ = nullptr;
 
 FT_Error FaceRequester( FTC_FaceID face_id, FT_Library library, FT_Pointer request_data, FT_Face *aface )
 {
-  return FT_New_Face( library, "../NanumGothic.ttf", 0, aface );
+  FcPattern *pat = FcPatternCreate();
+  FcChar8* family = FcStrCopy(static_cast<const FcChar8*>(face_id));
+  FcPatternAddString( pat, "family", family );
+
+  FcObjectSet *os = FcObjectSetBuild(FC_FAMILY, FC_SIZE, FC_OUTLINE, FC_LANG, FC_FILE, FC_CHARSET, FC_FONT_FEATURES, FC_FT_FACE, (char *) 0);
+  FcFontSet *fs = FcFontList(nullptr, pat, os);
+
+  if( fs->nfont ) {
+    
+
+  }
+  else {
+    //throw std::exception;
+  }
+
+  
+  return 0;
 }
 
 FaceManager* FaceManager::GetInstance()
@@ -34,6 +56,7 @@ FaceManager::~FaceManager()
 
 Face FaceManager::GetDefaultFace()
 {
+  
   FT_Face ft_face;
   FTC_FaceID faceid = new FaceId();
   FTC_Manager_LookupFace( ft_manager_, faceid, &ft_face );

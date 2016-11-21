@@ -1,10 +1,13 @@
 #ifndef LE_RUN_H_
 #define LE_RUN_H_
 
+#include <memory>
+
 namespace le {
 
 class Paragraph;
 class Character;
+class Face;
 
 class Run
 {
