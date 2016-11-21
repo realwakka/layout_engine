@@ -4,14 +4,14 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-#include <freetype2/freetype.h>
+#include <freetype/freetype.h>
 
 namespace le {
 
 class Face
 {
  public:
-  Face();
+  Face(FT_Face ft_face);
   virtual ~Face();
   
 

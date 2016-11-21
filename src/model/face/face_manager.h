@@ -1,10 +1,15 @@
 #ifndef LE_FACE_MANAGER_H_
 #define LE_FACE_MANAGER_H_
 
-#include "freetype2/ftcache.h"
+#include "freetype/ftcache.h"
 #include "face.h"
 
 namespace le {
+
+class FaceId
+{
+  
+};
 
 class FaceManager
 {
@@ -12,8 +17,7 @@ class FaceManager
   FaceManager();
   virtual ~FaceManager();
 
-  Face GetFace(char c);
-
+  Face GetDefaultFace();
   static FaceManager* GetInstance();
 
  private:

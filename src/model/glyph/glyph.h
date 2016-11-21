@@ -1,7 +1,7 @@
 #ifndef LE_GLYPH_H_
 #define LE_GLYPH_H_
 
-#include <freetype2/ftglyph.h>
+#include <freetype/ftglyph.h>
 
 namespace le {
 
