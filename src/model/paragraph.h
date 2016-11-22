@@ -3,7 +3,6 @@
 
 #include <vector>
 #include "enter_run.h"
-#include "character.h"
 #include "word.h"
 
 namespace le {

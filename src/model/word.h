@@ -15,6 +15,8 @@ class Word
 
   void InsertBefore(Character* character, Character* reference);
 
+  
+
  private:
   std::vector<Character*> chars_;
 };

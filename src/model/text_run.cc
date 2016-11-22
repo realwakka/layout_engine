@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#include "character.h"
+#include "model/character/character.h"
 
 namespace le {
 

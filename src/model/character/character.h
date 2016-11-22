@@ -22,7 +22,7 @@ class Character
   void SetWord(Word* word) { word_ = word; }
   Word* GetWord() { return word_; }
 
-  void InsertChar(Character* character);
+  virtual void InsertChar(Character* character);
 
   void SetGlyph(Glyph* glyph){ glyph_ = glyph; }
   Glyph* GetGlyph(){ return glyph_; }

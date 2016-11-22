@@ -24,7 +24,8 @@ set(LE_SRCS
   model/text_run.cc
   model/enter_run.cc
   model/paragraph.cc
-  model/character.cc
+  model/character/character.cc
+  model/character/space_character.cc
   model/word.cc
   model/glyph/glyph.cc
   model/face/face.cc

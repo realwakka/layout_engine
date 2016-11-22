@@ -2,7 +2,7 @@
 #define LE_ENTER_RUN_H_
 
 #include "run.h"
-#include "character.h"
+#include "model/character/character.h"
 
 namespace le {
 

@@ -1,7 +1,7 @@
 #include "paragraph_controller.h"
 
 #include "model/text_run.h"
-#include "model/character.h"
+#include "model/character/character.h"
 
 namespace le {
 
