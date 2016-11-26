@@ -1,18 +1,15 @@
-#include "character.h"
-
-#include "model/run.h"
-#include "model/word.h"
+#include "enter_character.h"
 
 namespace le {
 
-Character::Character(char c)
-        : c_(c)
+EnterCharacter::EnterCharacter()
+    : Character('\n')
 {}
 
-Character::~Character()
+EnterCharacter::~EnterCharacter()
 {}
 
-void Character::InsertChar(Character* character)
+void EnterCharacter::InsertChar(Character* character)
 {
   auto prev_char = GetPrevChar();
   if( typeid(*character) == typeid(Character) ) {
@@ -34,6 +31,7 @@ void Character::InsertChar(Character* character)
   else {
     
   }
+
 }
 
 

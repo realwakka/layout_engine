@@ -26,6 +26,7 @@ set(LE_SRCS
   model/paragraph.cc
   model/character/character.cc
   model/character/space_character.cc
+  model/character/enter_character.cc
   model/word.cc
   model/glyph/glyph.cc
   model/face/face.cc
