@@ -36,5 +36,9 @@ void Character::InsertChar(Character* character)
   }
 }
 
+Character* Character::GetPrevChar()
+{
+  GetWord()->
+}
 
 }  // le

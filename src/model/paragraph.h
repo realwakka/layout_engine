@@ -17,6 +17,7 @@ class Paragraph
   void InsertBefore(Run* run, Run* ref);
 
   std::vector<Run*> GetRuns() const { return runs_; }
+  std::vector<Word*> GetWords() const { return words_; }
   
  private:
   std::vector<Run*> runs_;

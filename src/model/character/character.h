@@ -27,6 +27,8 @@ class Character
   void SetGlyph(Glyph* glyph){ glyph_ = glyph; }
   Glyph* GetGlyph(){ return glyph_; }
 
+  Character* GetPrevChar();
+
  private:
   Run* run_;
   Word* word_;

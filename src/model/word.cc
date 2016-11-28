@@ -17,5 +17,9 @@ void Word::InsertBefore(Character* character, Character* reference)
   
 }
 
+Word* Word::GetPrevWord()
+{
+  auto words = GetParagraph()->GetWords();
+}
 
 }  // le

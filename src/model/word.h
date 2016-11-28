@@ -6,6 +6,7 @@
 namespace le {
 
 class Character;
+class Paragraph;
 
 class Word
 {
@@ -14,10 +15,13 @@ class Word
   virtual ~Word();
 
   void InsertBefore(Character* character, Character* reference);
+  Word* GetPrevWord();
 
-  
+  Paragraph* GetParagraph() { return paragraph_; }
+  void SetParagraph(Paragraph* paragraph) { paragraph_ = paragraph; }
 
  private:
+  Paragraph* paragraph_;
   std::vector<Character*> chars_;
 };
 
