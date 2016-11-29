@@ -35,9 +35,10 @@ class Character
   CharacterView* view_;
   Glyph* glyph_;
   char c_;
-    
   
 };
+
+
 
 
 }  // le
