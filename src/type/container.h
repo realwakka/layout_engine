@@ -2,39 +2,41 @@
 #define LE_CONTAINER_H_
 
 #include <list>
+#include <algorithm>
 
 namespace le
 {
 
-template<typename Node>
+template<typename NodeType>
 class Container
 {
  public:
-  void InsertBefore(Node* new_node, Node* ref_node);
+  void InsertBefore(NodeType* new_node, NodeType* ref_node);
   
-  Node* GetFirstNode();
-  Node* GetLastNode();
-
+  NodeType* GetFirstNode();
+  NodeType* GetLastNode();
+  
  private:
-  std::list<Node*> list_;
+  std::list<NodeType*> list_;
   
 };
 
-template<typename Node>
-void Container<Node>::InsertBefore(Node* new_node, Node* ref_node)
+template<typename NodeType>
+void Container<NodeType>::InsertBefore(NodeType* new_node, NodeType* ref_node)
 {
   if( ref_node ) {
-    auto it = list_.emplace_back(new_node);
+    list_.emplace_back(new_node);
   }
   else {
-    auto it = std::find(list_.begin(), list_end(), new_node);
+    auto it = ref_node->GetIterator();
+    //auto it = std::find(list_.begin(), list_.end(), new_node);
     it = list_.emplace(it,new_node);
     
   }
 }
 
-template<typename Node>
-Node* Container<Node>::GetFirstNode()
+template<typename NodeType>
+NodeType* Container<NodeType>::GetFirstNode()
 {
   if( list_.empty() )
     return nullptr;
@@ -42,8 +44,8 @@ Node* Container<Node>::GetFirstNode()
     return list_.front();
 }
 
-template<typename Node>
-Node* Container<Node>::GetLastNode()
+template<typename NodeType>
+NodeType* Container<NodeType>::GetLastNode()
 {
   if( list_.empty() )
     return nullptr;
@@ -51,18 +53,22 @@ Node* Container<Node>::GetLastNode()
     return list_.back();
 }
 
-template<typename Container>
+template<typename ContainerType, typename NodeType>
 class Node
 {
  public:
-  Node<Container>* GetNext() { return *(++iter_); }
-  Node<Container>* GetPrev() { return *(--iter_); }
+  NodeType* GetNext() { return *(++iter_); }
+  NodeType* GetPrev() { return *(--iter_); }
 
-  Container* GetContainer() { return container; }
+  ContainerType* GetContainer() { return container_; }
+  void SetContainer(ContainerType* container) { container_ = container; }
+
+  typename std::list<NodeType*>::iterator GetIterator() const { return iter_; }
+  void GetIterator(typename std::list<NodeType*>::iterator iter) { iter_ = iter; }
   
  private:
-  std::list<Node*>::iterator iter_;
-  Container* container_;
+  typename std::list<NodeType*>::iterator iter_;
+  ContainerType* container_;
   
 };
 

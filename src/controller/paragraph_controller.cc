@@ -6,8 +6,9 @@
 namespace le {
 
 ParagraphController::ParagraphController()
+    : selected_char_(paragraph_.GetEnterRun()->GetEnterChar())
 {
-  
+
 }
 
 ParagraphController::~ParagraphController()

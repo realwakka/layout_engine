@@ -4,6 +4,7 @@
 #include <vector>
 #include "enter_run.h"
 #include "word.h"
+#include "type/container.h"
 
 namespace le {
 
@@ -13,17 +14,20 @@ class Paragraph
   Paragraph();
   virtual ~Paragraph();
 
-  EnterRun* getEnterRun() { return &enter_; }
-  void InsertBefore(Run* run, Run* ref);
-
-  std::vector<Run*> GetRuns() const { return runs_; }
-  std::vector<Word*> GetWords() const { return words_; }
+  EnterRun* GetEnterRun() { return &enter_; }
   
- private:
-  std::vector<Run*> runs_;
-  std::vector<Word*> words_;
-  EnterRun enter_;
+  void InsertRun(Run* new_run, Run* ref_run) { runs_.InsertBefore(new_run, ref_run); }
+  void InsertWord(Word* new_word, Word* ref_word) { words_.InsertBefore(new_word, ref_word); }
 
+  Word* GetLastWord() { return words_.GetLastNode(); }
+  
+  
+
+ private:
+  Container<Run> runs_;
+  Container<Word> words_;
+  
+  EnterRun enter_;
 };
 
 

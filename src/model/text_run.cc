@@ -25,11 +25,4 @@ TextRun::~TextRun()
 
 }
 
-void TextRun::InsertBefore(Character* character, Character* reference)
-{
-  auto it = std::find(chars_.begin(), chars_.end(), reference);
-  chars_.emplace(it, character);
-  
-}
-
 }  // le

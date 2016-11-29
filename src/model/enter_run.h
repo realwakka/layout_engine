@@ -2,7 +2,7 @@
 #define LE_ENTER_RUN_H_
 
 #include "run.h"
-#include "model/character/character.h"
+#include "model/character/enter_character.h"
 
 namespace le {
 
@@ -12,11 +12,10 @@ class EnterRun : public Run
   EnterRun();
   virtual ~EnterRun();
 
-  Character* getEnterChar() { return &enter_char_; }
-  virtual void InsertBefore(Character* character, Character* reference) override;
+  EnterCharacter* GetEnterChar() { return &enter_char_; }
 
  private:
-  Character enter_char_;
+  EnterCharacter enter_char_;
 };
 
 }  // le

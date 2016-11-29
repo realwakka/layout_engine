@@ -1,6 +1,8 @@
 #ifndef LE_CHARACTER_H_
 #define LE_CHARACTER_H_
 
+#include "type/container.h"
+
 namespace le {
 
 class CharacterView;
@@ -28,6 +30,8 @@ class Character
   Glyph* GetGlyph(){ return glyph_; }
 
   Character* GetPrevChar();
+  
+  std::list<Character*>::iterator GetIterator() { return node_.GetIterator(); }
 
  private:
   Run* run_;
@@ -35,7 +39,8 @@ class Character
   CharacterView* view_;
   Glyph* glyph_;
   char c_;
-  
+
+  Node<Word, Character> node_;
 };
 
 

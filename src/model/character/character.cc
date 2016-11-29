@@ -3,6 +3,8 @@
 #include "model/run.h"
 #include "model/word.h"
 
+#include "model/character/space_character.h"
+
 namespace le {
 
 Character::Character(char c)
@@ -38,7 +40,7 @@ void Character::InsertChar(Character* character)
 
 Character* Character::GetPrevChar()
 {
-  GetWord()->
+  return nullptr;
 }
 
 }  // le

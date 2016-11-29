@@ -6,26 +6,12 @@
 namespace le {
 
 EnterRun::EnterRun()
-    : enter_char_('\n')
+    : enter_char_()
 {}
 
 EnterRun::~EnterRun()
 {}
 
-void EnterRun::InsertBefore(Character* character, Character* reference)
-{
-  auto runs = GetParagraph()->GetRuns();
-  if( runs.empty() ) {
-    auto text_run = new TextRun(character);
-    GetParagraph()->InsertBefore(text_run, nullptr);
-    
-  }
-  else {
-    auto last_run = runs.back();
-    last_run->InsertBefore(character, nullptr);
-    
-  }
-}
 
 
 }  // le

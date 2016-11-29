@@ -17,7 +17,6 @@ class TextRun : public Run
   virtual ~TextRun();
 
   void setText(std::string text) { text_ = text; }
-  virtual void InsertBefore(Character* character, Character* reference) override;
 
  private:
   std::string text_;

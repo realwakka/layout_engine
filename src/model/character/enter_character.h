@@ -1,9 +1,11 @@
 #ifndef LE_ENTER_CHARACTER_H_
 #define LE_ENTER_CHARACTER_H_
 
+#include "character.h"
+
 namespace le {
 
-class EnterCharacter
+class EnterCharacter : public Character
 {
  public:
   EnterCharacter();

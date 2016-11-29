@@ -10,12 +10,5 @@ Paragraph::Paragraph()
 Paragraph::~Paragraph()
 {}
 
-void Paragraph::InsertBefore(Run* run, Run* ref)
-{
-  auto it = std::find(runs_.begin(), runs_.end(), ref);
-  if( it == runs_.end() ) {
-    runs_.emplace( it, run );
-  }
-}
 
 }  // le

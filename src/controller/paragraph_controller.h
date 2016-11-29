@@ -19,10 +19,9 @@ class ParagraphController
   void insertText(std::string text);
 
  private:
-    Character* selected_;
+  Character* selected_;
     
   Paragraph paragraph_;
-  Run* selected_run_;
   Character* selected_char_;
   int selected_index_;
   
