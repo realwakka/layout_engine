@@ -17,7 +17,7 @@ void SpaceCharacter::InsertChar(Character* character)
     GetWord()->InsertCharacter( character, this );
   }
   else {
-    if( GetPrevChar()->GetChar() == ' ' ) {
+    if( GetPrevCharacter()->GetChar() == ' ' ) {
       // split
       
     }

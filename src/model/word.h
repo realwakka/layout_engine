@@ -16,6 +16,7 @@ class Word
   virtual ~Word();
 
   void InsertCharacter(Character* character, Character* reference);
+  void RemoveCharacter(Character* character);
   Word* GetPrevWord();
 
   Paragraph* GetParagraph() { return node_.GetContainer(); }

@@ -1,6 +1,7 @@
 #include "word.h"
 
 #include "model/character/character.h"
+#include "model/paragraph.h"
 
 #include <algorithm>
 
@@ -20,6 +21,11 @@ void Word::InsertCharacter(Character* character, Character* reference)
     chars_.InsertBefore(character, reference->GetWordIterator());
 }
 
+void Word::RemoveCharacter(Character* character)
+{
+  chars_.Remove(character->GetWordIterator());
+}
+
 Word* Word::GetPrevWord()
 {
   // auto words = GetParagraph()->GetWords();
@@ -27,7 +33,17 @@ Word* Word::GetPrevWord()
 
 void Word::Split(Character* character)
 {
-  //for( Character* ch = GetFirstWord() ; ch != character ; ch = ch->GetNextChar
+  if( character->GetWord() != this )
+    throw std::exception();
+
+  Word* word = new Word();
+  for( Character* ch = GetFirstCharacter() ;
+       ch != character ; ch = ch->GetNextCharacter() ) {
+    RemoveCharacter(ch);
+    word->InsertCharacter(ch, nullptr);
+  }
+
+  GetParagraph()->InsertWord(word, this);
 }
 
 }  // le

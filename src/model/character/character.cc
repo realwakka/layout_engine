@@ -16,7 +16,7 @@ Character::~Character()
 
 void Character::InsertChar(Character* character)
 {
-  auto prev_char = GetPrevChar();
+  auto prev_char = GetPrevCharacter();
   if( typeid(*character) == typeid(Character) ) {
     GetWord()->InsertCharacter(character, this);
   }

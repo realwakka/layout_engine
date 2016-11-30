@@ -11,10 +11,9 @@ template<typename NodeType>
 class Container
 {
  public:
-  //void InsertBefore(NodeType* new_node, NodeType* ref_node);
   void InsertBefore(NodeType* new_node, typename std::list<NodeType*>::iterator iter);
   void Append(NodeType* node);
-  void Remove(NodeType* node);
+  void Remove(typename std::list<NodeType*>::iterator iter);
   
   NodeType* GetFirstNode() const;
   NodeType* GetLastNode() const;
@@ -51,10 +50,9 @@ void Container<NodeType>::Append(NodeType* node)
 // }
 
 template<typename NodeType>
-void Container<NodeType>::Remove(NodeType* node)
+void Container<NodeType>::Remove(typename std::list<NodeType*>::iterator iter)
 {
-  auto it = node->GetIterator();
-  list_.remove(it);
+  list_.erase(iter);
 }
 
 template<typename NodeType>
