@@ -9,7 +9,7 @@ namespace le {
 class EnterRun : public Run
 {
  public:
-  EnterRun();
+  EnterRun(Paragraph* paragraph);
   virtual ~EnterRun();
 
   EnterCharacter* GetEnterChar() { return &enter_char_; }

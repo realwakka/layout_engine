@@ -15,11 +15,14 @@ class Word
   Word();
   virtual ~Word();
 
-  void InsertBefore(Character* character, Character* reference);
+  void InsertCharacter(Character* character, Character* reference);
   Word* GetPrevWord();
 
   Paragraph* GetParagraph() { return node_.GetContainer(); }
   void SetParagraph(Paragraph* paragraph) { node_.SetContainer(paragraph); }
+
+  Character* GetLastCharacter() const { return chars_.GetLastNode(); }
+  Character* GetFirstCharacter() const { return chars_.GetFirstNode(); }
 
   std::list<Word*>::iterator GetIterator() { return node_.GetIterator(); }
 

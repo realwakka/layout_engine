@@ -5,10 +5,12 @@
 
 namespace le {
 
+class EnterRun;
+
 class EnterCharacter : public Character
 {
  public:
-  EnterCharacter();
+  EnterCharacter(EnterRun* enter_run_);
   virtual ~EnterCharacter();
 
   virtual void InsertChar(Character* character) override;

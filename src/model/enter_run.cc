@@ -5,9 +5,11 @@
 
 namespace le {
 
-EnterRun::EnterRun()
-    : enter_char_()
-{}
+EnterRun::EnterRun(Paragraph* paragraph)
+    : enter_char_(this)
+{
+  SetParagraph(paragraph);
+}
 
 EnterRun::~EnterRun()
 {}

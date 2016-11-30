@@ -18,19 +18,19 @@ void Character::InsertChar(Character* character)
 {
   auto prev_char = GetPrevChar();
   if( typeid(*character) == typeid(Character) ) {
-    GetWord()->InsertBefore(character, this);
+    GetWord()->InsertCharacter(character, this);
   }
   else if( typeid(*character) == typeid(SpaceCharacter) ) {
     if( !prev_char ) {
-      GetWord()->InsertBefore(character, this);
+      GetWord()->InsertCharacter(character, this);
       GetWord()->Split(this);
     }
     else if( typeid(*prev_char) == typeid(Character) ) {
-      GetWord()->InsertBefore(character, this);
+      GetWord()->InsertCharacter(character, this);
       GetWord()->Split(this);
     }
     else if( typeid(*prev_char) == typeid(SpaceCharacter) ) {
-      prev_char->GetWord()->InsertBefore(character, nullptr);
+      prev_char->GetWord()->InsertCharacter(character, nullptr);
     }
   }
   else {

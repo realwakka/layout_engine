@@ -5,6 +5,7 @@
 namespace le {
 
 Paragraph::Paragraph()
+    : enter_run_(this)
 {}
 
 Paragraph::~Paragraph()

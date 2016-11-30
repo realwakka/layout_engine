@@ -13,8 +13,8 @@ class Container
  public:
   void InsertBefore(NodeType* new_node, NodeType* ref_node);
   
-  NodeType* GetFirstNode();
-  NodeType* GetLastNode();
+  NodeType* GetFirstNode() const;
+  NodeType* GetLastNode() const;
   
  private:
   std::list<NodeType*> list_;
@@ -24,7 +24,7 @@ class Container
 template<typename NodeType>
 void Container<NodeType>::InsertBefore(NodeType* new_node, NodeType* ref_node)
 {
-  if( ref_node ) {
+  if( ref_node == nullptr ) {
     list_.emplace_back(new_node);
   }
   else {
@@ -36,7 +36,7 @@ void Container<NodeType>::InsertBefore(NodeType* new_node, NodeType* ref_node)
 }
 
 template<typename NodeType>
-NodeType* Container<NodeType>::GetFirstNode()
+NodeType* Container<NodeType>::GetFirstNode() const
 {
   if( list_.empty() )
     return nullptr;
@@ -45,7 +45,7 @@ NodeType* Container<NodeType>::GetFirstNode()
 }
 
 template<typename NodeType>
-NodeType* Container<NodeType>::GetLastNode()
+NodeType* Container<NodeType>::GetLastNode() const
 {
   if( list_.empty() )
     return nullptr;
@@ -57,6 +57,9 @@ template<typename ContainerType, typename NodeType>
 class Node
 {
  public:
+  Node() : container_(nullptr) {}
+  virtual ~Node() {}
+  
   NodeType* GetNext() { return *(++iter_); }
   NodeType* GetPrev() { return *(--iter_); }
 

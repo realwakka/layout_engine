@@ -3,7 +3,7 @@
 
 #include <memory>
 #include "type/container.h"
-
+#include "model/character/character.h"
 
 namespace le {
 
@@ -21,6 +21,8 @@ class Run
   Paragraph* GetParagraph() { run_.GetContainer(); }
 
   std::list<Run*>::iterator GetIterator() { return run_.GetIterator(); }
+
+  void InsertCharacter(Character* new_char , Character* ref_char) { chars_.InsertBefore( new_char, ref_char); }
   
  private:
   Paragraph* paragraph_;

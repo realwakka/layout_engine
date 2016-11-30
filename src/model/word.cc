@@ -12,7 +12,7 @@ Word::Word()
 Word::~Word()
 {}
 
-void Word::InsertBefore(Character* character, Character* reference)
+void Word::InsertCharacter(Character* character, Character* reference)
 {
   chars_.InsertBefore(character, reference);
 }
