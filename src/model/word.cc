@@ -14,7 +14,10 @@ Word::~Word()
 
 void Word::InsertCharacter(Character* character, Character* reference)
 {
-  chars_.InsertBefore(character, reference);
+  if( reference == nullptr )
+    chars_.Append(character);
+  else
+    chars_.InsertBefore(character, reference->GetWordIterator());
 }
 
 Word* Word::GetPrevWord()
@@ -24,7 +27,7 @@ Word* Word::GetPrevWord()
 
 void Word::Split(Character* character)
 {
-
+  //for( Character* ch = GetFirstWord() ; ch != character ; ch = ch->GetNextChar
 }
 
 }  // le

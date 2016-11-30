@@ -44,6 +44,14 @@ void EnterCharacter::InsertChar(Character* character)
 
       }
     } else if (typeid(*character) == typeid(SpaceCharacter) ) {
+      if( typeid(*prev_char) == typeid(Character) ) {
+        last_word->InsertCharacter(character, nullptr);
+      } else if( typeid(*prev_char) == typeid(SpaceCharacter) ) {
+        last_word->InsertCharacter(character, nullptr);
+        last_word->Split(character);
+      } else {
+
+      }
       
     } else {
 

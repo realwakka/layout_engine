@@ -22,7 +22,13 @@ class Run
 
   std::list<Run*>::iterator GetIterator() { return run_.GetIterator(); }
 
-  void InsertCharacter(Character* new_char , Character* ref_char) { chars_.InsertBefore( new_char, ref_char); }
+  void InsertCharacter(Character* character , Character* reference)
+  {
+    if( reference == nullptr )
+      chars_.Append(character);
+    else
+      chars_.InsertBefore(character, reference->GetRunIterator());
+  }
   
  private:
   Paragraph* paragraph_;

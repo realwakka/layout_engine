@@ -38,9 +38,4 @@ void Character::InsertChar(Character* character)
   }
 }
 
-Character* Character::GetPrevChar()
-{
-  return nullptr;
-}
-
 }  // le

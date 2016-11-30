@@ -18,29 +18,31 @@ class Character
 
   char GetChar() { return c_; }
 
-  void SetRun(Run* run) { run_ = run; }
-  Run* GetRun() { return run_; }
+  void SetRun(Run* run) { run_node_.SetContainer(run); }
+  Run* GetRun() { return run_node_.GetContainer(); }
 
-  void SetWord(Word* word) { word_ = word; }
-  Word* GetWord() { return word_; }
+  void SetWord(Word* word) { word_node_.SetContainer(word); }
+  Word* GetWord() { return word_node_.GetContainer(); }
 
   virtual void InsertChar(Character* character);
 
   void SetGlyph(Glyph* glyph){ glyph_ = glyph; }
   Glyph* GetGlyph(){ return glyph_; }
 
-  Character* GetPrevChar();
+  Character* GetPrevChar() { return word_node_.GetPrev(); }
+  Character* GetNextChar() { return word_node_.GetNext(); }
   
-  std::list<Character*>::iterator GetIterator() { return node_.GetIterator(); }
+  std::list<Character*>::iterator GetWordIterator() { return word_node_.GetIterator(); }
+
+  std::list<Character*>::iterator GetRunIterator() { return run_node_.GetIterator(); }
 
  private:
-  Run* run_;
-  Word* word_;
   CharacterView* view_;
   Glyph* glyph_;
   char c_;
 
-  Node<Word, Character> node_;
+  Node<Word, Character> word_node_;
+  Node<Run, Character> run_node_;
 };
 
 
