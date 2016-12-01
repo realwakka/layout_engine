@@ -18,6 +18,7 @@ class Word
   void InsertCharacter(Character* character, Character* reference);
   void RemoveCharacter(Character* character);
   Word* GetPrevWord();
+  Word* GetNextWord();
 
   Paragraph* GetParagraph() { return node_.GetContainer(); }
   void SetParagraph(Paragraph* paragraph) { node_.SetContainer(paragraph); }
@@ -26,6 +27,7 @@ class Word
   Character* GetFirstCharacter() const { return chars_.GetFirstNode(); }
 
   std::list<Word*>::iterator GetIterator() { return node_.GetIterator(); }
+  void SetIterator(std::list<Word*>::iterator iter) { node_.SetIterator(iter); }
 
   void Split(Character* character);
 

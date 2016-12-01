@@ -15,10 +15,13 @@ Word::~Word()
 
 void Word::InsertCharacter(Character* character, Character* reference)
 {
-  if( reference == nullptr )
-    chars_.Append(character);
-  else
-    chars_.InsertBefore(character, reference->GetWordIterator());
+  if( reference == nullptr ) {
+    auto it = chars_.Append(character);
+    character->SetWordIterator(it);
+  } else  {
+    auto it = chars_.InsertBefore(character, reference->GetWordIterator());
+    character->SetWordIterator(it);
+  }
 }
 
 void Word::RemoveCharacter(Character* character)
@@ -28,8 +31,14 @@ void Word::RemoveCharacter(Character* character)
 
 Word* Word::GetPrevWord()
 {
-  // auto words = GetParagraph()->GetWords();
+  return node_.GetPrev();
 }
+
+Word* Word::GetNextWord()
+{
+  return node_.GetNext();
+}
+
 
 void Word::Split(Character* character)
 {

@@ -24,6 +24,8 @@ class Paragraph
   
   Run* GetLastRun() { return runs_.GetLastNode(); }
   Run* GetFirstRun() { return runs_.GetFirstNode(); }
+
+  void PrintWord();
   
 
  private:

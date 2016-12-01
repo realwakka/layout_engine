@@ -21,7 +21,10 @@ void ParagraphController::insertText(std::string text)
   for( char c : text ) {
     auto character = new Character(c);
     selected_char_->InsertChar(character);
+    paragraph_.PrintWord();
   }
+
+
 }
 
 }  // tmaxoffice
