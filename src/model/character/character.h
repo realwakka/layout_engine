@@ -29,9 +29,8 @@ class Character
   void SetGlyph(Glyph* glyph){ glyph_ = glyph; }
   Glyph* GetGlyph(){ return glyph_; }
 
-  Character* GetPrevCharacter() { return word_node_.GetPrev(); }
-  Character* GetNextCharacter() { return word_node_.GetNext(); }
-  
+  Character* GetPrevCharacter();
+  Character* GetNextCharacter();
   std::list<Character*>::iterator GetWordIterator() { return word_node_.GetIterator(); }
   void SetWordIterator(std::list<Character*>::iterator iter) { word_node_.SetIterator(iter); }
 

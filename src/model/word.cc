@@ -31,12 +31,18 @@ void Word::RemoveCharacter(Character* character)
 
 Word* Word::GetPrevWord()
 {
-  return node_.GetPrev();
+  if( node_.GetContainer()->GetFirstWord() == this )
+    return nullptr;
+  else
+    return *node_.GetPrev();
 }
 
 Word* Word::GetNextWord()
 {
-  return node_.GetNext();
+  if( node_.GetContainer()->GetFirstWord() == this )
+    return nullptr;
+  else
+    return *node_.GetPrev();
 }
 
 

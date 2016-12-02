@@ -38,4 +38,20 @@ void Character::InsertChar(Character* character)
   }
 }
 
+Character* Character::GetPrevCharacter()
+{
+  if( word_node_.GetContainer()->GetFirstCharacter() == this )
+    return this;
+  else 
+    return *word_node_.GetPrev();
+}
+Character* Character::GetNextCharacter()
+{
+  if( word_node_.GetContainer()->GetLastCharacter() == this )
+    return this;
+  else 
+    return *word_node_.GetNext();
+}
+
+
 }  // le
