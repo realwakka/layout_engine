@@ -18,9 +18,11 @@ void Word::InsertCharacter(Character* character, Character* reference)
   if( reference == nullptr ) {
     auto it = chars_.Append(character);
     character->SetWordIterator(it);
+    character->SetWord(this);
   } else  {
     auto it = chars_.InsertBefore(character, reference->GetWordIterator());
     character->SetWordIterator(it);
+    character->SetWord(this);
   }
 }
 
@@ -39,7 +41,7 @@ Word* Word::GetPrevWord()
 
 Word* Word::GetNextWord()
 {
-  if( node_.GetContainer()->GetFirstWord() == this )
+  if( node_.GetContainer()->GetLastWord() == this )
     return nullptr;
   else
     return *node_.GetPrev();
@@ -52,8 +54,13 @@ void Word::Split(Character* character)
     throw std::exception();
 
   Word* word = new Word();
+  std::vector<Character*> removed;
   for( Character* ch = GetFirstCharacter() ;
        ch != character ; ch = ch->GetNextCharacter() ) {
+    removed.push_back(ch);
+  }
+
+  for( Character* ch : removed ) {
     RemoveCharacter(ch);
     word->InsertCharacter(ch, nullptr);
   }

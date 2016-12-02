@@ -32,6 +32,7 @@ void Paragraph::InsertWord(Word* new_word, Word* ref_word)
     auto it = words_.InsertBefore(new_word, ref_word->GetIterator());
     new_word->SetIterator(it);
   }
+  new_word->SetParagraph(this);
 }
 
 
@@ -44,10 +45,9 @@ void Paragraph::PrintWord()
     auto ch = word->GetFirstCharacter();
     std::string str;
     for( ; ch ; ch = ch->GetNextCharacter() )
-    {
       str += ch->GetChar();
-    }
-    std::cout<< "["<<str << "]";
+
+    std::cout<< "["<<str << "]" << std::endl;
     
   }
 

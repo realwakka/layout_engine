@@ -26,13 +26,14 @@ class Container
 template<typename NodeType>
 typename std::list<NodeType*>::iterator Container<NodeType>::InsertBefore(NodeType* new_node, typename std::list<NodeType*>::iterator iter)
 {
-  auto it = list_.emplace(iter, new_node);
+  return list_.emplace(iter, new_node);
 }
 
 template<typename NodeType>
 typename std::list<NodeType*>::iterator Container<NodeType>::Append(NodeType* node)
 {
   list_.emplace_back(node);
+  return --list_.end();
 }
 
 
@@ -98,13 +99,15 @@ class Node
 template<typename ContainerType, typename NodeType>
 typename std::list<NodeType*>::iterator Node<ContainerType, NodeType>::GetNext()
 {
-  return (++iter_);
+  auto tmp = iter_;
+  return (++tmp);
 }
 
 template<typename ContainerType, typename NodeType>
 typename std::list<NodeType*>::iterator Node<ContainerType, NodeType>::GetPrev()
 {
-  return (--iter_);
+  auto tmp = iter_;
+  return (--tmp);
 }
 
 

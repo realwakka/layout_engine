@@ -24,7 +24,7 @@ class Run
 
   void InsertCharacter(Character* character , Character* reference)
   {
-    if( reference == nullptr )
+    if( reference == nullptr ) 
       chars_.Append(character);
     else
       chars_.InsertBefore(character, reference->GetRunIterator());
