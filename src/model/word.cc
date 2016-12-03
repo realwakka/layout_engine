@@ -44,7 +44,7 @@ Word* Word::GetNextWord()
   if( node_.GetContainer()->GetLastWord() == this )
     return nullptr;
   else
-    return *node_.GetPrev();
+    return *node_.GetNext();
 }
 
 
