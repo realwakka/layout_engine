@@ -16,10 +16,15 @@ Paragraph::~Paragraph()
 
 void Paragraph::InsertRun(Run* new_run, Run* ref_run)
 {
-  if( ref_run == nullptr )
-    runs_.Append(new_run);
-  else
-    runs_.InsertBefore(new_run, ref_run->GetIterator());
+
+  if( ref_run == nullptr ) {
+    auto it = runs_.Append(new_run);
+    new_run->SetIterator(it);
+  } else {
+    auto it = runs_.InsertBefore(new_run, ref_run->GetIterator());
+    new_run->SetIterator(it);
+  }
+  new_run->SetParagraph(this);
 
 }
 void Paragraph::InsertWord(Word* new_word, Word* ref_word)
@@ -47,11 +52,32 @@ void Paragraph::PrintWord()
     for( ; ch ; ch = ch->GetNextCharacter() )
       str += ch->GetChar();
 
-    std::cout<< "["<<str << "]" << std::endl;
+    std::cout<< "["<<str << "] ";
     
   }
 
+  std::cout<< std::endl;
 }
+
+
+void Paragraph::PrintRun()
+{
+  auto run = runs_.GetFirstNode();
+
+  for( ; run ; run = run->GetNextRun() )
+  {
+    auto ch = run->GetFirstCharacter();
+    std::string str;
+    for( ; ch ; ch = ch->GetNextCharacter() )
+      str += ch->GetChar();
+
+    std::cout<< "["<<str << "] ";
+    
+  }
+
+  std::cout<< std::endl;
+}
+
 
 
 

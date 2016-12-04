@@ -26,7 +26,7 @@ class Paragraph
   Run* GetFirstRun() { return runs_.GetFirstNode(); }
 
   void PrintWord();
-  
+  void PrintRun();
 
  private:
   Container<Run> runs_;

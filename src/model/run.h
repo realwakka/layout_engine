@@ -17,10 +17,19 @@ class Run
   Run();
   virtual ~Run();
   
-  void SetParagraph(Paragraph* paragraph) { run_.SetContainer(paragraph); }
-  Paragraph* GetParagraph() { run_.GetContainer(); }
+  void SetParagraph(Paragraph* paragraph) { node_.SetContainer(paragraph); }
+  Paragraph* GetParagraph() { node_.GetContainer(); }
 
-  std::list<Run*>::iterator GetIterator() { return run_.GetIterator(); }
+  std::list<Run*>::iterator GetIterator() { return node_.GetIterator(); }
+
+  Run* GetPrevRun();
+  Run* GetNextRun();
+
+  Character* GetLastCharacter() const { return chars_.GetLastNode(); }
+  Character* GetFirstCharacter() const { return chars_.GetFirstNode(); }
+
+  std::list<Run*>::iterator GetIterator() { return node_.GetIterator(); }
+  void SetIterator(std::list<Run*>::iterator iter) { node_.SetIterator(iter); }
 
   void InsertCharacter(Character* character , Character* reference)
   {
@@ -36,7 +45,7 @@ class Run
 
  private:
   Container<Character> chars_;
-  Node<Paragraph, Run> run_;
+  Node<Paragraph, Run> node_;
 };
 
 }  // le
