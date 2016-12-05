@@ -20,8 +20,6 @@ class Run
   void SetParagraph(Paragraph* paragraph) { node_.SetContainer(paragraph); }
   Paragraph* GetParagraph() { node_.GetContainer(); }
 
-  std::list<Run*>::iterator GetIterator() { return node_.GetIterator(); }
-
   Run* GetPrevRun();
   Run* GetNextRun();
 
