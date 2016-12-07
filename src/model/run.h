@@ -39,7 +39,7 @@ class Run
   
  private:
   Paragraph* paragraph_;
-  std::unique_ptr<Face> face_;
+  Face* face_;
 
  private:
   Container<Character> chars_;

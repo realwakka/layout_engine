@@ -17,7 +17,7 @@ class FaceManager
   FaceManager();
   virtual ~FaceManager();
 
-  Face GetDefaultFace();
+  Face* GetDefaultFace();
   static FaceManager* GetInstance();
 
  private:
