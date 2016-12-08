@@ -53,14 +53,13 @@ FaceManager::~FaceManager()
   
 }
 
-Face FaceManager::GetDefaultFace()
+Face* FaceManager::GetDefaultFace()
 {
-  
   FT_Face ft_face;
   FTC_FaceID faceid = new FaceId();
   FTC_Manager_LookupFace( ft_manager_, faceid, &ft_face );
   
-  Face face(ft_face);
+  auto face = new Face(ft_face);
   return face;
 }
 

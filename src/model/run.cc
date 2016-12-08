@@ -1,13 +1,14 @@
 #include "run.h"
 
 #include "model/face/face.h"
+#include "model/face/face_manager.h"
 #include "model/paragraph.h"
 
 namespace le {
 
 Run::Run()
 {
-
+  face_ = FaceManager::GetInstance()->GetDefaultFace();
 }
 
 Run::~Run()
