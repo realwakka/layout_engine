@@ -8,7 +8,6 @@ namespace le {
 
 class FaceId
 {
-  
 };
 
 class FaceManager
@@ -28,6 +27,8 @@ class FaceManager
 
   FTC_CMapCache ft_cmapcache_;
   FTC_ImageCache ft_imgcache_;
+
+  //Face default_face_;
   
 };
 
