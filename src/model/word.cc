@@ -56,7 +56,7 @@ void Word::Split(Character* character)
   Word* word = new Word();
   std::vector<Character*> removed;
   for( Character* ch = GetFirstCharacter() ;
-       ch != character ; ch = ch->GetNextCharacter() ) {
+       ch != character ; ch = ch->GetNextWordCharacter() ) {
     removed.push_back(ch);
   }
 

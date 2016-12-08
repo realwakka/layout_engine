@@ -27,6 +27,7 @@ class Paragraph
 
   void PrintWord();
   void PrintRun();
+  void PrintInfo();
 
  private:
   Container<Run> runs_;

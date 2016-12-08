@@ -36,8 +36,7 @@ void ParagraphController::insertText(std::string text)
   for( char c : text ) {
     auto character = createCharacter(c);
     selected_char_->InsertChar(character);
-    paragraph_.PrintRun();
-    paragraph_.PrintWord();
+    paragraph_.PrintInfo();
   }
 }
 

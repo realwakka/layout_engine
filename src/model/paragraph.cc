@@ -43,13 +43,15 @@ void Paragraph::InsertWord(Word* new_word, Word* ref_word)
 
 void Paragraph::PrintWord()
 {
+  std::cout<< "Words : ";
+  
   auto word = words_.GetFirstNode();
 
   for( ; word ; word = word->GetNextWord() )
   {
     auto ch = word->GetFirstCharacter();
     std::string str;
-    for( ; ch ; ch = ch->GetNextCharacter() )
+    for( ; ch ; ch = ch->GetNextWordCharacter() )
       str += ch->GetChar();
 
     std::cout<< "["<<str << "] ";
@@ -62,13 +64,15 @@ void Paragraph::PrintWord()
 
 void Paragraph::PrintRun()
 {
+  std::cout<< "Runs : ";
+  
   auto run = runs_.GetFirstNode();
 
   for( ; run ; run = run->GetNextRun() )
   {
     auto ch = run->GetFirstCharacter();
     std::string str;
-    for( ; ch ; ch = ch->GetNextCharacter() )
+    for( ; ch ; ch = ch->GetNextRunCharacter() )
       str += ch->GetChar();
 
     std::cout<< "["<<str << "] ";
@@ -76,6 +80,11 @@ void Paragraph::PrintRun()
   }
 
   std::cout<< std::endl;
+}
+
+void Paragraph::PrintInfo() {
+  PrintRun();
+  PrintWord();
 }
 
 
