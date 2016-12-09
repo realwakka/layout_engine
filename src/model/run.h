@@ -30,6 +30,8 @@ class Run
   void SetIterator(std::list<Run*>::iterator iter) { node_.SetIterator(iter); }
 
   void InsertCharacter(Character* character , Character* reference);
+
+  void UpdateGlyph();
   
  private:
   Paragraph* paragraph_;

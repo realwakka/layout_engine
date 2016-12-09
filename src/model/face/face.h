@@ -5,18 +5,27 @@
 #include FT_FREETYPE_H
 
 #include <freetype/freetype.h>
+#include <string>
 
 namespace le {
+class Glyph;
 
 class Face
 {
  public:
   Face(FT_Face ft_face);
+  Face(std::string family, int size);
   virtual ~Face();
-  
 
+  Glyph GetGlyph();
+
+  std::string GetFamily() { return family_; }
+  int GetSize() { return size_; }
+  
  private:
   FT_Face ft_face_;
+  std::string family_;
+  int size_;
   
 };
 

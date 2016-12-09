@@ -4,6 +4,7 @@
 #include "model/word.h"
 
 #include "model/character/space_character.h"
+#include "model/face/face_manager.h"
 
 namespace le {
 
@@ -68,6 +69,11 @@ Character* Character::GetNextRunCharacter()
     return nullptr;
   else 
     return *run_node_.GetNext();
+}
+
+void Character::UpdateGlyph(const Face& face)
+{
+  glyph_ = FaceManager::GetInstance()->GetGlyph(face, *this);
 }
 
 

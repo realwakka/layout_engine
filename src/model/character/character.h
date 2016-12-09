@@ -2,13 +2,14 @@
 #define LE_CHARACTER_H_
 
 #include "type/container.h"
+#include "model/glyph/glyph.h"
 
 namespace le {
 
 class CharacterView;
 class Word;
 class Run;
-class Glyph;
+class Face;
 
 class Character
 {
@@ -16,7 +17,7 @@ class Character
   Character(char c);
   virtual ~Character();
 
-  char GetChar() { return c_; }
+  char GetChar() const { return c_; }
 
   void SetRun(Run* run) { run_node_.SetContainer(run); }
   Run* GetRun() { return run_node_.GetContainer(); }
@@ -26,8 +27,8 @@ class Character
 
   virtual void InsertChar(Character* character);
 
-  void SetGlyph(Glyph* glyph){ glyph_ = glyph; }
-  Glyph* GetGlyph(){ return glyph_; }
+  void SetGlyph(Glyph glyph){ glyph_ = glyph; }
+  Glyph GetGlyph(){ return glyph_; }
 
   Character* GetPrevWordCharacter();
   Character* GetNextWordCharacter();
@@ -39,9 +40,11 @@ class Character
   std::list<Character*>::iterator GetRunIterator() { return run_node_.GetIterator(); }
   void SetRunIterator(std::list<Character*>::iterator iter) { run_node_.SetIterator(iter); }
 
+  void UpdateGlyph(const Face& face);
+
  private:
   CharacterView* view_;
-  Glyph* glyph_;
+  Glyph glyph_;
   char c_;
 
   Node<Word, Character> word_node_;

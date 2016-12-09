@@ -8,7 +8,8 @@ namespace le {
 
 Run::Run()
 {
-  face_ = FaceManager::GetInstance()->GetDefaultFace();
+  face_ = new Face("NanumGothicOTF", 10);
+  //face_ = FaceManager::GetInstance()->GetDefaultFace();
 }
 
 Run::~Run()
@@ -44,6 +45,13 @@ void Run::InsertCharacter(Character* character, Character* reference)
     auto it = chars_.InsertBefore(character, reference->GetRunIterator());
     character->SetRunIterator(it);
     character->SetRun(this);
+  }
+}
+
+void Run::UpdateGlyph()
+{
+  for( Character* character = GetFirstCharacter() ; character ; character = character->GetNextRunCharacter() ) {
+    character->UpdateGlyph(*face_);
   }
 }
 

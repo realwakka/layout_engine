@@ -8,7 +8,8 @@
 #include <iostream>
 
 #include "face.h"
-
+#include "model/glyph/glyph.h"
+#include "model/character/character.h"
 
 namespace le {
 
@@ -62,6 +63,26 @@ FaceManager::FaceManager()
 
 FaceManager::~FaceManager()
 {
+  
+}
+
+Glyph FaceManager::GetGlyph(const Face& face, const Character& character)
+{
+  auto index = FTC_CMapCache_Lookup(ft_cmapcache_,0,0,character.GetChar());
+
+  FTC_Node ftc_node;
+  FTC_SBit ftc_sbit;
+  
+  FTC_ImageType ft_image_type;
+  FT_Glyph ft_glyph;
+  
+  ft_image_type->face_id = 0;
+  ft_image_type->width = 16;
+  ft_image_type->height = 16;
+  ft_image_type->flags = FT_LOAD_DEFAULT | FT_LOAD_RENDER;
+  
+  auto ret = FTC_ImageCache_Lookup(ft_imgcache_, ft_image_type, index, &ft_glyph, &ftc_node);
+
   
 }
 

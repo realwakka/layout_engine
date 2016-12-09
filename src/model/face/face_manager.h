@@ -10,6 +10,8 @@ class FaceId
 {
 };
 
+class Character;
+
 class FaceManager
 {
  public:
@@ -17,6 +19,7 @@ class FaceManager
   virtual ~FaceManager();
 
   Face* GetDefaultFace();
+  Glyph GetGlyph(const Face& face, const Character& character);
   static FaceManager* GetInstance();
 
  private:
