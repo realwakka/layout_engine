@@ -22,7 +22,10 @@ FT_Error FaceRequester( FTC_FaceID face_id, FT_Library library, FT_Pointer reque
   //auto family = FcStrCopy(static_cast<const FcChar8*>(face_id));
   auto family = static_cast<std::string*>(face_id);
   //FcPatternAddString( pat, "family", reinterpret_cast<const FcChar8*>(family->c_str()) );
-  auto os = FcObjectSetBuild(FC_FAMILY, FC_FILE, FC_FT_FACE, (char *) 0);
+  auto langset = FcLangSetCreate();
+  FcLangSetAdd(langset, reinterpret_cast<const FcChar8*>("en"));
+  FcPatternAddLangSet(pat, "lang", langset);
+  auto os = FcObjectSetBuild(FC_FAMILY, FC_FILE, FC_LANG, FC_FT_FACE, (char *) 0);
   auto fs = FcFontList(nullptr, pat, os);
 
   if( fs->nfont ) {
@@ -32,7 +35,8 @@ FT_Error FaceRequester( FTC_FaceID face_id, FT_Library library, FT_Pointer reque
 
     char* file;
     result = FcPatternGetString(pattern, "file", 0, (FcChar8**)&file);
-    return FT_New_Face( library, file, 0, aface );
+    auto res = FT_New_Face( library, file, 0, aface );
+    return res;
 
   }
   else {
@@ -83,7 +87,6 @@ Glyph FaceManager::GetGlyph(const Face& face, const Character& character)
   ft_image_type->flags = FT_LOAD_DEFAULT | FT_LOAD_RENDER;
   
   auto ret = FTC_ImageCache_Lookup(ft_imgcache_, ft_image_type, index, &ft_glyph, &ftc_node);
-
 
   return Glyph(ft_glyph);
 }

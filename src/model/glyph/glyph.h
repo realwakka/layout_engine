@@ -12,6 +12,12 @@ class Glyph
   Glyph(FT_Glyph ft_glyph_);
   virtual ~Glyph();
 
+  int GetWidth() const;
+  int GetHeight() const;
+  
+  int GetLeft() const;
+  int GetTop() const;
+
  private:
   FT_Glyph ft_glyph_;
 

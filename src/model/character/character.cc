@@ -6,6 +6,8 @@
 #include "model/character/space_character.h"
 #include "model/face/face_manager.h"
 
+#include <iostream>
+
 namespace le {
 
 Character::Character(char c)
@@ -74,6 +76,11 @@ Character* Character::GetNextRunCharacter()
 void Character::UpdateGlyph(const Face& face)
 {
   glyph_ = FaceManager::GetInstance()->GetGlyph(face, *this);
+  
+  std::cout << "Left : "<<glyph_.GetLeft();
+  std::cout << "Top : "<<glyph_.GetTop() << std::endl;
+  std::cout << "Width : "<<glyph_.GetWidth();
+  std::cout << "Height : "<<glyph_.GetHeight() << std::endl;
 }
 
 

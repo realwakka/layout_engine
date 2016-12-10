@@ -46,6 +46,8 @@ void Run::InsertCharacter(Character* character, Character* reference)
     character->SetRunIterator(it);
     character->SetRun(this);
   }
+
+  character->UpdateGlyph(*face_);
 }
 
 void Run::UpdateGlyph()
