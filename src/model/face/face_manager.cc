@@ -21,7 +21,7 @@ FT_Error FaceRequester( FTC_FaceID face_id, FT_Library library, FT_Pointer reque
   
   //auto family = FcStrCopy(static_cast<const FcChar8*>(face_id));
   auto family = static_cast<std::string*>(face_id);
-  FcPatternAddString( pat, "family", reinterpret_cast<const FcChar8*>(family->c_str()) );
+  //FcPatternAddString( pat, "family", reinterpret_cast<const FcChar8*>(family->c_str()) );
   auto os = FcObjectSetBuild(FC_FAMILY, FC_FILE, FC_FT_FACE, (char *) 0);
   auto fs = FcFontList(nullptr, pat, os);
 
@@ -29,11 +29,9 @@ FT_Error FaceRequester( FTC_FaceID face_id, FT_Library library, FT_Pointer reque
     auto pattern = fs->fonts[0];
     FT_Face face;
     FcResult result = FcPatternGetFTFace(pattern, FC_FT_FACE, 0, &face);
-    std::cout << result << std::endl;
 
     char* file;
     result = FcPatternGetString(pattern, "file", 0, (FcChar8**)&file);
-    std::cout << result << std::endl;
     return FT_New_Face( library, file, 0, aface );
 
   }
@@ -68,22 +66,26 @@ FaceManager::~FaceManager()
 
 Glyph FaceManager::GetGlyph(const Face& face, const Character& character)
 {
-  auto index = FTC_CMapCache_Lookup(ft_cmapcache_,0,0,character.GetChar());
+  std::string family_name = "Times new roman";
+
+  auto family = new std::string("Times new roman");
+  auto index = FTC_CMapCache_Lookup(ft_cmapcache_,family,0,character.GetChar());
 
   FTC_Node ftc_node;
   FTC_SBit ftc_sbit;
   
-  FTC_ImageType ft_image_type;
+  FTC_ImageType ft_image_type = new FTC_ImageTypeRec_();
   FT_Glyph ft_glyph;
   
-  ft_image_type->face_id = 0;
+  ft_image_type->face_id = &family_name;
   ft_image_type->width = 16;
   ft_image_type->height = 16;
   ft_image_type->flags = FT_LOAD_DEFAULT | FT_LOAD_RENDER;
   
   auto ret = FTC_ImageCache_Lookup(ft_imgcache_, ft_image_type, index, &ft_glyph, &ftc_node);
 
-  
+
+  return Glyph(ft_glyph);
 }
 
 Face* FaceManager::GetDefaultFace()

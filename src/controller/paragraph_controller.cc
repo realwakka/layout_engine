@@ -38,6 +38,7 @@ void ParagraphController::insertText(std::string text)
     selected_char_->InsertChar(character);
     paragraph_.PrintInfo();
   }
+  paragraph_.GetFirstRun()->UpdateGlyph();
 }
 
 

@@ -9,6 +9,7 @@ class Glyph
 {
  public:
   Glyph();
+  Glyph(FT_Glyph ft_glyph_);
   virtual ~Glyph();
 
  private:
