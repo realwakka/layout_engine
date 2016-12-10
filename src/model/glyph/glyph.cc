@@ -17,11 +17,11 @@ Glyph::~Glyph()
 
 int Glyph::GetWidth() const
 {
-  return ft_glyph_->advance.x;
+  return ft_glyph_->advance.x >> 6;
 }
 int Glyph::GetHeight() const
 {
-  return ft_glyph_->advance.y;
+  return ft_glyph_->advance.y >> 6;
 }
 
 int Glyph::GetLeft() const

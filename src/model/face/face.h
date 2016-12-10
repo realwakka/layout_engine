@@ -19,8 +19,8 @@ class Face
 
   Glyph GetGlyph();
 
-  std::string GetFamily() { return family_; }
-  int GetSize() { return size_; }
+  std::string GetFamily() const { return family_; }
+  int GetSize() const { return size_; }
   
  private:
   FT_Face ft_face_;

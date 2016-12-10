@@ -17,6 +17,9 @@ FaceManager* FaceManager::instance_ = nullptr;
 
 FT_Error FaceRequester( FTC_FaceID face_id, FT_Library library, FT_Pointer request_data, FT_Face *aface )
 {
+  static int time = 0;
+  time++;
+  
   auto pat = FcPatternCreate();
   
   //auto family = FcStrCopy(static_cast<const FcChar8*>(face_id));
@@ -42,6 +45,8 @@ FT_Error FaceRequester( FTC_FaceID face_id, FT_Library library, FT_Pointer reque
   else {
     throw std::exception{};
   }
+
+  std::cout << "-------------------------------------TIME : " << time << std::endl;
   
   return 0;
 }
@@ -70,20 +75,56 @@ FaceManager::~FaceManager()
 
 Glyph FaceManager::GetGlyph(const Face& face, const Character& character)
 {
+  // auto pat = FcPatternCreate();
+  
+  // //FcPatternAddString( pat, "family", reinterpret_cast<const FcChar8*>(face.GetFamily().c_str()) );
+  // auto langset = FcLangSetCreate();
+  // FcLangSetAdd(langset, reinterpret_cast<const FcChar8*>("en"));
+  // FcPatternAddLangSet(pat, "lang", langset);
+  // auto os = FcObjectSetBuild(FC_FAMILY,FC_FILE, FC_FT_FACE, nullptr);
+  // auto fs = FcFontList(nullptr, pat, os);
+
+  // if( fs->nfont ) {
+  //   FT_Face ft_face = nullptr;
+  //   auto pattern = fs->fonts[0];
+  //   FcResult result = FcPatternGetFTFace(pattern, FC_FT_FACE, 0, &ft_face);
+    
+  //   char* file = nullptr;
+  //   result = FcPatternGetString(pattern, "file", 0, (FcChar8**)&file);
+  //   auto res = FT_New_Face( ft_library_, file, 0, &ft_face );
+    
+  //   FT_Set_Char_Size(ft_face, face.GetSize() * 64 , 0, 96,96);
+
+  //   auto index = FT_Get_Char_Index(ft_face,character.GetChar());
+  //   auto error = FT_Load_Glyph( ft_face, index, FT_LOAD_DEFAULT );
+
+  //   FT_Glyph ft_glyph;
+  //   error = FT_Get_Glyph( ft_face->glyph, &ft_glyph );
+
+  //   return Glyph(ft_glyph);
+  //   //return res;
+
+  // }
+  // else {
+  //   throw std::exception{};
+  // }
+  
+
+  
   std::string family_name = "Times new roman";
 
   auto family = new std::string("Times new roman");
   auto index = FTC_CMapCache_Lookup(ft_cmapcache_,family,0,character.GetChar());
 
   FTC_Node ftc_node;
-  FTC_SBit ftc_sbit;
+  // FTC_SBit ftc_sbit;
   
   FTC_ImageType ft_image_type = new FTC_ImageTypeRec_();
   FT_Glyph ft_glyph;
   
   ft_image_type->face_id = &family_name;
-  ft_image_type->width = 16;
-  ft_image_type->height = 16;
+  ft_image_type->width = 32;
+  ft_image_type->height = 32;
   ft_image_type->flags = FT_LOAD_DEFAULT | FT_LOAD_RENDER;
   
   auto ret = FTC_ImageCache_Lookup(ft_imgcache_, ft_image_type, index, &ft_glyph, &ftc_node);
