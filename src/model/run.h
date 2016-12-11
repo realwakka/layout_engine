@@ -38,7 +38,6 @@ class Run
   Paragraph* paragraph_;
   Face* face_;
 
-
  private:
   Container<Character> chars_;
   Node<Paragraph, Run> node_;

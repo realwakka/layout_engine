@@ -8,7 +8,7 @@ namespace le {
 
 Run::Run()
 {
-  face_ = new Face("NanumGothicOTF", 10);
+  face_ = new Face();
   //face_ = FaceManager::GetInstance()->GetDefaultFace();
 }
 

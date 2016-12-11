@@ -132,6 +132,8 @@ Glyph FaceManager::GetGlyph(const Face& face, const Character& character)
   // return Glyph(ft_glyph);
 }
 
+
+
 Face* FaceManager::GetDefaultFace()
 {
   FT_Face ft_face;

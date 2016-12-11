@@ -32,6 +32,8 @@ set(LE_SRCS
   model/face/face.cc
   model/face/face_manager.cc
   model/run.cc
+  model/prop/run_prop.cc
+  model/prop/font.cc
   controller/paragraph_controller.cc)
 
 

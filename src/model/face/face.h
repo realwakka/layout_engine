@@ -16,11 +16,9 @@ class Glyph;
 class Face
 {
  public:
-  Face(FT_Face ft_face);
-  Face(std::string family, int size);
+  Face();
+  explicit Face(FT_Face ft_face);
   virtual ~Face();
-
-  Glyph GetGlyph();
 
   std::string GetFamily() const { return family_; }
   int GetSize() const { return size_; }
