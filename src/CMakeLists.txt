@@ -34,7 +34,16 @@ set(LE_SRCS
   model/run.cc
   model/prop/run_prop.cc
   model/prop/font.cc
-  controller/paragraph_controller.cc)
+
+
+  view/paragraph_view.cc
+  view/line_view.cc
+  view/word_view.cc
+  
+  controller/paragraph_controller.cc
+
+
+  )
 
 
 add_library(le SHARED ${LE_SRCS})

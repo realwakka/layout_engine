@@ -15,14 +15,30 @@ Glyph::Glyph(FT_Glyph ft_glyph)
 Glyph::~Glyph()
 {}
 
-int Glyph::GetWidth() const
+int Glyph::GetAdvanceX() const
 {
-  return ft_glyph_->advance.x >> 6;
+  return ft_glyph_->advance.x >> 16;
 }
-int Glyph::GetHeight() const
+int Glyph::GetAdvanceY() const
 {
-  return ft_glyph_->advance.y >> 6;
+  return ft_glyph_->advance.y >> 16;
 }
+
+int Glyph::GetBitmapWidth() const
+{
+  FT_BitmapGlyph bitmap_glyph = reinterpret_cast<FT_BitmapGlyph>(ft_glyph_);
+  return bitmap_glyph->bitmap.width;
+  
+}
+
+int Glyph::GetBitmapHeight() const
+{
+  FT_BitmapGlyph bitmap_glyph = reinterpret_cast<FT_BitmapGlyph>(ft_glyph_);
+  return bitmap_glyph->bitmap.rows;
+  
+}
+
+
 
 int Glyph::GetLeft() const
 {

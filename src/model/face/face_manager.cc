@@ -9,6 +9,7 @@
 
 #include "face.h"
 #include "model/glyph/glyph.h"
+#include "model/prop/run_prop.h"
 #include "model/character/character.h"
 
 namespace le {
@@ -73,7 +74,8 @@ FaceManager::~FaceManager()
   
 }
 
-Glyph FaceManager::GetGlyph(const Face& face, const Character& character)
+
+Glyph FaceManager::GetGlyph(const RunProp& runprop, const Character& character)
 {
   auto pat = FcPatternCreate();
   
@@ -93,7 +95,7 @@ Glyph FaceManager::GetGlyph(const Face& face, const Character& character)
     result = FcPatternGetString(pattern, "file", 0, (FcChar8**)&file);
     auto res = FT_New_Face( ft_library_, file, 0, &ft_face );
     
-    FT_Set_Char_Size(ft_face, face.GetSize() * 64 , 0, 96,96);
+    FT_Set_Char_Size(ft_face, runprop.GetSize() << 6 , 0, 96,96);
 
     auto index = FT_Get_Char_Index(ft_face,character.GetChar());
     auto error = FT_Load_Glyph( ft_face, index, FT_LOAD_DEFAULT );

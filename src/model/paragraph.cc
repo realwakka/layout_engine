@@ -8,7 +8,8 @@
 namespace le {
 
 Paragraph::Paragraph()
-    : enter_run_(this)
+    : enter_run_(this),
+      view_(*this)
 {}
 
 Paragraph::~Paragraph()

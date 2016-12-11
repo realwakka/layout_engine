@@ -6,6 +6,8 @@
 #include "word.h"
 #include "type/container.h"
 
+#include "view/paragraph_view.h"
+
 namespace le {
 
 class Paragraph
@@ -29,11 +31,15 @@ class Paragraph
   void PrintRun();
   void PrintInfo();
 
+  ParagraphView& GetView(){ return view_; }
+
  private:
   Container<Run> runs_;
   Container<Word> words_;
   
   EnterRun enter_run_;
+
+  ParagraphView view_;
 };
 
 

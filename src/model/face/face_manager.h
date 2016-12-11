@@ -11,6 +11,7 @@ class FaceId
 };
 
 class Character;
+class RunProp;
 
 class FaceManager
 {
@@ -19,7 +20,7 @@ class FaceManager
   virtual ~FaceManager();
 
   Face* GetDefaultFace();
-  Glyph GetGlyph(const Face& face, const Character& character);
+  Glyph GetGlyph(const RunProp& runprop, const Character& character);
   static FaceManager* GetInstance();
 
  private:

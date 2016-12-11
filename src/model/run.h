@@ -33,14 +33,15 @@ class Run
 
   void InsertCharacter(Character* character , Character* reference);
   void UpdateGlyph();
+
+  const RunProp& GetRunProp() { return run_prop_; }
   
  private:
   Paragraph* paragraph_;
   Face* face_;
-
- private:
   Container<Character> chars_;
   Node<Paragraph, Run> node_;
+  RunProp run_prop_;
 };
 
 }  // le

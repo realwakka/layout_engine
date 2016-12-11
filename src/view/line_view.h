@@ -1,7 +1,11 @@
 #ifndef LE_LINE_VIEW_H_
 #define LE_LINE_VIEW_H_
 
+#include <vector>
+
 namespace le {
+
+class WordView;
 
 class LineView
 {
@@ -10,7 +14,7 @@ class LineView
   virtual ~LineView();
 
  private:
-  std::vector<RunView> run_views_;
+  std::vector<WordView*> word_views_;
 
 };
 

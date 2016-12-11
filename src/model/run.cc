@@ -47,14 +47,16 @@ void Run::InsertCharacter(Character* character, Character* reference)
     character->SetRun(this);
   }
 
-  character->UpdateGlyph(*face_);
+  character->UpdateGlyph();
 }
 
 void Run::UpdateGlyph()
 {
   for( Character* character = GetFirstCharacter() ; character ; character = character->GetNextRunCharacter() ) {
-    character->UpdateGlyph(*face_);
+    character->UpdateGlyph();
   }
+
+  
 }
 
 

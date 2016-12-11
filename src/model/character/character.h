@@ -40,7 +40,7 @@ class Character
   std::list<Character*>::iterator GetRunIterator() { return run_node_.GetIterator(); }
   void SetRunIterator(std::list<Character*>::iterator iter) { run_node_.SetIterator(iter); }
 
-  void UpdateGlyph(const Face& face);
+  void UpdateGlyph();
 
  private:
   CharacterView* view_;

@@ -12,8 +12,11 @@ class Glyph
   Glyph(FT_Glyph ft_glyph_);
   virtual ~Glyph();
 
-  int GetWidth() const;
-  int GetHeight() const;
+  int GetAdvanceX() const;
+  int GetAdvanceY() const;
+
+  int GetBitmapWidth() const;
+  int GetBitmapHeight() const;
   
   int GetLeft() const;
   int GetTop() const;

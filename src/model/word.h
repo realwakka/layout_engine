@@ -3,6 +3,7 @@
 
 #include "type/container.h"
 #include <vector>
+#include "view/word_view.h"
 
 namespace le {
 
@@ -34,6 +35,7 @@ class Word
  private:
   Container<Character> chars_;
   Node<Paragraph, Word> node_;
+  WordView view_;
   
 };
 

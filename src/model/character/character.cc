@@ -73,14 +73,18 @@ Character* Character::GetNextRunCharacter()
     return *run_node_.GetNext();
 }
 
-void Character::UpdateGlyph(const Face& face)
+void Character::UpdateGlyph()
 {
-  glyph_ = FaceManager::GetInstance()->GetGlyph(face, *this);
+  glyph_ = FaceManager::GetInstance()->GetGlyph(GetRun()->GetRunProp(), *this);
   
-  std::cout << "Left : "<<glyph_.GetLeft();
-  std::cout << "Top : "<<glyph_.GetTop() << std::endl;
-  std::cout << "Width : "<<glyph_.GetWidth();
-  std::cout << "Height : "<<glyph_.GetHeight() << std::endl;
+  // std::cout << "Left : "<<glyph_.GetLeft();
+  // std::cout << "Top : "<<glyph_.GetTop() << std::endl;
+  // std::cout << "AdvanceX : "<<glyph_.GetAdvanceX();
+  // std::cout << "AdvanceY : "<<glyph_.GetAdvanceY() << std::endl;
+
+  // std::cout << "Width : "<<glyph_.GetBitmapWidth();
+  // std::cout << "Height : "<<glyph_.GetBitmapHeight() << std::endl;
+
 }
 
 

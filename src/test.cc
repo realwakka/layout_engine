@@ -3,5 +3,5 @@
 int main()
 {
   le::RenderText rendertext;
-  rendertext.insertText("this is test!!");
+  rendertext.insertText("this is ggtest!!");
 }

@@ -2,12 +2,12 @@
 
 #include "model/character/character.h"
 #include "model/paragraph.h"
-
 #include <algorithm>
 
 namespace le {
 
 Word::Word()
+    : view_(*this)
 {}
 
 Word::~Word()
