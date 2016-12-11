@@ -18,7 +18,7 @@ Run::~Run()
 }
 
 
-Run* Run::GetPrevRun()
+Run* Run::GetPrevRun() const
 {
   if( node_.GetContainer()->GetFirstRun() == this )
     return nullptr;
@@ -26,7 +26,7 @@ Run* Run::GetPrevRun()
     return *node_.GetPrev();
 }
 
-Run* Run::GetNextRun()
+Run* Run::GetNextRun() const
 {
   if( node_.GetContainer()->GetLastRun() == this )
     return nullptr;

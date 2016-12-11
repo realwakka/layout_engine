@@ -7,6 +7,9 @@
 #include <freetype/freetype.h>
 #include <string>
 
+#include <unordered_map>
+#include <memory>
+
 namespace le {
 class Glyph;
 
@@ -28,7 +31,6 @@ class Face
   int size_;
   
 };
-
 
 }  // le
 

@@ -81,10 +81,10 @@ class Node
   Node() : container_(nullptr) {}
   virtual ~Node() {}
   
-  typename std::list<NodeType*>::iterator GetNext();
-  typename std::list<NodeType*>::iterator GetPrev();
+  typename std::list<NodeType*>::iterator GetNext() const;
+  typename std::list<NodeType*>::iterator GetPrev() const;
 
-  ContainerType* GetContainer() { return container_; }
+  ContainerType* GetContainer() const { return container_; }
   void SetContainer(ContainerType* container) { container_ = container; }
 
   typename std::list<NodeType*>::iterator GetIterator() const { return iter_; }
@@ -97,14 +97,14 @@ class Node
 };
 
 template<typename ContainerType, typename NodeType>
-typename std::list<NodeType*>::iterator Node<ContainerType, NodeType>::GetNext()
+typename std::list<NodeType*>::iterator Node<ContainerType, NodeType>::GetNext() const
 {
   auto tmp = iter_;
   return (++tmp);
 }
 
 template<typename ContainerType, typename NodeType>
-typename std::list<NodeType*>::iterator Node<ContainerType, NodeType>::GetPrev()
+typename std::list<NodeType*>::iterator Node<ContainerType, NodeType>::GetPrev() const
 {
   auto tmp = iter_;
   return (--tmp);
