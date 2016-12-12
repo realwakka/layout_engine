@@ -2,12 +2,13 @@
 #define LE_LINE_VIEW_H_
 
 #include <vector>
+#include "view/view.h"
 
 namespace le {
 
 class WordView;
 
-class LineView
+class LineView : public View
 {
  public:
   LineView();

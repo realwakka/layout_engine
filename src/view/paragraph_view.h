@@ -2,13 +2,14 @@
 #define LE_PARAGRAPH_VIEW_H_
 
 #include <vector>
+#include "view/view.h"
 
 namespace le {
 
 class LineView;
 class Paragraph;
 
-class ParagraphView
+class ParagraphView : public View
 {
  public:
   ParagraphView(Paragraph& paragraph);

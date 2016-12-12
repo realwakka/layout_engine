@@ -1,3 +1,6 @@
+#ifndef VIEW_H_
+#define VIEW_H_
+
 namespace le {
 
 class View
@@ -31,3 +34,7 @@ class View
 
 
 }  // le
+
+
+#endif /* VIEW_H_ */
+
