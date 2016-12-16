@@ -13,6 +13,8 @@ class WordView : public View
   WordView(Word& word);
   virtual ~WordView();
 
+  virtual void Paint(const Canvas& canvas) override;
+
  private:
   Word& word_;
 };

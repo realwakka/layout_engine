@@ -15,9 +15,20 @@ View::~View()
 void View::Layout()
 {}
 
-void View::Paint()
+void View::Paint(const Canvas& canvas)
 {}
 
 
+void View::AddChildAt(int index, View* view)
+{
+  childs_.emplace(childs_.begin() + index, view);
+  view->SetParent(this);
+}
+
+void View::RemoveChildAt(int index)
+{
+  auto it = childs_.erase(childs_.begin() + index);
+  (*it)->SetParent(nullptr);
+}
 
 }  // le

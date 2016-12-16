@@ -18,10 +18,9 @@ class ParagraphController
 
   void InsertText(std::string text);
   void Layout();
+  Paragraph& GetParagraph() { return paragraph_; }
 
  private:
-  Character* selected_;
-    
   Paragraph paragraph_;
   Character* selected_char_;
   int selected_index_;

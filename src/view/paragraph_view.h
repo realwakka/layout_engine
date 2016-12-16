@@ -14,9 +14,10 @@ class ParagraphView : public View
  public:
   ParagraphView(Paragraph& paragraph);
   virtual ~ParagraphView();
+
+  virtual void Paint(const Canvas& canvas) override;
   
  private:
-  std::vector<LineView*> line_views_;
   Paragraph& paragraph_;
 };
 

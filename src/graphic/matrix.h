@@ -42,6 +42,7 @@ class Matrix
   void Set(int index, float value) { mat_[index] = value; }
 
   void SetTranslate(float x, float y);
+  void Reset();
   
 
  public:

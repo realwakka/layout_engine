@@ -13,6 +13,7 @@ class RenderText
 
   void InsertText(const std::string& text);
   void Layout();
+  void Paint();
   
  private:
   ParagraphController controller_;

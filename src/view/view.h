@@ -1,7 +1,11 @@
 #ifndef VIEW_H_
 #define VIEW_H_
 
+#include <vector>
+
 namespace le {
+
+class Canvas;
 
 class View
 {
@@ -9,8 +13,8 @@ class View
   View();
   virtual ~View();
 
-  void Layout();
-  void Paint();
+  virtual void Layout();
+  virtual void Paint(const Canvas& canvas);
 
   int GetX() const { return x_; }
   int GetY() const { return y_; }
@@ -24,11 +28,23 @@ class View
   void SetWidth(int width) { width_ = width; }
   void SetHeight(int height) { height_ = height; }
 
+  int GetChildCount() const { return childs_.size(); }
+  View* GetChildAt(int index) const { return childs_[index]; }
+
+  void AddChildAt(int index, View* view);
+  void RemoveChildAt(int index);
+
+  void SetParent(View* parent) { parent_ = parent; }
+  View* GetParent() const { return parent_; }
+
  private:
   int width_;  
   int height_;
   int x_;
   int y_;
+
+  std::vector<View*> childs_;
+  View* parent_;
 
 };
 

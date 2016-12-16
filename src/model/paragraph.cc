@@ -34,11 +34,25 @@ void Paragraph::InsertWord(Word* new_word, Word* ref_word)
   if( ref_word == nullptr ) {
     auto it = words_.Append(new_word);
     new_word->SetIterator(it);
+
+    auto line = view_.GetChildAt(view_.GetChildCount() - 1 );
+    line->AddChildAt(line->GetChildCount(), &new_word->GetView());
+    
   } else {
     auto it = words_.InsertBefore(new_word, ref_word->GetIterator());
     new_word->SetIterator(it);
+    
+    auto line = ref_word->GetView().GetParent();
+    auto index = 0;
+    for( ; index < line->GetChildCount() ; ++index ) {
+      if( line->GetChildAt(index) == &ref_word->GetView() )
+        break;
+    }
+    line->AddChildAt(index, &new_word->GetView());
   }
   new_word->SetParagraph(this);
+
+  
 }
 
 

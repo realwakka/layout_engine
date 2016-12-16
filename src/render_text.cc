@@ -1,4 +1,5 @@
 #include "render_text.h"
+#include "graphic/canvas.h"
 
 namespace le {
 
@@ -16,6 +17,12 @@ void RenderText::InsertText(const std::string& text)
 void RenderText::Layout()
 {
   controller_.Layout();
+}
+
+void RenderText::Paint()
+{
+  Canvas canvas;
+  controller_.GetParagraph().GetView().Paint(canvas);
 }
 
 

@@ -32,6 +32,8 @@ class Word
 
   void Split(Character* character);
 
+  WordView& GetView() { return view_; }
+
  private:
   Container<Character> chars_;
   Node<Paragraph, Word> node_;

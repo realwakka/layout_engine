@@ -6,7 +6,6 @@
 
 namespace le {
 
-class CharacterView;
 class Word;
 class Run;
 class Face;
@@ -43,7 +42,6 @@ class Character
   void UpdateGlyph();
 
  private:
-  CharacterView* view_;
   Glyph glyph_;
   char c_;
 
