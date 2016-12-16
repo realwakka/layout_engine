@@ -31,7 +31,7 @@ ParagraphController::~ParagraphController()
 
 }
 
-void ParagraphController::insertText(std::string text)
+void ParagraphController::InsertText(std::string text)
 {
   for( char c : text ) {
     auto character = createCharacter(c);
@@ -39,6 +39,11 @@ void ParagraphController::insertText(std::string text)
     paragraph_.PrintInfo();
   }
   paragraph_.GetFirstRun()->UpdateGlyph();
+}
+
+void ParagraphController::Layout()
+{
+  paragraph_.GetView().Layout();
 }
 
 

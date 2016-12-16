@@ -8,9 +8,14 @@ RenderText::RenderText()
 RenderText::~RenderText()
 {}
 
-void RenderText::insertText(const std::string& text)
+void RenderText::InsertText(const std::string& text)
 {
-  controller_.insertText(text);
+  controller_.InsertText(text);
+}
+
+void RenderText::Layout()
+{
+  controller_.Layout();
 }
 
 

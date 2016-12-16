@@ -16,7 +16,8 @@ class ParagraphController
   ParagraphController();
   virtual ~ParagraphController();
 
-  void insertText(std::string text);
+  void InsertText(std::string text);
+  void Layout();
 
  private:
   Character* selected_;

@@ -11,7 +11,8 @@ class RenderText
   RenderText();
   virtual ~RenderText();
 
-  void insertText(const std::string& text);
+  void InsertText(const std::string& text);
+  void Layout();
   
  private:
   ParagraphController controller_;

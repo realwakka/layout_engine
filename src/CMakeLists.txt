@@ -42,7 +42,9 @@ set(LE_SRCS
   
   controller/paragraph_controller.cc
 
-
+  graphic/canvas.cc
+  graphic/point.cc
+  graphic/matrix.cc
   )
 
 
