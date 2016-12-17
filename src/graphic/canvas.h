@@ -19,6 +19,7 @@ class Canvas
   void DrawGlyph(int x, int y, const Glyph& glyph);
   void Save();
   void Restore();
+  void SetPixel(int x, int y, int color);
 
  private:
   char* buffer_;

@@ -27,7 +27,7 @@ class Character
   virtual void InsertChar(Character* character);
 
   void SetGlyph(Glyph glyph){ glyph_ = glyph; }
-  Glyph GetGlyph(){ return glyph_; }
+  Glyph GetGlyph() { return glyph_; }
 
   Character* GetPrevWordCharacter();
   Character* GetNextWordCharacter();

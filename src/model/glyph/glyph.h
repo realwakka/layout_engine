@@ -21,6 +21,8 @@ class Glyph
   int GetLeft() const;
   int GetTop() const;
 
+  const unsigned char* GetBitmapBuffer() const;
+
  private:
   FT_Glyph ft_glyph_;
 

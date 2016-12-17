@@ -15,7 +15,7 @@ View::~View()
 void View::Layout()
 {}
 
-void View::Paint(const Canvas& canvas)
+void View::Paint(Canvas& canvas)
 {}
 
 

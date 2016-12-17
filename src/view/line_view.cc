@@ -11,7 +11,7 @@ LineView::LineView()
 LineView::~LineView()
 {}
 
-void LineView::Paint(const Canvas& canvas)
+void LineView::Paint(Canvas& canvas)
 {
   for( auto index = 0; index < GetChildCount() ; ++index )
     GetChildAt(index)->Paint(canvas);

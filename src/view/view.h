@@ -14,7 +14,7 @@ class View
   virtual ~View();
 
   virtual void Layout();
-  virtual void Paint(const Canvas& canvas);
+  virtual void Paint(Canvas& canvas);
 
   int GetX() const { return x_; }
   int GetY() const { return y_; }

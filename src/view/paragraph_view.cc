@@ -14,7 +14,7 @@ ParagraphView::~ParagraphView()
 }
 
 
-void ParagraphView::Paint(const Canvas& canvas)
+void ParagraphView::Paint(Canvas& canvas)
 {
   
   for( auto index = 0; index < GetChildCount() ; ++index )

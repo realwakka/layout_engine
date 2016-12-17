@@ -38,7 +38,12 @@ int Glyph::GetBitmapHeight() const
   
 }
 
+const unsigned char* Glyph::GetBitmapBuffer() const
+{
+  FT_BitmapGlyph bitmap_glyph = reinterpret_cast<FT_BitmapGlyph>(ft_glyph_);
+  return bitmap_glyph->bitmap.buffer;
 
+}
 
 int Glyph::GetLeft() const
 {
