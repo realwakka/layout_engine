@@ -18,31 +18,36 @@ WordView::~WordView()
 
 void WordView::Paint(Canvas& canvas)
 {
+  canvas.Save();
+  canvas.GetMatrix().Translate(GetX(), GetY());
 
-  std::cout << "WordViewPaint... ";
+  auto x = 0;
   for( auto ch = word_.GetFirstCharacter() ; ch ; ch = ch->GetNextWordCharacter() ) {
-    std::cout << ch->GetChar();
-    canvas.DrawGlyph(0, 0, ch->GetGlyph());
+    auto glyph = ch->GetGlyph();
+    canvas.DrawGlyph(x, 0, glyph);
+    x += glyph.GetAdvanceX();
   }
-  std::cout<< std::endl;
+
+  canvas.Restore();
 }
 
 void WordView::Layout()
 {
   SetY(0);
+  SetWidth(word_.GetWordWidth());
 
   auto word_index = 0;
   auto word_width = word_.GetWordWidth();
-  for( ; word_index < GetChildCount() ; ++word_index )
-    if( GetChildAt(word_index) == this )
+  for( ; word_index < GetParent()->GetChildCount() ; ++word_index )
+    if( GetParent()->GetChildAt(word_index) == this )
       break;
 
   if( word_index == 0 ) {
     SetX(0);
   }
   else {
-    auto prev = GetChildAt(word_index - 1);
-    auto x = prev->GetY() + prev->GetWidth();
+    auto prev = GetParent()->GetChildAt(word_index - 1);
+    auto x = prev->GetX() + prev->GetWidth();
     if( x + word_width < GetParent()->GetWidth() ) {
       SetX(x);
     }

@@ -1,5 +1,7 @@
 #include "matrix.h"
 
+#include <cstring>
+
 namespace le {
 
 Matrix::Matrix()
@@ -8,6 +10,11 @@ Matrix::Matrix()
 }
 Matrix::~Matrix()
 {}
+
+Matrix::Matrix( const Matrix& matrix)
+{
+  std::memcpy(mat_, matrix.mat_, sizeof(mat_));
+}
 
 void Matrix::SetTranslate(float dx, float dy) {
   if (dx || dy) {
@@ -18,6 +25,13 @@ void Matrix::SetTranslate(float dx, float dy) {
     mat_[kMSkewX]  = mat_[kMSkewY] =
     mat_[kMPersp0] = mat_[kMPersp1] = 0;
   } 
+}
+
+void Matrix::Translate(float x, float y)
+{
+  Matrix mat;
+  mat.SetTranslate(x, y);
+  
 }
 
 void Matrix::Reset()

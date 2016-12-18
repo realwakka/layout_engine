@@ -15,7 +15,7 @@ LineView::~LineView()
 void LineView::Paint(Canvas& canvas)
 {
   canvas.Save();
-  canvas.GetMatrix();
+  canvas.GetMatrix().Translate(GetX(), GetY());
   
   for( auto index = 0; index < GetChildCount() ; ++index )
     GetChildAt(index)->Paint(canvas);

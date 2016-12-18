@@ -21,6 +21,7 @@ class Matrix
 {
  public:
   Matrix();
+  Matrix( const Matrix& matrix);
   virtual ~Matrix();
   
   float GetScaleX() const { return mat_[kMScaleX]; }
@@ -45,6 +46,7 @@ class Matrix
   float Get(int index) const { return mat_[index]; }
 
   void SetTranslate(float x, float y);
+  void Translate(float x, float y);
   void Reset();
 
   std::array<float, 3> Concat(const std::array<float, 3>& input) const;
