@@ -3,11 +3,14 @@
 
 namespace le {
 
+class Matrix;
+
 class Point
 {
  public:
   Point();
   Point(int x, int y);
+  Point(const Point& point);
   virtual ~Point();
 
   int GetX() const { return x_; }
@@ -15,6 +18,8 @@ class Point
 
   void SetX(int x) { x_ = x; }
   void SetY(int y) { y_ = y; }
+
+  Point Transform(const Matrix& matrix) const;
 
  private:
   int x_;

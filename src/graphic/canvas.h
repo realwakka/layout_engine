@@ -4,6 +4,7 @@
 #include "point.h"
 #include "matrix.h"
 #include <stack>
+#include <string>
 
 namespace le {
 
@@ -20,6 +21,10 @@ class Canvas
   void Save();
   void Restore();
   void SetPixel(int x, int y, int color);
+  void WriteRaw(const std::string filename);
+  void WriteBitmap(const std::string filename);
+
+  Matrix& GetMatrix() { matrix_stack_.top(); }
 
  private:
   char* buffer_;

@@ -1,6 +1,8 @@
 #ifndef MATRIX_H_
 #define MATRIX_H_
 
+#include <array>
+
 namespace le {
 
 enum {
@@ -40,10 +42,13 @@ class Matrix
   void SetPerspY(float v) { this->Set(kMPersp1, v); }
 
   void Set(int index, float value) { mat_[index] = value; }
+  float Get(int index) const { return mat_[index]; }
 
   void SetTranslate(float x, float y);
   void Reset();
-  
+
+  std::array<float, 3> Concat(const std::array<float, 3>& input) const;
+  Matrix Concat(const Matrix& matrix) const;  
 
  public:
   float mat_[9];

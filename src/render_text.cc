@@ -23,6 +23,7 @@ void RenderText::Paint()
 {
   Canvas canvas;
   controller_.GetParagraph().GetView().Paint(canvas);
+  canvas.WriteBitmap("output.bmp");
 }
 
 

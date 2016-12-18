@@ -16,6 +16,7 @@ class ParagraphView : public View
   virtual ~ParagraphView();
 
   virtual void Paint(Canvas& canvas) override;
+  virtual void Layout() override;
   
  private:
   Paragraph& paragraph_;

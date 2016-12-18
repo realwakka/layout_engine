@@ -68,4 +68,13 @@ void Word::Split(Character* character)
   GetParagraph()->InsertWord(word, this);
 }
 
+int Word::GetWordWidth() const
+{
+  auto width = 0;
+  for( Character* ch = GetFirstCharacter() ; ch ; ch = ch->GetNextWordCharacter() )
+    width += ch->GetGlyph().GetBitmapWidth();
+  
+  return width;
+}
+
 }  // le
