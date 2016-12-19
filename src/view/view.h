@@ -37,6 +37,9 @@ class View
   void SetParent(View* parent) { parent_ = parent; }
   View* GetParent() const { return parent_; }
 
+  View* GetNextSibling() const;
+  View* GetPrevSibling() const;
+
  private:
   int width_;  
   int height_;

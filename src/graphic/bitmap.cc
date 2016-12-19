@@ -42,6 +42,9 @@ void WriteBitmap(const std::string& filename, int w, int h, const char* img) {
 
 
 Bitmap::Bitmap(int width, int height, int depth)
+    : width_(width),
+      height_(height),
+      depth_(depth)
 {
   data_ = new char[width * height * depth];
 }
@@ -56,9 +59,9 @@ void Bitmap::SetPixel(int x, int y, int color)
   data_[ (y * width_ + x) * depth_ ] = color;
 }
 
-void Bitmap::WriteBitmapFile(const std::string filename)
+void Bitmap::WriteBitmapFile(const std::string& filename)
 {
-  
+  WriteBitmap( filename, width_, height_, data_ );
 }
 
 

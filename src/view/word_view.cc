@@ -6,6 +6,7 @@
 #include "model/character/character.h"
 
 #include "graphic/canvas.h"
+#include "view/line_view.h"
 
 namespace le {
 
@@ -49,6 +50,9 @@ void WordView::Layout()
 
   if( word_index == 0 ) {
     SetX(0);
+    if( GetParent()->GetWidth() < word_width ) {
+      
+    }
   }
   else {
     auto prev = GetParent()->GetChildAt(word_index - 1);
@@ -58,7 +62,25 @@ void WordView::Layout()
     }
     else {
       //next line
-      SetX(x);
+      auto nextline = GetParent()->GetNextSibling();
+      if( nextline ) {
+        nextline = new LineView();
+        auto paragraph = GetParent()->GetParent();
+        paragraph->AddChildAt(paragraph->GetChildCount(), nextline);
+      }
+
+      auto index = 0;
+      for( ; index < GetParent()->GetChildCount() ; ++index )
+        if( GetParent()->GetChildAt(index) == this )
+          break;
+
+      for( int i = GetParent()->GetChildCount() ; i >= index ; --i ) {
+        auto word = GetParent()->GetChildAt(i);
+        GetParent()->RemoveChildAt(i);
+        nextline->AddChildAt(0, word);
+      }
+      
+      return;
     }
   }
 

@@ -17,7 +17,7 @@ class Bitmap
   int GetDepth() const { return depth_; }
 
   void SetPixel(int x, int y, int color);
-  void WriteBitmapFile(const std::string filename);
+  void WriteBitmapFile(const std::string& filename);
 
  private:
   char* data_;
