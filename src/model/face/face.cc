@@ -18,5 +18,15 @@ Face::Face(FT_Face ft_face)
 Face::~Face()
 {}
 
+int Face::GetHeight() const
+{
+  return ft_face_->size->metrics.height >> 6;
+}
+
+int Face::GetAscender() const
+{
+  return ft_face_->size->metrics.ascender >> 6;
+}
+
 
 }  // le

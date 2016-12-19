@@ -33,6 +33,9 @@ class Word
   void Split(Character* character);
 
   int GetWordWidth() const;
+  int GetWordHeight() const;
+
+  int GetWordAscender() const;
 
   WordView& GetView() { return view_; }
 

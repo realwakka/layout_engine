@@ -2,7 +2,9 @@
 
 #include "model/character/character.h"
 #include "model/paragraph.h"
+#include "model/face/face_manager.h"
 #include <algorithm>
+#include <set>
 
 namespace le {
 
@@ -72,9 +74,41 @@ int Word::GetWordWidth() const
 {
   auto width = 0;
   for( Character* ch = GetFirstCharacter() ; ch ; ch = ch->GetNextWordCharacter() )
-    width += ch->GetGlyph().GetBitmapWidth();
+    width += ch->GetGlyph().GetAdvanceX();
   
   return width;
 }
+
+int Word::GetWordAscender() const
+{
+  std::set<Run*> runs;
+  for( Character* ch = GetFirstCharacter() ; ch ; ch = ch->GetNextWordCharacter() )
+    runs.emplace(ch->GetRun());
+
+  auto ascender = 0;  
+  for( Run* run : runs ) {
+    auto prop = run->GetRunProp();
+    auto face = FaceManager::GetInstance()->GetFace(prop);
+    ascender = std::max(face.GetAscender(), ascender);
+  }
+  
+  return ascender;
+}
+
+int Word::GetWordHeight() const
+{
+  std::set<Run*> runs;
+  for( Character* ch = GetFirstCharacter() ; ch ; ch = ch->GetNextWordCharacter() )
+    runs.emplace(ch->GetRun());
+
+  auto height = 0;  
+  for( Run* run : runs ) {
+    auto prop = run->GetRunProp();
+    auto face = FaceManager::GetInstance()->GetFace(prop);
+    height = std::max(face.GetHeight(), height);
+  }
+  return height;
+}
+
 
 }  // le

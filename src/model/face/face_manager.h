@@ -6,10 +6,6 @@
 
 namespace le {
 
-class FaceId
-{
-};
-
 class Character;
 class RunProp;
 
@@ -21,6 +17,7 @@ class FaceManager
 
   Face* GetDefaultFace();
   Glyph GetGlyph(const RunProp& runprop, const Character& character);
+  Face GetFace(const RunProp& runprop);
   static FaceManager* GetInstance();
 
  private:

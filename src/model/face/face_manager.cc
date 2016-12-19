@@ -75,6 +75,35 @@ FaceManager::~FaceManager()
 }
 
 
+Face FaceManager::GetFace(const RunProp& runprop)
+{
+  auto pat = FcPatternCreate();
+  
+  //FcPatternAddString( pat, "family", reinterpret_cast<const FcChar8*>(face.GetFamily().c_str()) );
+  auto langset = FcLangSetCreate();
+  FcLangSetAdd(langset, reinterpret_cast<const FcChar8*>("en"));
+  FcPatternAddLangSet(pat, "lang", langset);
+  auto os = FcObjectSetBuild(FC_FAMILY,FC_FILE, FC_FT_FACE, nullptr);
+  auto fs = FcFontList(nullptr, pat, os);
+
+  if( fs->nfont ) {
+    FT_Face ft_face = nullptr;
+    auto pattern = fs->fonts[0];
+    FcResult result = FcPatternGetFTFace(pattern, FC_FT_FACE, 0, &ft_face);
+    
+    char* file = nullptr;
+    result = FcPatternGetString(pattern, "file", 0, (FcChar8**)&file);
+    auto res = FT_New_Face( ft_library_, file, 0, &ft_face );
+    
+    FT_Set_Char_Size(ft_face, runprop.GetSize() << 6 , 0, 96,96);
+
+    return Face(ft_face);
+  }
+  else {
+    throw std::exception{};
+  }
+}
+
 Glyph FaceManager::GetGlyph(const RunProp& runprop, const Character& character)
 {
   auto pat = FcPatternCreate();

@@ -21,10 +21,14 @@ void WordView::Paint(Canvas& canvas)
   canvas.Save();
   canvas.GetMatrix().Translate(GetX(), GetY());
 
+  int wordheight = word_.GetWordHeight();
+
+  int baseline = word_.GetWordAscender();
+
   auto x = 0;
   for( auto ch = word_.GetFirstCharacter() ; ch ; ch = ch->GetNextWordCharacter() ) {
     auto glyph = ch->GetGlyph();
-    canvas.DrawGlyph(x, 0, glyph);
+    canvas.DrawGlyph(Point(x + glyph.GetLeft(), baseline - glyph.GetTop()), glyph);
     x += glyph.GetAdvanceX();
   }
 
@@ -35,6 +39,7 @@ void WordView::Layout()
 {
   SetY(0);
   SetWidth(word_.GetWordWidth());
+  SetHeight(word_.GetWordHeight());
 
   auto word_index = 0;
   auto word_width = word_.GetWordWidth();

@@ -19,6 +19,9 @@ class Face
   Face();
   explicit Face(FT_Face ft_face);
   virtual ~Face();
+
+  int GetHeight() const;
+  int GetAscender() const;
   
  private:
   FT_Face ft_face_;

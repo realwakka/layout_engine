@@ -3,8 +3,7 @@
 int main()
 {
   le::RenderText rendertext;
-  rendertext.InsertText("this is ggtest!!");
+  rendertext.InsertText("this is test!");
   rendertext.Layout();
   rendertext.Paint();
-  
 }

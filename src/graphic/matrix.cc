@@ -31,7 +31,8 @@ void Matrix::Translate(float x, float y)
 {
   Matrix mat;
   mat.SetTranslate(x, y);
-  
+  auto result = Concat(mat);
+  std::memcpy(mat_, result.mat_, sizeof(mat_));
 }
 
 void Matrix::Reset()
@@ -48,7 +49,7 @@ std::array<float, 3> Matrix::Concat(const std::array<float, 3>& input) const
   for( int i=0 ; i < 3 ; ++i ) {
     float tmp = 0;
     for( int j=0 ; j < 3 ; ++j ) {
-      tmp += mat_[ i * 3 + j ] + input[j];
+      tmp += mat_[ i * 3 + j ] * input[j];
     }
     result[i] = tmp;
   }
