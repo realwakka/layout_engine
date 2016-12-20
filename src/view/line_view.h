@@ -17,6 +17,8 @@ class LineView : public View
   virtual void Paint(Canvas& canvas) override;
   virtual void Layout() override;
 
+  virtual View* GetNextParent() const override;
+
  private:
   std::vector<WordView*> word_views_;
 

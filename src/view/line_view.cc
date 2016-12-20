@@ -26,12 +26,9 @@ void LineView::Paint(Canvas& canvas)
 void LineView::Layout()
 {
   SetX(0);
+  SetWidth(GetParent()->GetWidth());
 
-  auto line_index = 0;
-  for( ; line_index < GetChildCount() ; ++line_index )
-    if( GetChildAt(line_index) == this )
-      break;
-  
+  auto line_index = GetIndex();
   if( line_index == 0 ) {
     SetY(0);
   }
@@ -48,6 +45,17 @@ void LineView::Layout()
   }
 
   SetHeight(maxheight);
+}
+
+View* LineView::GetNextParent() const
+{
+  auto nextline = GetNextSibling();
+  if( !nextline ) {
+    nextline = new LineView();
+    GetParent()->AddChildAt(GetParent()->GetChildCount(), nextline);
+  }
+
+  return nextline;
 }
     
 

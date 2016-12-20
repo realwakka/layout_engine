@@ -62,19 +62,14 @@ void WordView::Layout()
     }
     else {
       //next line
-      auto nextline = GetParent()->GetNextSibling();
-      if( nextline ) {
-        nextline = new LineView();
-        auto paragraph = GetParent()->GetParent();
-        paragraph->AddChildAt(paragraph->GetChildCount(), nextline);
-      }
+      auto nextline = GetParent()->GetNextParent();
 
       auto index = 0;
       for( ; index < GetParent()->GetChildCount() ; ++index )
         if( GetParent()->GetChildAt(index) == this )
           break;
 
-      for( int i = GetParent()->GetChildCount() ; i >= index ; --i ) {
+      for( int i = GetParent()->GetChildCount() - 1 ; i >= index ; --i ) {
         auto word = GetParent()->GetChildAt(i);
         GetParent()->RemoveChildAt(i);
         nextline->AddChildAt(0, word);

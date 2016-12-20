@@ -3,7 +3,7 @@
 namespace le {
 
 RunProp::RunProp()
-    : size_(10)
+    : size_(72)
 {}
 
 RunProp::~RunProp()

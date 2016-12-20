@@ -30,6 +30,9 @@ void ParagraphView::Layout()
   
   for( auto index = 0; index < GetChildCount() ; ++index )
     GetChildAt(index)->Layout();
+
+  auto last = GetChildAt(GetChildCount() - 1);
+  SetHeight(last->GetHeight() + last->GetY());
 }
 
 }  // le

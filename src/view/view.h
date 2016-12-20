@@ -40,6 +40,10 @@ class View
   View* GetNextSibling() const;
   View* GetPrevSibling() const;
 
+  int GetIndex() const;
+
+  virtual View* GetNextParent() const { return nullptr; }
+
  private:
   int width_;  
   int height_;

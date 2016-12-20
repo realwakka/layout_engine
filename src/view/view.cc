@@ -63,5 +63,13 @@ View* View::GetPrevSibling() const
   
 }
 
+int View::GetIndex() const
+{
+  auto index = 0;
+  for( ; index < GetParent()->GetChildCount() ; ++index )
+    if( GetParent()->GetChildAt(index) == this )
+      break;
+  return index;
+}
 
 }  // le
