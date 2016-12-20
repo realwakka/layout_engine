@@ -1,5 +1,7 @@
 #include "bitmap.h"
 
+#include <cstring>
+
 namespace le {
 
 namespace {
@@ -47,6 +49,7 @@ Bitmap::Bitmap(int width, int height, int depth)
       depth_(depth)
 {
   data_ = new char[width * height * depth];
+  std::memset(data_, 0xFF, width*height*depth);
 }
 
 Bitmap::~Bitmap()
@@ -56,7 +59,7 @@ Bitmap::~Bitmap()
 
 void Bitmap::SetPixel(int x, int y, int color)
 {
-  data_[ (y * width_ + x) * depth_ ] = color;
+  std::memcpy(&data_[ (y * width_ + x) * depth_ ],&color, sizeof(color));
 }
 
 void Bitmap::WriteBitmapFile(const std::string& filename)
