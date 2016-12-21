@@ -30,7 +30,8 @@ void Canvas::DrawGlyph(const Point& point, const Glyph& glyph)
     for( int i=0 ; i<glyph.GetBitmapWidth() ; ++i ) {
       int val = buffer[j * glyph.GetBitmapWidth() + i];
       val = 255 - val;
-      SetPixel(Point(x + i, y + j), val);
+      int tmp = (val << 8) + (val << 16) + (val <<24) + val;
+      SetPixel(Point(x + i, y + j), tmp);
     }
   }
 }
