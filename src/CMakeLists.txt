@@ -34,6 +34,7 @@ set(LE_SRCS
   model/run.cc
   model/prop/run_prop.cc
   model/prop/font.cc
+  model/prop/underline.cc
 
   view/view.cc
   view/paragraph_view.cc
