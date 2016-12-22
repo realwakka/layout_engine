@@ -3,6 +3,8 @@
 #include "view/word_view.h"
 #include "graphic/canvas.h"
 
+#include "model/word.h"
+
 namespace le {
 
 LineView::LineView()
@@ -38,13 +40,16 @@ void LineView::Layout()
   }
 
   auto maxheight = 0;
+  auto baseline = 0;
   for( auto index = 0; index < GetChildCount() ; ++index ) {
-    auto child = GetChildAt(index);
+    auto child = static_cast<WordView*>(GetChildAt(index));
     child->Layout();
     maxheight = std::max( maxheight, child->GetHeight() );
+    baseline = std::max(baseline, child->GetWord().GetWordAscender());
   }
 
   SetHeight(maxheight);
+  SetBaseline(baseline);
 }
 
 View* LineView::GetNextParent() const

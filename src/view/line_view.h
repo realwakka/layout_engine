@@ -19,8 +19,12 @@ class LineView : public View
 
   virtual View* GetNextParent() const override;
 
+  void SetBaseline(int baseline) { baseline_ = baseline; }
+  int GetBaseline() const { return baseline_; }
+
  private:
   std::vector<WordView*> word_views_;
+  int baseline_;
 
 };
 

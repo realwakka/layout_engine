@@ -22,9 +22,8 @@ void WordView::Paint(Canvas& canvas)
   canvas.Save();
   canvas.GetMatrix().Translate(GetX(), GetY());
 
-  int wordheight = word_.GetWordHeight();
-
-  int baseline = word_.GetWordAscender();
+  
+  int baseline = static_cast<LineView*>(GetParent())->GetBaseline();
 
   auto x = 0;
   for( auto ch = word_.GetFirstCharacter() ; ch ; ch = ch->GetNextWordCharacter() ) {

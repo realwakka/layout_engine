@@ -16,6 +16,9 @@ class WordView : public View
   virtual void Paint(Canvas& canvas) override;
   virtual void Layout() override;
 
+  Word& GetWord() { return word_; }
+
+  
  private:
   Word& word_;
 };
