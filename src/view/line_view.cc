@@ -33,7 +33,7 @@ void LineView::Layout()
     SetY(0);
   }
   else {
-    auto prev = GetChildAt(line_index - 1);
+    auto prev = GetParent()->GetChildAt(line_index - 1);
     SetY(prev->GetY() + prev->GetHeight());
   }
 
