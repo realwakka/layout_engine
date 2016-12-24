@@ -6,21 +6,19 @@ namespace le {
 class Span
 {
  public:
-  Span(int x, int y, int length);
+  Span(int x, int y, int length, int coverage);
   virtual ~Span();
 
   int GetX() const { return x_; }
   int GetY() const { return y_; }
   int GetLength() const { return length_; }
+  int GetCoverage() const { return coverage_; }
 
-  void SetX(int x) { x_ = x; }
-  void SetY(int y) { y_ = y; }
-  void SetLength(int length) { length_ = length; }
-  
  private:
   int x_;
   int y_;
   int length_;
+  int coverage_;
   
 };
 

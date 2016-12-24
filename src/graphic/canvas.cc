@@ -24,16 +24,32 @@ void Canvas::DrawGlyph(const Point& point, const Glyph& glyph)
 {
   auto x = point.GetX();
   auto y = point.GetY();
-  auto buffer = glyph.GetBitmapBuffer();
+
+  auto spanlist = glyph.GetSpanList();
+  if( spanlist.empty() )
+    return;
   
-  for( int j=0 ; j<glyph.GetBitmapHeight() ; ++j ) {
-    for( int i=0 ; i<glyph.GetBitmapWidth() ; ++i ) {
-      int val = buffer[j * glyph.GetBitmapWidth() + i];
+  auto height = spanlist.back().GetY();
+
+  for( auto&& span : spanlist ) {
+    for( int i=0 ; i<span.GetLength() ; ++i ) {
+      int val = span.GetCoverage();
       val = 255 - val;
       int tmp = (val << 8) + (val << 16) + (val <<24) + val;
-      SetPixel(Point(x + i, y + j), tmp);
+      SetPixel(Point(span.GetX() + x + i, (y - span.GetY())), tmp);
     }
   }
+  
+  // auto buffer = glyph.GetBitmapBuffer();
+  
+  // for( int j=0 ; j<glyph.GetBitmapHeight() ; ++j ) {
+  //   for( int i=0 ; i<glyph.GetBitmapWidth() ; ++i ) {
+  //     int val = buffer[j * glyph.GetBitmapWidth() + i];
+  //     val = 255 - val;
+  //     int tmp = (val << 8) + (val << 16) + (val <<24) + val;
+  //     SetPixel(Point(x + i, y + j), tmp);
+  //   }
+  // }
 }
 
 void Canvas::Save()

@@ -59,7 +59,7 @@ Bitmap::~Bitmap()
 
 void Bitmap::SetPixel(int x, int y, int color)
 {
-  if( x < GetWidth() && y < GetHeight() )
+  if( x > -1 && y > -1 && x < GetWidth() && y < GetHeight() )
     std::memcpy(&data_[ (y * width_ + x) * depth_ ],&color, sizeof(color));
 }
 

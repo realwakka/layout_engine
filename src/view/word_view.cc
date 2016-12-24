@@ -28,7 +28,8 @@ void WordView::Paint(Canvas& canvas)
   auto x = 0;
   for( auto ch = word_.GetFirstCharacter() ; ch ; ch = ch->GetNextWordCharacter() ) {
     auto glyph = ch->GetGlyph();
-    canvas.DrawGlyph(Point(x + glyph.GetLeft(), baseline - glyph.GetTop()), glyph);
+    //canvas.DrawGlyph(Point(x + glyph.GetLeft(), baseline - glyph.GetTop()), glyph);
+    canvas.DrawGlyph(Point(x, baseline), glyph);
     x += glyph.GetAdvanceX();
   }
 
