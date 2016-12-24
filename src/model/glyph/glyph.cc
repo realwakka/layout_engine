@@ -26,8 +26,13 @@ int Glyph::GetAdvanceY() const
 
 int Glyph::GetBitmapWidth() const
 {
-  FT_BitmapGlyph bitmap_glyph = reinterpret_cast<FT_BitmapGlyph>(ft_glyph_);
-  return bitmap_glyph->bitmap.width;
+  if( ft_glyph_->format == FT_GLYPH_FORMAT_OUTLINE ) {
+    throw std::exception();
+  }
+  else {
+    FT_BitmapGlyph bitmap_glyph = reinterpret_cast<FT_BitmapGlyph>(ft_glyph_);
+    return bitmap_glyph->bitmap.width;
+  }
   
 }
 

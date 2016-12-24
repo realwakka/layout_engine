@@ -2,6 +2,7 @@
 #define LE_GLYPH_H_
 
 #include <freetype/ftglyph.h>
+#include <vector>
 #include "model/glyph/span.h"
 
 namespace le {
@@ -21,6 +22,7 @@ class Glyph
   
   int GetLeft() const;
   int GetTop() const;
+
 
   const unsigned char* GetBitmapBuffer() const;
 
