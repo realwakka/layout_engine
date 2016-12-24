@@ -2,6 +2,7 @@
 #define LE_GLYPH_H_
 
 #include <freetype/ftglyph.h>
+#include "model/glyph/span.h"
 
 namespace le {
 
@@ -23,8 +24,12 @@ class Glyph
 
   const unsigned char* GetBitmapBuffer() const;
 
+  std::vector<Span> GetSpanList() const { return span_list_; }
+  void AddSpan(const Span& span) { span_list_.push_back(span); }
+
  private:
   FT_Glyph ft_glyph_;
+  std::vector<Span> span_list_;
 
 };
 

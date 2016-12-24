@@ -29,6 +29,7 @@ set(LE_SRCS
   model/character/enter_character.cc
   model/word.cc
   model/glyph/glyph.cc
+  model/glyph/span.cc
   model/face/face.cc
   model/face/face_manager.cc
   model/run.cc

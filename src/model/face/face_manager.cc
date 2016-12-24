@@ -127,7 +127,7 @@ Glyph FaceManager::GetGlyph(const RunProp& runprop, const Character& character)
     FT_Set_Char_Size(ft_face, runprop.GetSize() << 6 , 0, 96,96);
 
     auto index = FT_Get_Char_Index(ft_face,character.GetChar());
-    auto error = FT_Load_Glyph( ft_face, index, FT_LOAD_DEFAULT );
+    auto error = FT_Load_Glyph( ft_face, index, FT_LOAD_NO_BITMAP );
 
     FT_Glyph ft_glyph;
     error = FT_Get_Glyph( ft_face->glyph, &ft_glyph );
