@@ -10,6 +10,16 @@ class Paragraph;
 class Run;
 class Character;
 
+class CaretSelection
+{
+  
+};
+
+class BlockSelection
+{
+  
+};
+
 class ParagraphController
 {
  public:
@@ -24,7 +34,8 @@ class ParagraphController
   Paragraph paragraph_;
   Character* selected_char_;
   int selected_index_;
-  
+
+  std::pair<Character*, Character*> selected_area_;
 };
 
 

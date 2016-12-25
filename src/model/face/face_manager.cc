@@ -12,7 +12,7 @@
 #include "model/prop/run_prop.h"
 #include "model/character/character.h"
 
-#include <freetype2/ftoutln.h>
+#include <freetype/ftoutln.h>
 
 namespace le {
 
@@ -102,7 +102,7 @@ Face FaceManager::GetFace(const RunProp& runprop)
     return Face(ft_face);
   }
   else {
-    throw std::exception{};
+    throw std::exception();
   }
 }
 
@@ -134,8 +134,16 @@ Glyph FaceManager::GetGlyph(const RunProp& runprop, const Character& character)
     FT_Glyph ft_glyph;
     error = FT_Get_Glyph( ft_face->glyph, &ft_glyph );
 
-    auto outline_glyph = reinterpret_cast<FT_OutlineGlyph>(ft_glyph);
-    FT_Outline_Embolden( &outline_glyph->outline, (ft_face->size->metrics.x_ppem*5/100) << 6);
+    if( runprop.GetBold() ) {
+      auto outline_glyph = reinterpret_cast<FT_OutlineGlyph>(ft_glyph);
+      FT_Outline_Embolden( &outline_glyph->outline, (ft_face->size->metrics.x_ppem*5/100) << 6);
+    }
+
+    if( runprop.GetItalic() ) {
+      auto outline_glyph = reinterpret_cast<FT_OutlineGlyph>(ft_glyph);
+      FT_Matrix transform = {0x10000, 0x06000, 0x00000, 0x10000};
+      FT_Outline_Transform( &outline_glyph->outline, &transform );
+    }
     
 
     return Glyph(ft_glyph);
