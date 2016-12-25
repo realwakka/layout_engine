@@ -12,6 +12,8 @@
 #include "model/prop/run_prop.h"
 #include "model/character/character.h"
 
+#include <freetype2/ftoutln.h>
+
 namespace le {
 
 FaceManager* FaceManager::instance_ = nullptr;
@@ -131,6 +133,10 @@ Glyph FaceManager::GetGlyph(const RunProp& runprop, const Character& character)
 
     FT_Glyph ft_glyph;
     error = FT_Get_Glyph( ft_face->glyph, &ft_glyph );
+
+    auto outline_glyph = reinterpret_cast<FT_OutlineGlyph>(ft_glyph);
+    FT_Outline_Embolden( &outline_glyph->outline, (ft_face->size->metrics.x_ppem*5/100) << 6);
+    
 
     return Glyph(ft_glyph);
     //return res;

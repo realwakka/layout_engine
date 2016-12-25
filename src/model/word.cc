@@ -1,6 +1,7 @@
 #include "word.h"
 
 #include "model/character/character.h"
+#include "model/character/space_character.h"
 #include "model/paragraph.h"
 #include "model/face/face_manager.h"
 #include <algorithm>
@@ -68,6 +69,20 @@ void Word::Split(Character* character)
   }
 
   GetParagraph()->InsertWord(word, this);
+}
+
+int Word::GetSpaceWidth() const
+{
+  auto width = 0;
+  for( auto ch = GetLastCharacter() ; ch ; ch = ch->GetPrevWordCharacter() ) {
+    if( typeid(*ch) == typeid(SpaceCharacter) ){
+      width += ch->GetGlyph().GetAdvanceX();
+    } else {
+      break;
+    }
+  }
+  
+  return width;
 }
 
 int Word::GetWordWidth() const

@@ -42,11 +42,9 @@ void WordView::Layout()
   SetWidth(word_.GetWordWidth());
   SetHeight(word_.GetWordHeight());
 
-  auto word_index = 0;
+  auto word_index = GetIndex();
   auto word_width = word_.GetWordWidth();
-  for( ; word_index < GetParent()->GetChildCount() ; ++word_index )
-    if( GetParent()->GetChildAt(word_index) == this )
-      break;
+  auto space_width = word_.GetSpaceWidth();
 
   if( word_index == 0 ) {
     SetX(0);
@@ -57,7 +55,7 @@ void WordView::Layout()
   else {
     auto prev = GetParent()->GetChildAt(word_index - 1);
     auto x = prev->GetX() + prev->GetWidth();
-    if( x + word_width < GetParent()->GetWidth() ) {
+    if( x + word_width - space_width < GetParent()->GetWidth() ) {
       SetX(x);
     }
     else {

@@ -30,6 +30,7 @@ Glyph::Glyph(FT_Glyph ft_glyph)
     params.user = &span_list_;
 
     auto outline_glyph = reinterpret_cast<FT_OutlineGlyph>(ft_glyph);
+    
     FT_Outline_Render(ft_glyph->library, &outline_glyph->outline, &params);
   }
   

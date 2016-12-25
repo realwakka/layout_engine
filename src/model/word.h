@@ -33,6 +33,7 @@ class Word
   void Split(Character* character);
 
   int GetWordWidth() const;
+  int GetSpaceWidth() const;
   int GetWordHeight() const;
 
   int GetWordAscender() const;
