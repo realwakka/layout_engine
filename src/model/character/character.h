@@ -44,6 +44,7 @@ class Character
 
   virtual void InsertChar(Character* character);
   virtual void SetBold(bool bold);
+  virtual void SetItalic(bool italic);
   
 
  private:

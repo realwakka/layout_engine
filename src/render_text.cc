@@ -14,6 +14,17 @@ void RenderText::InsertText(const std::string& text)
   controller_.InsertText(text);
 }
 
+void RenderText::SetBold(bool bold)
+{
+  controller_.SetBold(bold);
+}
+
+void RenderText::SetItalic(bool italic)
+{
+  controller_.SetItalic(italic);
+}
+
+
 void RenderText::Layout()
 {
   controller_.Layout();

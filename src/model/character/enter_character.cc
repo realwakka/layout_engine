@@ -47,6 +47,11 @@ void InsertWordInternal(Paragraph* paragraph, Character* character)
 
 void InsertRunInternal(Paragraph* paragraph, Character* character)
 {
+  auto cached = Run::GetCachedRun();
+  if( cached ) {
+    paragraph->InsertRun(cached, nullptr);
+  }
+  
   auto last_run =  paragraph->GetLastRun();
 
   if(last_run == nullptr) {
@@ -55,6 +60,8 @@ void InsertRunInternal(Paragraph* paragraph, Character* character)
   }
   
   last_run->InsertCharacter(character, nullptr);
+
+  Run::SetCachedRun(nullptr);
 }
 
 EnterCharacter::EnterCharacter(EnterRun* enter_run_)
@@ -85,7 +92,6 @@ void EnterCharacter::SetBold(bool bold)
   }
 
   cached->GetRunProp().SetBold(bold);
-
 }
 
 

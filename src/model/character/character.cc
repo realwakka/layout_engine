@@ -92,5 +92,11 @@ void Character::SetBold(bool bold)
 
 }
 
+void Character::SetItalic(bool italic)
+{
+
+}
+
+
 
 }  // le

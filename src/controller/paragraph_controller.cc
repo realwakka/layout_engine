@@ -46,6 +46,12 @@ void ParagraphController::SetBold(bool bold)
   selected_char_->SetBold(bold);
 }
 
+void ParagraphController::SetItalic(bool italic)
+{
+  selected_char_->SetItalic(italic);
+}
+
+
 void ParagraphController::Layout()
 {
   paragraph_.GetView().Layout();
