@@ -24,7 +24,7 @@ class Character
   void SetWord(Word* word) { word_node_.SetContainer(word); }
   Word* GetWord() { return word_node_.GetContainer(); }
 
-  virtual void InsertChar(Character* character);
+  
 
   void SetGlyph(Glyph glyph){ glyph_ = glyph; }
   Glyph GetGlyph() { return glyph_; }
@@ -40,6 +40,11 @@ class Character
   void SetRunIterator(std::list<Character*>::iterator iter) { run_node_.SetIterator(iter); }
 
   void UpdateGlyph();
+
+
+  virtual void InsertChar(Character* character);
+  virtual void SetBold(bool bold);
+  
 
  private:
   Glyph glyph_;

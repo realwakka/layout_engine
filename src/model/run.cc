@@ -6,6 +6,8 @@
 
 namespace le {
 
+Run* Run::cached_run_ = nullptr;
+
 Run::Run()
 {
   face_ = new Face();
@@ -13,10 +15,7 @@ Run::Run()
 }
 
 Run::~Run()
-{
-  
-}
-
+{}
 
 Run* Run::GetPrevRun() const
 {
@@ -55,8 +54,6 @@ void Run::UpdateGlyph()
   for( Character* character = GetFirstCharacter() ; character ; character = character->GetNextRunCharacter() ) {
     character->UpdateGlyph();
   }
-
-  
 }
 
 

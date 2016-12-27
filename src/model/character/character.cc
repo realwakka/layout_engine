@@ -87,5 +87,10 @@ void Character::UpdateGlyph()
 
 }
 
+void Character::SetBold(bool bold)
+{
+
+}
+
 
 }  // le

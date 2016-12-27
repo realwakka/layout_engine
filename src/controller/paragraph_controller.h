@@ -29,10 +29,12 @@ class ParagraphController
   void InsertText(std::string text);
   void Layout();
   Paragraph& GetParagraph() { return paragraph_; }
+  void SetBold(bool bold);
 
  private:
   Paragraph paragraph_;
   Character* selected_char_;
+  Run* cache_run_;
   int selected_index_;
 
   std::pair<Character*, Character*> selected_area_;

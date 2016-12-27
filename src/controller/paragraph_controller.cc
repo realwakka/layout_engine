@@ -41,6 +41,11 @@ void ParagraphController::InsertText(std::string text)
   paragraph_.GetFirstRun()->UpdateGlyph();
 }
 
+void ParagraphController::SetBold(bool bold)
+{
+  selected_char_->SetBold(bold);
+}
+
 void ParagraphController::Layout()
 {
   paragraph_.GetView().Layout();

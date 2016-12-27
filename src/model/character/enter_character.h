@@ -6,6 +6,7 @@
 namespace le {
 
 class EnterRun;
+class Run;
 
 class EnterCharacter : public Character
 {
@@ -14,6 +15,10 @@ class EnterCharacter : public Character
   virtual ~EnterCharacter();
 
   virtual void InsertChar(Character* character) override;
+  virtual void SetBold(bool bold) override;
+  
+ private:
+  Run* cache_run_;
 };
 
 

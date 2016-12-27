@@ -76,5 +76,17 @@ void EnterCharacter::InsertChar(Character* character)
   
 }
 
+void EnterCharacter::SetBold(bool bold)
+{
+  auto cached = Run::GetCachedRun();
+  if( cached == nullptr ) {
+    Run::SetCachedRun(new TextRun());
+    cached = Run::GetCachedRun();
+  }
+
+  cached->GetRunProp().SetBold(bold);
+
+}
+
 
 }  // le

@@ -34,7 +34,10 @@ class Run
   void InsertCharacter(Character* character , Character* reference);
   void UpdateGlyph();
 
-  const RunProp& GetRunProp() { return run_prop_; }
+  RunProp& GetRunProp() { return run_prop_; }
+
+  static Run* GetCachedRun() { return cached_run_; }
+  static void SetCachedRun(Run* cached_run){ cached_run_ =  cached_run; }
   
  private:
   Paragraph* paragraph_;
@@ -42,6 +45,8 @@ class Run
   Container<Character> chars_;
   Node<Paragraph, Run> node_;
   RunProp run_prop_;
+
+  static Run* cached_run_;
 };
 
 }  // le
