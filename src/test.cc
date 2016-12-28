@@ -15,7 +15,6 @@ int main(int argc, char* argv[])
   rendertext.SetBold(true);
   rendertext.InsertText(text);
   rendertext.SetBold(false);
-
   rendertext.InsertText("asdf");
   
   rendertext.Layout();
