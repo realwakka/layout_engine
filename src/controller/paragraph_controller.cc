@@ -51,6 +51,11 @@ void ParagraphController::SetItalic(bool italic)
   selected_char_->SetItalic(italic);
 }
 
+void ParagraphController::SetSize(int size)
+{
+  selected_char_->SetSize(size);
+}
+
 
 void ParagraphController::Layout()
 {

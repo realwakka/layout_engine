@@ -16,7 +16,8 @@ class EnterCharacter : public Character
 
   virtual void InsertChar(Character* character) override;
   virtual void SetBold(bool bold) override;
-  
+  virtual void SetItalic(bool italic) override;
+  virtual void SetSize(int size) override;
  private:
   Run* cache_run_;
 };

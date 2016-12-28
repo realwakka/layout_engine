@@ -94,5 +94,27 @@ void EnterCharacter::SetBold(bool bold)
   cached->GetRunProp().SetBold(bold);
 }
 
+void EnterCharacter::SetItalic(bool italic)
+{
+  auto cached = Run::GetCachedRun();
+  if( cached == nullptr ) {
+    Run::SetCachedRun(new TextRun());
+    cached = Run::GetCachedRun();
+  }
+
+  cached->GetRunProp().SetItalic(italic);
+}
+
+void EnterCharacter::SetSize(int size)
+{
+  auto cached = Run::GetCachedRun();
+  if( cached == nullptr ) {
+    Run::SetCachedRun(new TextRun());
+    cached = Run::GetCachedRun();
+  }
+
+  cached->GetRunProp().SetSize(size);
+}
+
 
 }  // le

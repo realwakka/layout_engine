@@ -45,7 +45,7 @@ class Character
   virtual void InsertChar(Character* character);
   virtual void SetBold(bool bold);
   virtual void SetItalic(bool italic);
-  
+  virtual void SetSize(int size);
 
  private:
   Glyph glyph_;

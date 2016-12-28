@@ -13,6 +13,7 @@ int main(int argc, char* argv[])
   }
   le::RenderText rendertext;
   rendertext.SetBold(true);
+  rendertext.SetSize(10);
   rendertext.InsertText(text);
   rendertext.SetBold(false);
   rendertext.InsertText("asdf");

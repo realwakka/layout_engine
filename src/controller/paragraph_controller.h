@@ -31,6 +31,7 @@ class ParagraphController
   Paragraph& GetParagraph() { return paragraph_; }
   void SetBold(bool bold);
   void SetItalic(bool italic);
+  void SetSize(int size);
 
  private:
   Paragraph paragraph_;

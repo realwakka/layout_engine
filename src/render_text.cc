@@ -24,6 +24,11 @@ void RenderText::SetItalic(bool italic)
   controller_.SetItalic(italic);
 }
 
+void RenderText::SetSize(int size)
+{
+  controller_.SetSize(size);
+}
+
 
 void RenderText::Layout()
 {

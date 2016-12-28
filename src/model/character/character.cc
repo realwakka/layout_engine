@@ -97,6 +97,11 @@ void Character::SetItalic(bool italic)
 
 }
 
+void Character::SetSize(int size)
+{
+
+}
+
 
 
 }  // le
