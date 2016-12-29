@@ -30,17 +30,18 @@ inline Color GetR(Color color) { return (color >> 16) & 0xFF; }
 inline Color GetG(Color color) { return (color >> 8) & 0xFF; }
 inline Color GetB(Color color) { return (color >> 0) & 0xFF; }
 
-inline Color SetARGB(uint8_t a, uint8_t r, uint8_t g, uint8_t b)
+inline Color SetARGB(Color a, Color r, Color g, Color b)
 {
   return (a << 24) | (r << 16) | (g << 8) | (b << 0);
 }
 
 inline Color SetColorCoverage(Color color, int coverage)
 {
-  Color a = coverage * GetA(color) / 255;
-  Color r = coverage * GetR(color) / 255;
-  Color g = coverage * GetG(color) / 255;
-  Color b = coverage * GetB(color) / 255;
+  
+  Color a = coverage * GetA(color) / 255.0f;
+  Color r = coverage * GetR(color) / 255.0f;
+  Color g = coverage * GetG(color) / 255.0f;
+  Color b = coverage * GetB(color) / 255.0f;
   return SetARGB(a,r,g,b);
 }
 

@@ -32,7 +32,10 @@ void Canvas::DrawGlyph(const Point& point, const Glyph& glyph)
   auto height = spanlist.back().GetY();
 
   for( auto&& span : spanlist ) {
-    auto color = SetColorCoverage(glyph.GetColor(), span.GetCoverage());
+    //auto color = SetColorCoverage(glyph.GetColor(), span.GetCoverage());
+
+    auto tmp = span.GetCoverage();
+    auto color = SetARGB(tmp, 255, 0, 0);
     
     for( int i=0 ; i<span.GetLength() ; ++i ) {
       SetPixel(Point(span.GetX() + x + i, (y - span.GetY())), color);

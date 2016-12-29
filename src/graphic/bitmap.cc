@@ -60,13 +60,23 @@ Bitmap::~Bitmap()
 void Bitmap::SetPixel(int x, int y, Color color)
 {
   if( x > -1 && y > -1 && x < GetWidth() && y < GetHeight() ) {
+    auto a = GetA(color);
     auto r = GetR(color);
     auto g = GetG(color);
     auto b = GetB(color);
+
+    auto origin_b = data_[(y * width_ + x) * depth_ + 0];
+    auto origin_g = data_[(y * width_ + x) * depth_ + 1];
+    auto origin_r = data_[(y * width_ + x) * depth_ + 2];
+
+    r = r * a / 255 + origin_r * (255 - a) / 255;
+    g = g * a / 255 + origin_g * (255 - a) / 255;
+    b = b * a / 255 + origin_b * (255 - a) / 255;
+    
     data_[(y * width_ + x) * depth_ + 0] = b;
     data_[(y * width_ + x) * depth_ + 1] = g;
     data_[(y * width_ + x) * depth_ + 2] = r;
-    //std::memcpy(&data_[ (y * width_ + x) * depth_ ],&color + 1, sizeof(color) - 1);
+    // std::memcpy(&data_[ (y * width_ + x) * depth_ ],&color + 1, sizeof(color) - 1);
   }
 }
 
