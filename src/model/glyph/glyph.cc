@@ -19,7 +19,8 @@ Glyph::Glyph()
 {}
 
 Glyph::Glyph(FT_Glyph ft_glyph)
-    : ft_glyph_(ft_glyph)
+    : ft_glyph_(ft_glyph),
+      color_(kColorRed)
 {
 
   if( ft_glyph->format == FT_GLYPH_FORMAT_OUTLINE ) {

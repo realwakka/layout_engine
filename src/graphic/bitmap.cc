@@ -57,10 +57,17 @@ Bitmap::~Bitmap()
 
 }
 
-void Bitmap::SetPixel(int x, int y, int color)
+void Bitmap::SetPixel(int x, int y, Color color)
 {
-  if( x > -1 && y > -1 && x < GetWidth() && y < GetHeight() )
-    std::memcpy(&data_[ (y * width_ + x) * depth_ ],&color, sizeof(color));
+  if( x > -1 && y > -1 && x < GetWidth() && y < GetHeight() ) {
+    auto r = GetR(color);
+    auto g = GetG(color);
+    auto b = GetB(color);
+    data_[(y * width_ + x) * depth_ + 0] = b;
+    data_[(y * width_ + x) * depth_ + 1] = g;
+    data_[(y * width_ + x) * depth_ + 2] = r;
+    //std::memcpy(&data_[ (y * width_ + x) * depth_ ],&color + 1, sizeof(color) - 1);
+  }
 }
 
 void Bitmap::WriteBitmapFile(const std::string& filename)

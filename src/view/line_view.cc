@@ -39,10 +39,8 @@ void LineView::Layout()
     SetY(prev->GetY() + prev->GetHeight());
   }
 
-  for( auto index = 0; index < GetChildCount() ; ++index ) {
-    auto child = static_cast<WordView*>(GetChildAt(index));
-    child->Layout();
-  }
+  for( auto index = 0; index < GetChildCount() ; ++index )
+    GetChildAt(index)->Layout();
   
   auto maxheight = 0;
   auto baseline = 0;

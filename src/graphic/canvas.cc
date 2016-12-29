@@ -32,24 +32,12 @@ void Canvas::DrawGlyph(const Point& point, const Glyph& glyph)
   auto height = spanlist.back().GetY();
 
   for( auto&& span : spanlist ) {
+    auto color = SetColorCoverage(glyph.GetColor(), span.GetCoverage());
+    
     for( int i=0 ; i<span.GetLength() ; ++i ) {
-      int val = span.GetCoverage();
-      val = 255 - val;
-      int tmp = (val << 8) + (val << 16) + (val <<24) + val;
-      SetPixel(Point(span.GetX() + x + i, (y - span.GetY())), tmp);
+      SetPixel(Point(span.GetX() + x + i, (y - span.GetY())), color);
     }
   }
-  
-  // auto buffer = glyph.GetBitmapBuffer();
-  
-  // for( int j=0 ; j<glyph.GetBitmapHeight() ; ++j ) {
-  //   for( int i=0 ; i<glyph.GetBitmapWidth() ; ++i ) {
-  //     int val = buffer[j * glyph.GetBitmapWidth() + i];
-  //     val = 255 - val;
-  //     int tmp = (val << 8) + (val << 16) + (val <<24) + val;
-  //     SetPixel(Point(x + i, y + j), tmp);
-  //   }
-  // }
 }
 
 void Canvas::Save()

@@ -18,42 +18,6 @@ namespace le {
 
 FaceManager* FaceManager::instance_ = nullptr;
 
-FT_Error FaceRequester( FTC_FaceID face_id, FT_Library library, FT_Pointer request_data, FT_Face *aface )
-{
-  static int time = 0;
-  time++;
-  
-  auto pat = FcPatternCreate();
-  
-  //auto family = FcStrCopy(static_cast<const FcChar8*>(face_id));
-  auto family = static_cast<std::string*>(face_id);
-  //FcPatternAddString( pat, "family", reinterpret_cast<const FcChar8*>(family->c_str()) );
-  auto langset = FcLangSetCreate();
-  FcLangSetAdd(langset, reinterpret_cast<const FcChar8*>("en"));
-  FcPatternAddLangSet(pat, "lang", langset);
-  auto os = FcObjectSetBuild(FC_FAMILY, FC_FILE, FC_LANG, FC_FT_FACE, (char *) 0);
-  auto fs = FcFontList(nullptr, pat, os);
-
-  if( fs->nfont ) {
-    auto pattern = fs->fonts[0];
-    FT_Face face;
-    FcResult result = FcPatternGetFTFace(pattern, FC_FT_FACE, 0, &face);
-
-    char* file;
-    result = FcPatternGetString(pattern, "file", 0, (FcChar8**)&file);
-    auto res = FT_New_Face( library, file, 0, aface );
-    return res;
-
-  }
-  else {
-    throw std::exception{};
-  }
-
-  std::cout << "-------------------------------------TIME : " << time << std::endl;
-  
-  return 0;
-}
-
 FaceManager* FaceManager::GetInstance()
 {
   if( instance_ == nullptr )
@@ -65,10 +29,10 @@ FaceManager* FaceManager::GetInstance()
 FaceManager::FaceManager()
 {
   auto error = FT_Init_FreeType( &ft_library_ );
-  error = FTC_Manager_New(ft_library_, 0, 0, 0, &FaceRequester, nullptr, &ft_manager_ );
+  // error = FTC_Manager_New(ft_library_, 0, 0, 0, &FaceRequester, nullptr, &ft_manager_ );
 
-  FTC_CMapCache_New( ft_manager_, &ft_cmapcache_);
-  FTC_ImageCache_New( ft_manager_, &ft_imgcache_);
+  // FTC_CMapCache_New( ft_manager_, &ft_cmapcache_);
+  // FTC_ImageCache_New( ft_manager_, &ft_imgcache_);
 }
 
 FaceManager::~FaceManager()

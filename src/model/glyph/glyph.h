@@ -4,6 +4,7 @@
 #include <freetype/ftglyph.h>
 #include <vector>
 #include "model/glyph/span.h"
+#include "graphic/color.h"
 
 namespace le {
 
@@ -23,6 +24,7 @@ class Glyph
   int GetLeft() const;
   int GetTop() const;
 
+  Color GetColor() const { return color_; }
 
   const unsigned char* GetBitmapBuffer() const;
 
@@ -32,6 +34,8 @@ class Glyph
  private:
   FT_Glyph ft_glyph_;
   std::vector<Span> span_list_;
+  Color color_;
+  
 
 };
 

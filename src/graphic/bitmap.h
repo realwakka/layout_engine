@@ -2,6 +2,7 @@
 #define LE_BITMAP_H_
 
 #include <string>
+#include "graphic/color.h"
 
 namespace le {
 
@@ -16,7 +17,7 @@ class Bitmap
   int GetHeight() const { return height_; }
   int GetDepth() const { return depth_; }
 
-  void SetPixel(int x, int y, int color);
+  void SetPixel(int x, int y, Color color);
   void WriteBitmapFile(const std::string& filename);
 
  private:
