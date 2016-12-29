@@ -39,11 +39,16 @@ void LineView::Layout()
     SetY(prev->GetY() + prev->GetHeight());
   }
 
-  auto maxheight = 0;
-  auto baseline = 0;
   for( auto index = 0; index < GetChildCount() ; ++index ) {
     auto child = static_cast<WordView*>(GetChildAt(index));
     child->Layout();
+  }
+  
+  auto maxheight = 0;
+  auto baseline = 0;
+
+  for( auto index = 0; index < GetChildCount() ; ++index ) {
+    auto child = static_cast<WordView*>(GetChildAt(index));
     maxheight = std::max( maxheight, child->GetHeight() );
     baseline = std::max(baseline, child->GetWord().GetWordAscender());
   }
