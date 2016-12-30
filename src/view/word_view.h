@@ -2,6 +2,8 @@
 #define WORD_VIEW_H_
 
 #include "view/view.h"
+#include "view/word_view_delegate.h"
+#include <memory>
 
 namespace le {
 
@@ -21,6 +23,7 @@ class WordView : public View
   
  private:
   Word& word_;
+  std::unique_ptr<WordViewDelegate> delegate_;
 };
 
 

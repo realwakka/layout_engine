@@ -41,6 +41,8 @@ set(LE_SRCS
   view/paragraph_view.cc
   view/line_view.cc
   view/word_view.cc
+  view/normal_word_view_delegate.cc
+  view/splitted_word_view_delegate.cc
   
   controller/paragraph_controller.cc
 

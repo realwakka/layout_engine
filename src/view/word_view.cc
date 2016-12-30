@@ -21,7 +21,6 @@ void WordView::Paint(Canvas& canvas)
 {
   canvas.Save();
   canvas.GetMatrix().Translate(GetX(), GetY());
-
   
   int baseline = static_cast<LineView*>(GetParent())->GetBaseline();
 
@@ -49,6 +48,7 @@ void WordView::Layout()
   if( word_index == 0 ) {
     SetX(0);
     if( GetParent()->GetWidth() < word_width ) {
+      //split word
       
     }
   }
