@@ -11,7 +11,8 @@
 namespace le {
 
 Character::Character(char c)
-        : c_(c)
+    : c_(c),
+      view_(*this)
 {}
 
 Character::~Character()

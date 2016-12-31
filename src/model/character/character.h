@@ -3,6 +3,8 @@
 
 #include "type/container.h"
 #include "model/glyph/glyph.h"
+#include "view/character_view.h"
+
 
 namespace le {
 
@@ -47,12 +49,16 @@ class Character
   virtual void SetItalic(bool italic);
   virtual void SetSize(int size);
 
+  CharacterView& GetView() { return view_; }
+
  private:
   Glyph glyph_;
   char c_;
 
   Node<Word, Character> word_node_;
   Node<Run, Character> run_node_;
+
+  CharacterView view_;
 };
 
 

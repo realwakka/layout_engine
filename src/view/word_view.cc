@@ -12,7 +12,9 @@ namespace le {
 
 WordView::WordView(Word& word)
     : word_(word)
-{}
+{
+  
+}
 
 WordView::~WordView()
 {}
