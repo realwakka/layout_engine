@@ -48,11 +48,16 @@ void WordView::Layout()
   auto space_width = word_.GetSpaceWidth();
 
   if( word_index == 0 ) {
-    SetX(0);
-    if( GetParent()->GetWidth() < word_width ) {
+    
+    if( GetParent()->GetWidth() < word_width - space_width ) {
       //split word
       for( int i=0 ; i<GetChildCount() ; ++i )
         GetChildAt(i)->Layout();
+    }
+    else {
+      SetX(0);
+      for( auto index = 0; index < GetChildCount() ; ++index )
+        GetChildAt(index)->Layout();
     }
   }
   else {
@@ -60,6 +65,8 @@ void WordView::Layout()
     auto x = prev->GetX() + prev->GetWidth();
     if( x + word_width - space_width < GetParent()->GetWidth() ) {
       SetX(x);
+      for( auto index = 0; index < GetChildCount() ; ++index )
+        GetChildAt(index)->Layout();
     }
     else {
       //next line
@@ -69,8 +76,6 @@ void WordView::Layout()
     }
   }
 
-  for( auto index = 0; index < GetChildCount() ; ++index )
-    GetChildAt(index)->Layout();
 }
 
 View* WordView::GetNextParent() const

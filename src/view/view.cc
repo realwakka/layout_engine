@@ -6,7 +6,8 @@ View::View()
     : width_(0),
       height_(0),
       x_(0),
-      y_(0)
+      y_(0),
+      parent_(nullptr)
 {}
 
 View::~View()
@@ -21,6 +22,9 @@ void View::Paint(Canvas& canvas)
 
 void View::AddChildAt(int index, View* view)
 {
+  if( view == nullptr )
+    throw std::exception();
+  
   childs_.emplace(childs_.begin() + index, view);
   view->SetParent(this);
 }
@@ -73,6 +77,20 @@ int View::GetIndex() const
   return index;
 }
 
+int View::GetAvailableWidth() const
+{
+  if( GetParent() ) {
+    auto prev = GetPrevSibling();
+    if( prev ) {
+      return GetParent()->GetAvailableWidth() - ( prev->GetX() + prev->GetWidth() );
+    }else {
+      return GetParent()->GetAvailableWidth();
+    }
+  } else {
+    return GetWidth();
+  }
+}
+
 namespace view_util {
 
 void MoveChildsToNewParent(View* begin, View* newparent)
@@ -80,12 +98,11 @@ void MoveChildsToNewParent(View* begin, View* newparent)
   auto oldparent = begin->GetParent();
   auto index = begin->GetIndex();
   while( true ) {
-    auto child = oldparent->GetChildAt(index);
-    if( child == nullptr )
+    auto count = oldparent->GetChildCount();
+    if( index > count - 1 )
       break;
-
-    oldparent->RemoveChildAt(index);
-    newparent->AddChildAt(0, child);
+    auto removed = oldparent->RemoveChildAt(count - 1);
+    newparent->AddChildAt(0, removed);
   }
 }
 

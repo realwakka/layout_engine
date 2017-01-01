@@ -2,6 +2,7 @@
 
 #include "model/word.h"
 #include "space_character.h"
+#include "basic_character.h"
 #include "model/text_run.h"
 #include "model/paragraph.h"
 #include <typeinfo>
@@ -19,8 +20,8 @@ void InsertWordInternal(Paragraph* paragraph, Character* character)
   } else {
     
     auto prev_char = last_word->GetLastCharacter();
-    if( typeid(*character) == typeid(Character) ) {
-      if( typeid(*prev_char) == typeid(Character) ) {
+    if( typeid(*character) == typeid(BasicCharacter) ) {
+      if( typeid(*prev_char) == typeid(BasicCharacter) ) {
         last_word->InsertCharacter(character, nullptr);
       } else if ( typeid(*prev_char) == typeid(SpaceCharacter) ) {
         last_word->InsertCharacter(character, nullptr);
@@ -29,7 +30,7 @@ void InsertWordInternal(Paragraph* paragraph, Character* character)
 
       }
     } else if (typeid(*character) == typeid(SpaceCharacter) ) {
-      if( typeid(*prev_char) == typeid(Character) ) {
+      if( typeid(*prev_char) == typeid(BasicCharacter) ) {
         last_word->InsertCharacter(character, nullptr);
       } else if( typeid(*prev_char) == typeid(SpaceCharacter) ) {
         last_word->InsertCharacter(character, nullptr);

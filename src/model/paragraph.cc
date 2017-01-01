@@ -17,7 +17,6 @@ Paragraph::~Paragraph()
 
 void Paragraph::InsertRun(Run* new_run, Run* ref_run)
 {
-
   if( ref_run == nullptr ) {
     auto it = runs_.Append(new_run);
     new_run->SetIterator(it);
