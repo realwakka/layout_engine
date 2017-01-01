@@ -5,7 +5,8 @@
 namespace le {
 
 SpaceCharacter::SpaceCharacter()
-    : Character(' ')
+    : Character(' '),
+      view_(*this)
 {}
 
 SpaceCharacter::~SpaceCharacter()

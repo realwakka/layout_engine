@@ -25,10 +25,11 @@ void View::AddChildAt(int index, View* view)
   view->SetParent(this);
 }
 
-void View::RemoveChildAt(int index)
+View* View::RemoveChildAt(int index)
 {
   auto it = childs_.erase(childs_.begin() + index);
   (*it)->SetParent(nullptr);
+  return *it;
 }
 
 View* View::GetNextSibling() const
@@ -70,6 +71,24 @@ int View::GetIndex() const
     if( GetParent()->GetChildAt(index) == this )
       break;
   return index;
+}
+
+namespace view_util {
+
+void MoveChildsToNewParent(View* begin, View* newparent)
+{
+  auto oldparent = begin->GetParent();
+  auto index = begin->GetIndex();
+  while( true ) {
+    auto child = oldparent->GetChildAt(index);
+    if( child == nullptr )
+      break;
+
+    oldparent->RemoveChildAt(index);
+    newparent->AddChildAt(0, child);
+  }
+}
+
 }
 
 }  // le

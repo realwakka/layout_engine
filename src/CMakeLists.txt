@@ -25,6 +25,7 @@ set(LE_SRCS
   model/enter_run.cc
   model/paragraph.cc
   model/character/character.cc
+  model/character/basic_character.cc
   model/character/space_character.cc
   model/character/enter_character.cc
   model/word.cc
@@ -44,6 +45,7 @@ set(LE_SRCS
   view/character_view.cc
   view/normal_word_view_delegate.cc
   view/splitted_word_view_delegate.cc
+  view/space_character_view.cc
   
   controller/paragraph_controller.cc
 

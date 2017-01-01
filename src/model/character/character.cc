@@ -11,8 +11,7 @@
 namespace le {
 
 Character::Character(char c)
-    : c_(c),
-      view_(*this)
+    : c_(c)
 {}
 
 Character::~Character()
@@ -77,15 +76,6 @@ Character* Character::GetNextRunCharacter()
 void Character::UpdateGlyph()
 {
   glyph_ = FaceManager::GetInstance()->GetGlyph(GetRun()->GetRunProp(), *this);
-  
-  // std::cout << "Left : "<<glyph_.GetLeft();
-  // std::cout << "Top : "<<glyph_.GetTop() << std::endl;
-  // std::cout << "AdvanceX : "<<glyph_.GetAdvanceX();
-  // std::cout << "AdvanceY : "<<glyph_.GetAdvanceY() << std::endl;
-
-  // std::cout << "Width : "<<glyph_.GetBitmapWidth();
-  // std::cout << "Height : "<<glyph_.GetBitmapHeight() << std::endl;
-
 }
 
 void Character::SetBold(bool bold)

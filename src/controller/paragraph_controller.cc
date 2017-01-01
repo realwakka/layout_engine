@@ -3,6 +3,7 @@
 #include "model/text_run.h"
 #include "model/character/character.h"
 #include "model/character/space_character.h"
+#include "model/character/basic_character.h"
 
 namespace le {
 
@@ -14,7 +15,7 @@ Character* createCharacter(char ch)
     case ' ':
       return new SpaceCharacter();
     default:
-      return new Character(ch);
+      return new BasicCharacter(ch);
   }
 }
 

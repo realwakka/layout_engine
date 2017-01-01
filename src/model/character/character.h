@@ -26,8 +26,6 @@ class Character
   void SetWord(Word* word) { word_node_.SetContainer(word); }
   Word* GetWord() { return word_node_.GetContainer(); }
 
-  
-
   void SetGlyph(Glyph glyph){ glyph_ = glyph; }
   Glyph GetGlyph() { return glyph_; }
 
@@ -43,13 +41,12 @@ class Character
 
   void UpdateGlyph();
 
-
   virtual void InsertChar(Character* character);
   virtual void SetBold(bool bold);
   virtual void SetItalic(bool italic);
   virtual void SetSize(int size);
 
-  CharacterView& GetView() { return view_; }
+  virtual CharacterView& GetView() = 0;
 
  private:
   Glyph glyph_;
@@ -57,8 +54,6 @@ class Character
 
   Node<Word, Character> word_node_;
   Node<Run, Character> run_node_;
-
-  CharacterView view_;
 };
 
 

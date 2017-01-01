@@ -20,6 +20,7 @@ class WordView : public View
 
   Word& GetWord() { return word_; }
 
+  virtual View* GetNextParent() const override;
   
  private:
   Word& word_;

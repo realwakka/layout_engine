@@ -51,7 +51,8 @@ void WordView::Layout()
     SetX(0);
     if( GetParent()->GetWidth() < word_width ) {
       //split word
-      
+      for( int i=0 ; i<GetChildCount() ; ++i )
+        GetChildAt(i)->Layout();
     }
   }
   else {
@@ -63,24 +64,21 @@ void WordView::Layout()
     else {
       //next line
       auto nextline = GetParent()->GetNextParent();
-
-      auto index = 0;
-      for( ; index < GetParent()->GetChildCount() ; ++index )
-        if( GetParent()->GetChildAt(index) == this )
-          break;
-
-      for( int i = GetParent()->GetChildCount() - 1 ; i >= index ; --i ) {
-        auto word = GetParent()->GetChildAt(i);
-        GetParent()->RemoveChildAt(i);
-        nextline->AddChildAt(0, word);
-      }
-      
+      view_util::MoveChildsToNewParent(this, nextline);
       return;
     }
   }
 
   for( auto index = 0; index < GetChildCount() ; ++index )
     GetChildAt(index)->Layout();
+}
+
+View* WordView::GetNextParent() const
+{
+  auto nextparent = GetParent()->GetNextParent();
+  auto nextword = new WordView(word_);
+  nextparent->AddChildAt(0, nextword);
+  return nextword;
 }
 
 }  // le

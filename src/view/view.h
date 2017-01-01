@@ -32,7 +32,7 @@ class View
   View* GetChildAt(int index) const { return childs_[index]; }
 
   void AddChildAt(int index, View* view);
-  void RemoveChildAt(int index);
+  View* RemoveChildAt(int index);
 
   void SetParent(View* parent) { parent_ = parent; }
   View* GetParent() const { return parent_; }
@@ -54,6 +54,12 @@ class View
   View* parent_;
 
 };
+
+namespace view_util {
+
+void MoveChildsToNewParent(View* begin, View* newparent);
+
+}
 
 
 }  // le
