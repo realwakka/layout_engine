@@ -65,6 +65,16 @@ View* LineView::GetNextParent() const
 
   return nextline;
 }
+
+int LineView::GetAvailableWidth() const
+{
+  auto parent = GetParent();
+  if( parent ) {
+    return parent->GetAvailableWidth();
+  } else {
+    return GetWidth();
+  }
+}
     
 
 }  // le

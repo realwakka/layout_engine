@@ -27,7 +27,7 @@ class Character
   Word* GetWord() { return word_node_.GetContainer(); }
 
   void SetGlyph(Glyph glyph){ glyph_ = glyph; }
-  Glyph GetGlyph() { return glyph_; }
+  Glyph GetGlyph() const { return glyph_; }
 
   Character* GetPrevWordCharacter();
   Character* GetNextWordCharacter();

@@ -22,6 +22,8 @@ class LineView : public View
   void SetBaseline(int baseline) { baseline_ = baseline; }
   int GetBaseline() const { return baseline_; }
 
+  virtual int GetAvailableWidth() const;
+
  private:
   int baseline_;
 

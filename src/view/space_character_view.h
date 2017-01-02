@@ -16,6 +16,10 @@ class SpaceCharacterView : public CharacterView
   virtual void Layout() override;
   virtual void Paint(Canvas& canvas) override;
 
+  virtual int GetCharacterWidth() const;
+  virtual int GetSpaceWidth() const;
+
+
 };
 
 

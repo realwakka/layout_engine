@@ -37,6 +37,26 @@ void WordView::Paint(Canvas& canvas)
   canvas.Restore();
 }
 
+int WordView::GetWordWidth() const
+{
+  auto width = 0;
+  for(int i=0 ; i<GetChildCount() ; ++i ) {
+    auto charview = static_cast<CharacterView*>(GetChildAt(i));
+    width += charview->GetCharacterWidth();
+  }
+  return width;
+}
+
+int WordView::GetSpaceWidth() const
+{
+  auto width = 0;
+  for(int i=0 ; i<GetChildCount() ; ++i ) {
+    auto charview = static_cast<CharacterView*>(GetChildAt(i));
+    width += charview->GetSpaceWidth();
+  }
+  return width;  
+}
+
 void WordView::Layout()
 {
   SetY(0);
@@ -44,8 +64,8 @@ void WordView::Layout()
   SetHeight(word_.GetWordHeight());
 
   auto word_index = GetIndex();
-  auto word_width = word_.GetWordWidth();
-  auto space_width = word_.GetSpaceWidth();
+  auto word_width = GetWordWidth();
+  auto space_width = GetSpaceWidth();
 
   if( word_index == 0 ) {
     

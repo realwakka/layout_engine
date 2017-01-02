@@ -21,6 +21,9 @@ class WordView : public View
   Word& GetWord() { return word_; }
 
   virtual View* GetNextParent() const override;
+
+  int GetWordWidth() const;
+  int GetSpaceWidth() const;
   
  private:
   Word& word_;

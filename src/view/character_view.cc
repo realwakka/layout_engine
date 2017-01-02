@@ -40,4 +40,13 @@ void CharacterView::Paint(Canvas& canvas)
 
 }
 
+int CharacterView::GetCharacterWidth() const
+{
+  return GetCharacter().GetGlyph().GetAdvanceX();
+}
+int CharacterView::GetSpaceWidth() const
+{
+  return 0;
+}
+
 }  // le
