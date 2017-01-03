@@ -26,13 +26,8 @@ void WordView::Paint(Canvas& canvas)
   
   int baseline = static_cast<LineView*>(GetParent())->GetBaseline();
 
-  auto x = 0;
-  for( auto ch = word_.GetFirstCharacter() ; ch ; ch = ch->GetNextWordCharacter() ) {
-    auto glyph = ch->GetGlyph();
-    //canvas.DrawGlyph(Point(x + glyph.GetLeft(), baseline - glyph.GetTop()), glyph);
-    canvas.DrawGlyph(Point(x, baseline), glyph);
-    x += glyph.GetAdvanceX();
-  }
+  for( int i=0 ; i<GetChildCount() ; ++i )
+    GetChildAt(i)->Paint(canvas);
 
   canvas.Restore();
 }
@@ -60,7 +55,7 @@ int WordView::GetSpaceWidth() const
 void WordView::Layout()
 {
   SetY(0);
-  SetWidth(word_.GetWordWidth());
+  //SetWidth(word_.GetWordWidth());
   SetHeight(word_.GetWordHeight());
 
   auto word_index = GetIndex();
@@ -68,17 +63,12 @@ void WordView::Layout()
   auto space_width = GetSpaceWidth();
 
   if( word_index == 0 ) {
-    
-    if( GetParent()->GetWidth() < word_width - space_width ) {
-      //split word
-      for( int i=0 ; i<GetChildCount() ; ++i )
-        GetChildAt(i)->Layout();
-    }
-    else {
-      SetX(0);
-      for( auto index = 0; index < GetChildCount() ; ++index )
-        GetChildAt(index)->Layout();
-    }
+    SetX(0);
+    for( int i=0 ; i<GetChildCount() ; ++i )
+      GetChildAt(i)->Layout();
+
+    auto lastchild = GetChildAt(GetChildCount() - 1);
+    SetWidth(lastchild->GetX() + lastchild->GetWidth());
   }
   else {
     auto prev = GetParent()->GetChildAt(word_index - 1);
@@ -87,6 +77,8 @@ void WordView::Layout()
       SetX(x);
       for( auto index = 0; index < GetChildCount() ; ++index )
         GetChildAt(index)->Layout();
+      auto lastchild = GetChildAt(GetChildCount() - 1);
+      SetWidth(lastchild->GetX() + lastchild->GetWidth());
     }
     else {
       //next line

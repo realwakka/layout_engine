@@ -1,6 +1,8 @@
 #include "character_view.h"
 
 #include "model/character/character.h"
+#include "graphic/canvas.h"
+#include "view/line_view.h"
 
 namespace le {
 
@@ -37,6 +39,14 @@ void CharacterView::Layout()
 }
 void CharacterView::Paint(Canvas& canvas)
 {
+  canvas.Save();
+  canvas.GetMatrix().Translate(GetX(), GetY());
+
+  int baseline = static_cast<LineView*>(GetParent()->GetParent())->GetBaseline();
+
+  auto glyph = GetCharacter().GetGlyph();
+  canvas.DrawGlyph(Point(0, baseline), glyph);
+  canvas.Restore();
 
 }
 
