@@ -31,20 +31,7 @@ void SpaceCharacterView::Layout()
   SetX(usedwidth);
 }
 void SpaceCharacterView::Paint(Canvas& canvas)
-{
-  canvas.Save();
-  canvas.GetMatrix().Translate(GetX(), GetY());
-
-  int baseline = static_cast<LineView*>(GetParent()->GetParent())->GetBaseline();
-
-  auto glyph = GetCharacter().GetGlyph();
-  canvas.DrawGlyph(Point(0, baseline), glyph);
-  
-  // for( auto index = 0; index < GetChildCount() ; ++index )
-  //   GetChildAt(index)->Paint(canvas);
-
-  canvas.Restore();
-}
+{}
 
 int SpaceCharacterView::GetCharacterWidth() const
 {
