@@ -87,6 +87,10 @@ void Word::Split(Character* character)
   }
 
   GetParagraph()->InsertWord(word, this);
+
+  view_util::MoveChildsToNewParent(
+      &character->GetView(),
+      &word->GetView());
 }
 
 int Word::GetSpaceWidth() const
