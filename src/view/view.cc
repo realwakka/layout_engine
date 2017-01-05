@@ -31,9 +31,10 @@ void View::AddChildAt(int index, View* view)
 
 View* View::RemoveChildAt(int index)
 {
-  auto it = childs_.erase(childs_.begin() + index);
-  (*it)->SetParent(nullptr);
-  return *it;
+  auto removed = childs_[index];
+  childs_.erase(childs_.begin() + index);
+  removed->SetParent(nullptr);
+  return removed;
 }
 
 View* View::GetNextSibling() const

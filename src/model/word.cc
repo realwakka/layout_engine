@@ -49,6 +49,9 @@ void Word::InsertCharacter(Character* character, Character* reference)
 
 void Word::RemoveCharacter(Character* character)
 {
+  auto view_index = character->GetView().GetIndex();
+  GetView().RemoveChildAt(view_index);
+  
   chars_.Remove(character->GetWordIterator());
 }
 
@@ -87,10 +90,6 @@ void Word::Split(Character* character)
   }
 
   GetParagraph()->InsertWord(word, this);
-
-  view_util::MoveChildsToNewParent(
-      &character->GetView(),
-      &word->GetView());
 }
 
 int Word::GetSpaceWidth() const
