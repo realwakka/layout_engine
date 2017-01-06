@@ -37,6 +37,7 @@ set(LE_SRCS
   model/prop/run_prop.cc
   model/prop/font.cc
   model/prop/underline.cc
+  model/selection/caret_selection.cc
 
   view/view.cc
   view/paragraph_view.cc
