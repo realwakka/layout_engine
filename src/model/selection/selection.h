@@ -13,7 +13,7 @@ class Selection
  public:
   virtual std::unique_ptr<Controller> GetController() const = 0;
   virtual SelectionView& GetSelectionView() const = 0;
-  
+
 };
 
 }  // le

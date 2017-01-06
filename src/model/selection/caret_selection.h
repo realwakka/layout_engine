@@ -18,8 +18,6 @@ class CaretSelection : public Selection
 
  private:
   Character& character_;
-
-  
   
 };
 

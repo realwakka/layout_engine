@@ -10,16 +10,6 @@ class Paragraph;
 class Run;
 class Character;
 
-class CaretSelection
-{
-  
-};
-
-class BlockSelection
-{
-  
-};
-
 class ParagraphController
 {
  public:
