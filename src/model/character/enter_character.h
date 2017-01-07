@@ -14,10 +14,10 @@ class EnterCharacter : public Character
   EnterCharacter(EnterRun* enter_run_);
   virtual ~EnterCharacter();
 
-  virtual void InsertChar(Character* character) override;
-  virtual void SetBold(bool bold) override;
-  virtual void SetItalic(bool italic) override;
-  virtual void SetSize(int size) override;
+  // virtual void InsertChar(Character* character) override;
+  // virtual void SetBold(bool bold) override;
+  // virtual void SetItalic(bool italic) override;
+  // virtual void SetSize(int size) override;
 
   virtual CharacterView& GetView() override {}
   virtual std::unique_ptr<Controller> GetController() override;

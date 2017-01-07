@@ -17,30 +17,6 @@ Character::Character(char c)
 Character::~Character()
 {}
 
-void Character::InsertChar(Character* character)
-{
-  auto prev_char = GetPrevWordCharacter();
-  if( typeid(*character) == typeid(Character) ) {
-    GetWord()->InsertCharacter(character, this);
-  }
-  else if( typeid(*character) == typeid(SpaceCharacter) ) {
-    if( !prev_char ) {
-      GetWord()->InsertCharacter(character, this);
-      GetWord()->Split(this);
-    }
-    else if( typeid(*prev_char) == typeid(Character) ) {
-      GetWord()->InsertCharacter(character, this);
-      GetWord()->Split(this);
-    }
-    else if( typeid(*prev_char) == typeid(SpaceCharacter) ) {
-      prev_char->GetWord()->InsertCharacter(character, nullptr);
-    }
-  }
-  else {
-    
-  }
-}
-
 Character* Character::GetPrevWordCharacter()
 {
   if( word_node_.GetContainer()->GetFirstCharacter() == this )
@@ -77,22 +53,6 @@ void Character::UpdateGlyph()
 {
   glyph_ = FaceManager::GetInstance()->GetGlyph(GetRun()->GetRunProp(), *this);
 }
-
-void Character::SetBold(bool bold)
-{
-
-}
-
-void Character::SetItalic(bool italic)
-{
-
-}
-
-void Character::SetSize(int size)
-{
-
-}
-
 
 
 }  // le

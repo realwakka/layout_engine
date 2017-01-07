@@ -10,26 +10,5 @@ BasicCharacter::BasicCharacter(char c)
 BasicCharacter::~BasicCharacter()
 {}
 
-void BasicCharacter::InsertChar(Character* character)
-{
-  
-}
-
-void BasicCharacter::SetBold(bool bold)
-{
-
-}
-
-void BasicCharacter::SetItalic(bool italic)
-{
-
-}
-
-void BasicCharacter::SetSize(int size)
-{
-
-}
-
-
 
 }  // le

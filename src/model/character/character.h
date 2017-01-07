@@ -42,11 +42,6 @@ class Character
 
   void UpdateGlyph();
 
-  virtual void InsertChar(Character* character);
-  virtual void SetBold(bool bold);
-  virtual void SetItalic(bool italic);
-  virtual void SetSize(int size);
-
   virtual CharacterView& GetView() = 0;
   virtual std::unique_ptr<Controller> GetController() {}
 

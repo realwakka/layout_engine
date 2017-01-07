@@ -12,8 +12,6 @@ class SpaceCharacter : public Character
   SpaceCharacter();
   virtual ~SpaceCharacter();
 
-  virtual void InsertChar(Character* character) override;
-
   virtual CharacterView& GetView() override { return view_; }
 
  private:

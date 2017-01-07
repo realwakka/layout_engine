@@ -13,12 +13,6 @@ class BasicCharacter : public Character
   
   virtual CharacterView& GetView() override { return view_; }
 
-  virtual void InsertChar(Character* character) override;
-  virtual void SetBold(bool bold) override;
-  virtual void SetItalic(bool italic) override;
-  virtual void SetSize(int size) override;
-  
-
  private:
   CharacterView view_;
   
