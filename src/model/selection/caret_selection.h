@@ -16,6 +16,8 @@ class CaretSelection : public Selection
   virtual std::unique_ptr<Controller> GetController() const override;
   virtual SelectionView& GetSelectionView() const override;
 
+  Character& GetCharacter() { return character_; }
+
  private:
   Character& character_;
   

@@ -47,6 +47,7 @@ set(LE_SRCS
   view/normal_word_view_delegate.cc
   view/splitted_word_view_delegate.cc
   view/space_character_view.cc
+  view/selection/caret_selection_view.cc
   
   controller/paragraph_controller.cc
   controller/enter_char_controller.cc

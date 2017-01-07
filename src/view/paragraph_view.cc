@@ -16,7 +16,6 @@ ParagraphView::~ParagraphView()
 
 void ParagraphView::Paint(Canvas& canvas)
 {
-  
   for( auto index = 0; index < GetChildCount() ; ++index )
     GetChildAt(index)->Paint(canvas);
 }
@@ -25,8 +24,14 @@ void ParagraphView::Layout()
 {
   SetX(0);
   SetY(0);
-  SetWidth(500);
-  SetHeight(999999);
+  
+  if( GetParent() ) {
+    SetWidth(GetParent()->GetWidth());
+  } else {
+    SetWidth(500);
+  }
+  
+  //SetHeight(999999);
   
   for( auto index = 0; index < GetChildCount() ; ++index )
     GetChildAt(index)->Layout();

@@ -3,7 +3,9 @@
 
 #include "view/view.h"
 
-namespace ls {
+namespace le {
+
+class CaretSelection;
 
 class CaretSelectionView : public View
 {
@@ -11,12 +13,16 @@ class CaretSelectionView : public View
   CaretSelectionView(CaretSelection& caret_selection);
   virtual ~CaretSelectionView();
 
+  virtual void Layout() override;
+  virtual void Paint(Canvas& canvas) override;
+
+
  private:
   CaretSelection& caret_selection_;
 };
 
 
-}  // ls
+}  // le
 
 
 #endif /* LE_CARET_SELECTION_VIEW_H_ */

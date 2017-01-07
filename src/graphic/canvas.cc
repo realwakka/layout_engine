@@ -43,6 +43,18 @@ void Canvas::DrawGlyph(const Point& point, const Glyph& glyph)
   }
 }
 
+void Canvas::DrawRect(const Point& p1, const Point& p2, Color color)
+{
+  auto x = p1.GetX();
+  auto y = p1.GetY();
+
+  for( auto x = p1.GetX() ; x < p2.GetX() ; x++ ) {
+    for( auto y = p1.GetY() ; y < p2.GetY() ; y++ ) {
+      SetPixel(Point(x,y), color);
+    }
+  }
+}
+
 void Canvas::Save()
 {
   matrix_stack_.push(matrix_stack_.top());
