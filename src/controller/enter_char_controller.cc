@@ -1,12 +1,9 @@
-#include "enter_character.h"
+#include "enter_char_controller.h"
 
-#include "model/word.h"
-#include "space_character.h"
-#include "basic_character.h"
-#include "model/text_run.h"
 #include "model/paragraph.h"
-#include "controller/enter_char_controller.h"
-#include <typeinfo>
+#include "model/character/basic_character.h"
+#include "model/character/space_character.h"
+#include "model/text_run.h"
 
 namespace le {
 
@@ -70,26 +67,27 @@ void InsertRunInternal(Paragraph* paragraph, Character* character)
 
 }
 
-EnterCharacter::EnterCharacter(EnterRun* enter_run_)
-    : Character('\n')
-{
-  SetRun(enter_run_);
-}
 
-EnterCharacter::~EnterCharacter()
+EnterCharController::EnterCharController(EnterCharacter& enter_char)
+    : enter_char_(enter_char)
+{}
+EnterCharController::~EnterCharController()
 {}
 
-void EnterCharacter::InsertChar(Character* character)
+void EnterCharController::InsertText(std::string text)
 {
-  auto paragraph = GetRun()->GetParagraph();
+
+}
+
+void EnterCharController::InsertChar(Character* character)
+{
+  auto paragraph = enter_char_.GetRun()->GetParagraph();
 
   InsertWordInternal(paragraph, character);
   InsertRunInternal(paragraph, character);
-
-  
 }
 
-void EnterCharacter::SetBold(bool bold)
+void EnterCharController::SetBold(bool bold)
 {
   auto cached = Run::GetCachedRun();
   if( cached == nullptr ) {
@@ -100,7 +98,7 @@ void EnterCharacter::SetBold(bool bold)
   cached->GetRunProp().SetBold(bold);
 }
 
-void EnterCharacter::SetItalic(bool italic)
+void EnterCharController::SetItalic(bool italic)
 {
   auto cached = Run::GetCachedRun();
   if( cached == nullptr ) {
@@ -111,7 +109,7 @@ void EnterCharacter::SetItalic(bool italic)
   cached->GetRunProp().SetItalic(italic);
 }
 
-void EnterCharacter::SetSize(int size)
+void EnterCharController::SetSize(int size)
 {
   auto cached = Run::GetCachedRun();
   if( cached == nullptr ) {
@@ -121,11 +119,5 @@ void EnterCharacter::SetSize(int size)
 
   cached->GetRunProp().SetSize(size);
 }
-
-std::unique_ptr<Controller> EnterCharacter::GetController()
-{
-  return std::unique_ptr<EnterCharController>(new EnterCharController(*this));
-}
-
 
 }  // le

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.6)
 project(le)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g")
 
 find_package(Freetype REQUIRED)
 
@@ -49,6 +49,7 @@ set(LE_SRCS
   view/space_character_view.cc
   
   controller/paragraph_controller.cc
+  controller/enter_char_controller.cc
 
   graphic/canvas.cc
   graphic/point.cc

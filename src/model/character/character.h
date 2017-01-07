@@ -4,13 +4,14 @@
 #include "type/container.h"
 #include "model/glyph/glyph.h"
 #include "view/character_view.h"
-
+#include <memory>
 
 namespace le {
 
 class Word;
 class Run;
 class Face;
+class Controller;
 
 class Character
 {
@@ -47,6 +48,7 @@ class Character
   virtual void SetSize(int size);
 
   virtual CharacterView& GetView() = 0;
+  virtual std::unique_ptr<Controller> GetController() {}
 
  private:
   Glyph glyph_;

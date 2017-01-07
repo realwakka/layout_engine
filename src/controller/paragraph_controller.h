@@ -9,6 +9,7 @@ namespace le {
 class Paragraph;
 class Run;
 class Character;
+class Selection;
 
 class ParagraphController
 {
@@ -28,6 +29,7 @@ class ParagraphController
   Character* selected_char_;
   Run* cache_run_;
   int selected_index_;
+  Selection* selection_;
 
   std::pair<Character*, Character*> selected_area_;
 };

@@ -4,6 +4,8 @@
 #include "model/character/character.h"
 #include "model/character/space_character.h"
 #include "model/character/basic_character.h"
+#include "model/selection/caret_selection.h"
+#include "controller/controller.h"
 
 namespace le {
 
@@ -22,9 +24,10 @@ Character* createCharacter(char ch)
 }
 
 ParagraphController::ParagraphController()
-    : selected_char_(paragraph_.GetEnterRun()->GetEnterChar())
+    : selected_char_(paragraph_.GetEnterRun()->GetEnterChar()),
+      selection_(new CaretSelection(*paragraph_.GetEnterRun()->GetEnterChar()))
 {
-
+  
 }
 
 ParagraphController::~ParagraphController()
@@ -36,7 +39,7 @@ void ParagraphController::InsertText(std::string text)
 {
   for( char c : text ) {
     auto character = createCharacter(c);
-    selected_char_->InsertChar(character);
+    selection_->GetController()->InsertChar(character);
     paragraph_.PrintInfo();
   }
   paragraph_.GetFirstRun()->UpdateGlyph();
@@ -44,17 +47,17 @@ void ParagraphController::InsertText(std::string text)
 
 void ParagraphController::SetBold(bool bold)
 {
-  selected_char_->SetBold(bold);
+  selection_->GetController()->SetBold(bold);
 }
 
 void ParagraphController::SetItalic(bool italic)
 {
-  selected_char_->SetItalic(italic);
+  selection_->GetController()->SetItalic(italic);
 }
 
 void ParagraphController::SetSize(int size)
 {
-  selected_char_->SetSize(size);
+  selection_->GetController()->SetSize(size);
 }
 
 

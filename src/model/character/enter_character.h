@@ -20,6 +20,7 @@ class EnterCharacter : public Character
   virtual void SetSize(int size) override;
 
   virtual CharacterView& GetView() override {}
+  virtual std::unique_ptr<Controller> GetController() override;
   
  private:
   Run* cache_run_;
