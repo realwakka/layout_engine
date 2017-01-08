@@ -20,6 +20,7 @@ class ParagraphController
   void InsertText(std::string text);
   void Layout();
   Paragraph& GetParagraph() { return paragraph_; }
+  Selection* GetSelection() { return selection_; }
   void SetBold(bool bold);
   void SetItalic(bool italic);
   void SetSize(int size);

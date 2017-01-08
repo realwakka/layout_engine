@@ -11,7 +11,8 @@
 namespace le {
 
 EnterCharacter::EnterCharacter(EnterRun* enter_run_)
-    : Character('\n')
+    : Character('\n'),
+      view_(*this)
 {
   SetRun(enter_run_);
 }

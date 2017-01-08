@@ -9,7 +9,8 @@ namespace le {
 
 
 CaretSelection::CaretSelection(Character& character)
-    : character_(character)
+    : character_(character),
+      view_(*this)
 {
   
 }
@@ -22,8 +23,9 @@ std::unique_ptr<Controller> CaretSelection::GetController() const
   return character_.GetController();
 }
 
-SelectionView& CaretSelection::GetSelectionView() const
+View& CaretSelection::GetView() 
 {
+  return view_;
 }
 
 

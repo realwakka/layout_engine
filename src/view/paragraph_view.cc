@@ -1,13 +1,17 @@
 #include "paragraph_view.h"
 
 #include "view/line_view.h"
+#include "model/paragraph.h"
 
 namespace le {
 
 ParagraphView::ParagraphView(Paragraph& paragraph)
     : paragraph_(paragraph)
 {
-  AddChildAt(0, new LineView());
+  auto firstline = new LineView();
+  AddChildAt(0, firstline);
+  auto& enterview = paragraph.GetEnterRun()->GetEnterChar()->GetView();
+  firstline->AddChildAt(0,&enterview);
 }
 ParagraphView::~ParagraphView()
 {

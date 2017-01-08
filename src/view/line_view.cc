@@ -46,9 +46,13 @@ void LineView::Layout()
   auto baseline = 0;
 
   for( auto index = 0; index < GetChildCount() ; ++index ) {
-    auto child = static_cast<WordView*>(GetChildAt(index));
-    maxheight = std::max( maxheight, child->GetHeight() );
-    baseline = std::max(baseline, child->GetWord().GetWordAscender());
+    if( typeid(GetChildAt(index)) == typeid(WordView*) ) {
+      auto child = static_cast<WordView*>(GetChildAt(index));
+      maxheight = std::max( maxheight, child->GetHeight() );
+      baseline = std::max(baseline, child->GetWord().GetWordAscender());
+    } else {
+      
+    }
   }
 
   SetHeight(maxheight);

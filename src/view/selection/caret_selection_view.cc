@@ -3,6 +3,9 @@
 #include "model/selection/caret_selection.h"
 #include "model/character/character.h"
 
+#include "graphic/point.h"
+#include "graphic/canvas.h"
+
 namespace le {
 
 CaretSelectionView::CaretSelectionView(CaretSelection& caret_selection)
@@ -28,8 +31,10 @@ void CaretSelectionView::Paint(Canvas& canvas)
   auto height = line->GetHeight();
   auto width = 5;
 
+  Point p1(GetX(), GetY());
+  Point p2(GetX() + width, GetY() + height);
   
-  
+  canvas.DrawRect(p1, p2, kColorBlack);
   
 }
 

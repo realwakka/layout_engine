@@ -19,12 +19,10 @@ class Canvas
   virtual ~Canvas();
 
  public:
-  // void DrawGlyph(int x, int y, const Glyph& glyph);
   void DrawRect(const Point& p1, const Point& p2, Color color);
   void DrawGlyph(const Point& point, const Glyph& glyph);
   void Save();
   void Restore();
-  // void SetPixel(int x, int y, int color);
   void SetPixel(const Point& point, int color);
   void WriteBitmap(const std::string filename);
 

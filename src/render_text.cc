@@ -1,6 +1,8 @@
 #include "render_text.h"
 #include "graphic/canvas.h"
 
+#include "model/selection/selection.h"
+
 namespace le {
 
 RenderText::RenderText()
@@ -33,12 +35,15 @@ void RenderText::SetSize(int size)
 void RenderText::Layout()
 {
   controller_.Layout();
+  //controller_.GetSelection()->GetView().Layout();
 }
 
 void RenderText::Paint()
 {
   Canvas canvas;
   controller_.GetParagraph().GetView().Paint(canvas);
+  controller_.GetSelection()->GetView().Paint(canvas);
+  
   canvas.WriteBitmap("output.bmp");
 }
 

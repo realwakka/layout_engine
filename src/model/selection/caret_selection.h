@@ -2,6 +2,7 @@
 #define LE_CARET_SELECTION_H_
 
 #include "model/selection/selection.h"
+#include "view/selection/caret_selection_view.h"
 
 namespace le {
 
@@ -14,12 +15,13 @@ class CaretSelection : public Selection
   virtual ~CaretSelection();
 
   virtual std::unique_ptr<Controller> GetController() const override;
-  virtual SelectionView& GetSelectionView() const override;
+  virtual View& GetView() override;
 
   Character& GetCharacter() { return character_; }
 
  private:
   Character& character_;
+  CaretSelectionView view_;
   
 };
 
