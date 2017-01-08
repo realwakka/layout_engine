@@ -35,7 +35,7 @@ void Paragraph::InsertWord(Word* new_word, Word* ref_word)
     new_word->SetIterator(it);
 
     auto line = view_.GetChildAt(view_.GetChildCount() - 1 );
-    line->AddChildAt(line->GetChildCount(), &new_word->GetView());
+    line->AddChildAt(line->GetChildCount() - 1, &new_word->GetView());
     
   } else {
     auto it = words_.InsertBefore(new_word, ref_word->GetIterator());

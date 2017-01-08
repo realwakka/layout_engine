@@ -19,7 +19,6 @@ class EnterCharacter : public Character
   virtual std::unique_ptr<Controller> GetController() override;
   
  private:
-  Run* cache_run_;
   EnterCharacterView view_;
 };
 

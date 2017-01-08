@@ -59,6 +59,8 @@ class View
 
 namespace view_util {
 
+void SetVerticalBlockPosition(View* view);
+void SetHorizontalBlockPosition(View* view);
 void MoveChildsToNewParent(View* begin, View* newparent);
 
 }

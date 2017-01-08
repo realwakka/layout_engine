@@ -22,7 +22,8 @@ CaretSelectionView::~CaretSelectionView()
 void CaretSelectionView::Layout()
 {
   auto view = caret_selection_.GetCharacter().GetView();
-  view.AddChildAt(0, this);
+  SetX(view.GetX());
+  SetY(view.GetY());
 }
 
 void CaretSelectionView::Paint(Canvas& canvas)

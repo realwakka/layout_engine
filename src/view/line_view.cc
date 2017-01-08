@@ -2,8 +2,10 @@
 
 #include "view/word_view.h"
 #include "graphic/canvas.h"
-
+#include "view/character/enter_character_view.h"
+#include "view/character_view.h"
 #include "model/word.h"
+#include "model/character/character.h"
 
 namespace le {
 
@@ -46,12 +48,15 @@ void LineView::Layout()
   auto baseline = 0;
 
   for( auto index = 0; index < GetChildCount() ; ++index ) {
-    if( typeid(GetChildAt(index)) == typeid(WordView*) ) {
+    if( typeid(*GetChildAt(index)) == typeid(WordView) ) {
       auto child = static_cast<WordView*>(GetChildAt(index));
       maxheight = std::max( maxheight, child->GetHeight() );
       baseline = std::max(baseline, child->GetWord().GetWordAscender());
-    } else {
       
+    } else if ( typeid(*GetChildAt(index)) == typeid(EnterCharacterView) ) {
+      auto enter_char_view = static_cast<EnterCharacterView*>(GetChildAt(index));
+      auto& character = enter_char_view->GetCharacter();
+      auto enter_run = character.GetRun();
     }
   }
 

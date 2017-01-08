@@ -35,7 +35,7 @@ void RenderText::SetSize(int size)
 void RenderText::Layout()
 {
   controller_.Layout();
-  //controller_.GetSelection()->GetView().Layout();
+  controller_.GetSelection()->GetView().Layout();
 }
 
 void RenderText::Paint()

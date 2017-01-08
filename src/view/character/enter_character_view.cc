@@ -15,10 +15,12 @@ EnterCharacterView::~EnterCharacterView()
 void EnterCharacterView::Layout()
 {
   std::cout << "enter character view layout" << std::endl;
+  view_util::SetHorizontalBlockPosition(this);
 }
 void EnterCharacterView::Paint(Canvas& canvas)
 {
   std::cout << "enter character view layout" << std::endl;
+  
 }
 
 
