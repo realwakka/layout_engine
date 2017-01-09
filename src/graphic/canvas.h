@@ -25,6 +25,7 @@ class Canvas
   void Restore();
   void SetPixel(const Point& point, int color);
   void WriteBitmap(const std::string filename);
+  void DrawLine(const Point& p1, const Point& p2);
 
   Matrix& GetMatrix() { matrix_stack_.top(); }
 
