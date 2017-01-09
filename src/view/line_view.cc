@@ -24,6 +24,10 @@ void LineView::Paint(Canvas& canvas)
   for( auto index = 0; index < GetChildCount() ; ++index )
     GetChildAt(index)->Paint(canvas);
 
+  Point p1(0, GetBaseline());
+  Point p2(GetWidth(), GetBaseline());
+  canvas.DrawLine(p1, p2);
+
   canvas.Restore();
 }
 
