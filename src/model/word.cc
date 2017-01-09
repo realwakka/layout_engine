@@ -18,39 +18,37 @@ Word::~Word()
 
 void Word::InsertCharacter(Character* character, Character* reference)
 {
-  auto& characterview = character->GetView();
+  // auto& characterview = character->GetView();
   
   if( reference == nullptr ) {
     auto it = chars_.Append(character);
     character->SetWordIterator(it);
     character->SetWord(this);
 
-    View* wordview = nullptr;
-    if( character->GetPrevWordCharacter() )
-      wordview = character->GetPrevWordCharacter()->GetView().GetParent();
-    else
-      wordview = &GetView();
+    // View* wordview = nullptr;
+    // if( character->GetPrevWordCharacter() )
+    //   wordview = character->GetPrevWordCharacter()->GetView().GetParent();
+    // else
+    //   wordview = &GetView();
 
-    wordview->AddChildAt(wordview->GetChildCount(), &characterview);
+    // wordview->AddChildAt(wordview->GetChildCount(), &characterview);
     
   } else  {
     auto it = chars_.InsertBefore(character, reference->GetWordIterator());
     character->SetWordIterator(it);
     character->SetWord(this);
 
-    auto ref_view = reference->GetView();
-    auto ref_index = ref_view.GetIndex();
-    auto wordview = ref_view.GetParent();
-    wordview->AddChildAt(ref_index, &characterview);
+    // auto ref_view = reference->GetView();
+    // auto ref_index = ref_view.GetIndex();
+    // auto wordview = ref_view.GetParent();
+    // wordview->AddChildAt(ref_index, &characterview);
   }
-
-  
 }
 
 void Word::RemoveCharacter(Character* character)
 {
-  auto view_index = character->GetView().GetIndex();
-  GetView().RemoveChildAt(view_index);
+  // auto view_index = character->GetView().GetIndex();
+  // GetView().RemoveChildAt(view_index);
   
   chars_.Remove(character->GetWordIterator());
 }

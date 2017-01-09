@@ -5,9 +5,9 @@
 #include "type/container.h"
 #include "model/character/character.h"
 #include "model/prop/run_prop.h"
+#include "view/run/run_view.h"
 
 namespace le {
-
 
 class Paragraph;
 class Character;
@@ -32,9 +32,11 @@ class Run
   void SetIterator(std::list<Run*>::iterator iter) { node_.SetIterator(iter); }
 
   void InsertCharacter(Character* character , Character* reference);
+  void RemoveCharacter(Character* character);
   void UpdateGlyph();
 
   RunProp& GetRunProp() { return run_prop_; }
+  RunView& GetRunView() { return view_; }
 
   static Run* GetCachedRun() { return cached_run_; }
   static void SetCachedRun(Run* cached_run){ cached_run_ =  cached_run; }
@@ -45,6 +47,7 @@ class Run
   Container<Character> chars_;
   Node<Paragraph, Run> node_;
   RunProp run_prop_;
+  RunView view_;
 
   static Run* cached_run_;
 };

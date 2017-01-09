@@ -1,4 +1,3 @@
-
 cmake_minimum_required(VERSION 2.8.6)
 project(le)
 
@@ -48,6 +47,7 @@ set(LE_SRCS
   view/character/space_character_view.cc
   view/selection/caret_selection_view.cc
   view/character/enter_character_view.cc
+  view/run/run_view.cc
   
   controller/paragraph_controller.cc
   controller/enter_char_controller.cc
