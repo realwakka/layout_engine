@@ -3,7 +3,7 @@
 
 #include "type/container.h"
 #include "model/glyph/glyph.h"
-#include "view/character_view.h"
+#include "view/character/character_view.h"
 #include <memory>
 
 namespace le {

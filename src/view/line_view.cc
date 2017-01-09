@@ -3,7 +3,7 @@
 #include "view/word_view.h"
 #include "graphic/canvas.h"
 #include "view/character/enter_character_view.h"
-#include "view/character_view.h"
+#include "view/character/character_view.h"
 #include "model/word.h"
 #include "model/character/character.h"
 

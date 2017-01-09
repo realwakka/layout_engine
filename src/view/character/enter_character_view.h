@@ -1,7 +1,7 @@
 #ifndef LE_ENTER_CHARACTER_VIEW_H_
 #define LE_ENTER_CHARACTER_VIEW_H_
 
-#include "view/character_view.h"
+#include "view/character/character_view.h"
 
 namespace le {
 

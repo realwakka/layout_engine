@@ -2,7 +2,7 @@
 #define LE_SPACE_CHARACTER_H_
 
 #include "model/character/character.h"
-#include "view/space_character_view.h"
+#include "view/character/space_character_view.h"
 
 namespace le {
 
