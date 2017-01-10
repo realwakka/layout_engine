@@ -1,6 +1,7 @@
 #include "line_view.h"
 
 #include "view/word_view.h"
+#include "view/run/run_view.h"
 #include "graphic/canvas.h"
 #include "view/character/enter_character_view.h"
 #include "view/character/character_view.h"
@@ -10,9 +11,8 @@
 namespace le {
 
 LineView::LineView()
-{
+{}
 
-}
 LineView::~LineView()
 {}
 
@@ -61,6 +61,9 @@ void LineView::Layout()
       auto enter_char_view = static_cast<EnterCharacterView*>(GetChildAt(index));
       auto& character = enter_char_view->GetCharacter();
       auto enter_run = character.GetRun();
+    } else if ( typeid(*GetChildAt(index)) == typeid(RunView) ) {
+      auto runview = static_cast<RunView*>(GetChildAt(index));
+      
     }
   }
 
