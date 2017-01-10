@@ -111,15 +111,26 @@ void MoveChildsToNewParent(View* begin, View* newparent)
 void SetVerticalBlockPosition(View* view)
 {
   auto prev = view->GetPrevSibling();
-  view->SetX(prev->GetX());
-  view->SetY(prev->GetY() + prev->GetHeight());
+  if( prev ) {
+    view->SetX(prev->GetX());
+    view->SetY(prev->GetY() + prev->GetHeight());
+  } else {
+    view->SetX(0);
+    view->SetY(0);
+  }
+  
 }
 
 void SetHorizontalBlockPosition(View* view)
 {
   auto prev = view->GetPrevSibling();
-  view->SetX(prev->GetX() + prev->GetWidth());
-  view->SetY(prev->GetY());
+  if( prev ) {
+    view->SetX(prev->GetX() + prev->GetWidth());
+    view->SetY(prev->GetY());
+  } else {
+    view->SetX(0);
+    view->SetY(0);
+  }
 }
 
 }

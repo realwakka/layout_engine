@@ -6,7 +6,6 @@
 
 namespace le {
 
-
 CharacterView::CharacterView(Character& character)
     : character_(character)
 {

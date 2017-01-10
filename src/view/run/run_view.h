@@ -13,6 +13,11 @@ class RunView : public View
   RunView(Run& run);
   virtual ~RunView();
 
+  virtual void Layout();
+  virtual void Paint(Canvas& canvas);
+  virtual View* GetNextParent() const;
+
+  Run& GetRun() const { return run_; }
  public:
   Run& run_;
 };

@@ -46,7 +46,6 @@ class View
   int GetIndex() const;
 
   virtual int GetAvailableWidth() const;
-
   virtual View* GetNextParent() const { return nullptr; }
 
  private:
