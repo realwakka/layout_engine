@@ -40,6 +40,9 @@ class View
   View* GetNextSibling() const;
   View* GetPrevSibling() const;
 
+  View* GetLastChild() const;
+  View* GetFirstChild() const;
+
   int GetIndex() const;
 
   virtual int GetAvailableWidth() const;

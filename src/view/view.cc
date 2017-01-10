@@ -83,6 +83,16 @@ int View::GetAvailableWidth() const
   }
 }
 
+View* View::GetLastChild() const
+{
+  return childs_[childs_.size() - 1];
+}
+
+View* View::GetFirstChild() const
+{
+  return childs_[0];
+}
+
 namespace view_util {
 
 void MoveChildsToNewParent(View* begin, View* newparent)

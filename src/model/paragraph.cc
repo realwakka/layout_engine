@@ -20,9 +20,20 @@ void Paragraph::InsertRun(Run* new_run, Run* ref_run)
   if( ref_run == nullptr ) {
     auto it = runs_.Append(new_run);
     new_run->SetIterator(it);
+
+    auto lastline = GetView().GetLastChild();
+    auto& newview = new_run->GetRunView();
+    lastline->AddChildAt(lastline->GetChildCount() - 1, &newview);
+    
   } else {
     auto it = runs_.InsertBefore(new_run, ref_run->GetIterator());
     new_run->SetIterator(it);
+
+    auto& newview = new_run->GetRunView();
+    auto refview = ref_run->GetRunView();
+    auto refindex = refview.GetIndex();
+    refview.GetParent()->AddChildAt(refindex, &newview);
+    
   }
   new_run->SetParagraph(this);
 
@@ -34,20 +45,20 @@ void Paragraph::InsertWord(Word* new_word, Word* ref_word)
     auto it = words_.Append(new_word);
     new_word->SetIterator(it);
 
-    auto line = view_.GetChildAt(view_.GetChildCount() - 1 );
-    line->AddChildAt(line->GetChildCount() - 1, &new_word->GetView());
+    // auto line = view_.GetChildAt(view_.GetChildCount() - 1 );
+    // line->AddChildAt(line->GetChildCount() - 1, &new_word->GetView());
     
   } else {
     auto it = words_.InsertBefore(new_word, ref_word->GetIterator());
     new_word->SetIterator(it);
     
-    auto line = ref_word->GetView().GetParent();
-    auto index = 0;
-    for( ; index < line->GetChildCount() ; ++index ) {
-      if( line->GetChildAt(index) == &ref_word->GetView() )
-        break;
-    }
-    line->AddChildAt(index, &new_word->GetView());
+    // auto line = ref_word->GetView().GetParent();
+    // auto index = 0;
+    // for( ; index < line->GetChildCount() ; ++index ) {
+    //   if( line->GetChildAt(index) == &ref_word->GetView() )
+    //     break;
+    // }
+    // line->AddChildAt(index, &new_word->GetView());
   }
   new_word->SetParagraph(this);
 

@@ -40,13 +40,15 @@ void Run::InsertCharacter(Character* character, Character* reference)
   auto& characterview = character->GetView();
   
   if( reference == nullptr ) {
+    auto lastchar = GetLastCharacter();
+    
     auto it = chars_.Append(character);
     character->SetRunIterator(it);
     character->SetRun(this);
 
     View* runview = nullptr;
-    if(GetLastCharacter()) 
-      runview = GetLastCharacter()->GetView().GetParent();
+    if(lastchar) 
+      runview = lastchar->GetView().GetParent();
     else
       runview = &GetRunView();
     
