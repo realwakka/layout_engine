@@ -40,6 +40,8 @@ class Word
 
   WordView& GetView() { return view_; }
 
+  Character* GetSplitCharacter(int width, int& remain);
+
  private:
   Container<Character> chars_;
   Node<Paragraph, Word> node_;

@@ -32,6 +32,7 @@ class View
   View* GetChildAt(int index) const { return childs_[index]; }
 
   void AddChildAt(int index, View* view);
+  void AppendChild(View* view);
   View* RemoveChildAt(int index);
 
   void SetParent(View* parent) { parent_ = parent; }

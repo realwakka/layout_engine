@@ -144,5 +144,24 @@ int Word::GetWordHeight() const
   return height;
 }
 
+Character* Word::GetSplitCharacter(int width, int& remain)
+{
+
+  Character* ret = nullptr;
+  for( auto c = GetFirstCharacter() ; c ; c = c->GetNextWordCharacter() ) {
+    width -= c->GetGlyph().GetAdvanceX();
+    if( width < 0 ) {
+      ret = c;
+    }
+  }
+
+  remain = 0;  
+  for( auto c = ret ; c ; c = c->GetNextWordCharacter() ) {
+    remain += c->GetGlyph().GetAdvanceX();
+  }
+  
+  return ret;
+}
+
 
 }  // le

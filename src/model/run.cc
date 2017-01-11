@@ -9,7 +9,7 @@ namespace le {
 Run* Run::cached_run_ = nullptr;
 
 Run::Run()
-    : view_(*this)
+    // : view_(*this)
 {
   face_ = new Face();
   //face_ = FaceManager::GetInstance()->GetDefaultFace();
@@ -46,23 +46,23 @@ void Run::InsertCharacter(Character* character, Character* reference)
     character->SetRunIterator(it);
     character->SetRun(this);
 
-    View* runview = nullptr;
-    if(lastchar) 
-      runview = lastchar->GetView().GetParent();
-    else
-      runview = &GetRunView();
+    // View* runview = nullptr;
+    // if(lastchar) 
+    //   runview = lastchar->GetView().GetParent();
+    // else
+    //   runview = &GetRunView();
     
-    runview->AddChildAt(runview->GetChildCount(), &characterview);
+    // runview->AddChildAt(runview->GetChildCount(), &characterview);
     
   } else  {
     auto it = chars_.InsertBefore(character, reference->GetRunIterator());
     character->SetRunIterator(it);
     character->SetRun(this);
 
-    auto ref_view = reference->GetView();
-    auto ref_index = ref_view.GetIndex();
-    auto runview = ref_view.GetParent();
-    runview->AddChildAt(ref_index, &characterview);
+    // auto ref_view = reference->GetView();
+    // auto ref_index = ref_view.GetIndex();
+    // auto runview = ref_view.GetParent();
+    // runview->AddChildAt(ref_index, &characterview);
 
   }
 

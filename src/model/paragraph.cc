@@ -21,18 +21,18 @@ void Paragraph::InsertRun(Run* new_run, Run* ref_run)
     auto it = runs_.Append(new_run);
     new_run->SetIterator(it);
 
-    auto lastline = GetView().GetLastChild();
-    auto& newview = new_run->GetRunView();
-    lastline->AddChildAt(lastline->GetChildCount() - 1, &newview);
+    // auto lastline = GetView().GetLastChild();
+    // auto& newview = new_run->GetRunView();
+    // lastline->AddChildAt(lastline->GetChildCount() - 1, &newview);
     
   } else {
     auto it = runs_.InsertBefore(new_run, ref_run->GetIterator());
     new_run->SetIterator(it);
 
-    auto& newview = new_run->GetRunView();
-    auto refview = ref_run->GetRunView();
-    auto refindex = refview.GetIndex();
-    refview.GetParent()->AddChildAt(refindex, &newview);
+    // auto& newview = new_run->GetRunView();
+    // auto refview = ref_run->GetRunView();
+    // auto refindex = refview.GetIndex();
+    // refview.GetParent()->AddChildAt(refindex, &newview);
     
   }
   new_run->SetParagraph(this);

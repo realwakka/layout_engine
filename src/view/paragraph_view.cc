@@ -2,6 +2,7 @@
 
 #include "view/line_view.h"
 #include "model/paragraph.h"
+#include "view/linebreaker/word_linebreaker.h"
 
 namespace le {
 
@@ -34,6 +35,9 @@ void ParagraphView::Layout()
   } else {
     SetWidth(500);
   }
+
+  WordLineBreaker linebreaker;
+  linebreaker.BreakLine(paragraph_);
   
   //SetHeight(999999);
   

@@ -36,7 +36,7 @@ class Run
   void UpdateGlyph();
 
   RunProp& GetRunProp() { return run_prop_; }
-  RunView& GetRunView() { return view_; }
+  // RunView& GetRunView() { return view_; }
 
   static Run* GetCachedRun() { return cached_run_; }
   static void SetCachedRun(Run* cached_run){ cached_run_ =  cached_run; }
@@ -47,7 +47,7 @@ class Run
   Container<Character> chars_;
   Node<Paragraph, Run> node_;
   RunProp run_prop_;
-  RunView view_;
+  // RunView view_;
 
   static Run* cached_run_;
 };

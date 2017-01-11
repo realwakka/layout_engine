@@ -26,15 +26,16 @@ void LineView::Paint(Canvas& canvas)
   for( auto index = 0; index < GetChildCount() ; ++index )
     GetChildAt(index)->Paint(canvas);
 
-  Point p1(0, GetBaseline());
-  Point p2(GetWidth(), GetBaseline());
-  canvas.DrawLine(p1, p2);
+  // Point p1(0, GetBaseline());
+  // Point p2(GetWidth(), GetBaseline());
+  // canvas.DrawLine(p1, p2);
 
   canvas.Restore();
 }
 
 void LineView::Layout()
 {
+  
   SetX(0);
   SetWidth(GetParent()->GetWidth());
 
@@ -54,20 +55,6 @@ void LineView::Layout()
   auto baseline = 0;
 
   for( auto index = 0; index < GetChildCount() ; ++index ) {
-    // if( typeid(*GetChildAt(index)) == typeid(WordView) ) {
-    //   auto child = static_cast<WordView*>(GetChildAt(index));
-    //   maxheight = std::max( maxheight, child->GetHeight() );
-    //   baseline = std::max(baseline, child->GetWord().GetWordAscender());
-      
-    // } else if ( typeid(*GetChildAt(index)) == typeid(EnterCharacterView) ) {
-    //   auto enter_char_view = static_cast<EnterCharacterView*>(GetChildAt(index));
-    //   auto& character = enter_char_view->GetCharacter();
-    //   auto enter_run = character.GetRun();
-    // } else if ( typeid(*GetChildAt(index)) == typeid(RunView) ) {
-    //   auto runview = static_cast<RunView*>(GetChildAt(index));
-      
-    // }
-
     if( typeid(*GetChildAt(index)) == typeid(RunView) ) {
       auto run_view = static_cast<RunView*>(GetChildAt(index));
       auto& run = run_view->GetRun();

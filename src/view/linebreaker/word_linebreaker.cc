@@ -17,6 +17,31 @@ void InsertCharacters(std::vector<Character*>& line, Word* word)
   }
 }
 
+void createViews(std::vector<std::vector<Character*>>& lines, ParagraphView& paragraph_view )
+{
+  while( paragraph_view.GetFirstChild() )
+    paragraph_view.RemoveChildAt(0);
+  for(auto line : lines ) {
+    auto lineview = new LineView();
+    for(auto character : line ) {
+      auto& characterview = character->GetView();
+      auto runview = static_cast<RunView*>(lineview->GetLastChild());
+      auto run = character->GetRun();
+      
+      if( runview && &runview->GetRun() == run ) {
+        lineview->GetLastChild()->AppendChild(&characterview);
+      } else {
+        lineview->AppendChild(new RunView(*run));
+        lineview->GetLastChild()->AppendChild(&characterview);
+      }
+    }
+    paragraph_view.AppendChild(lineview);
+  }
+
+  auto enter_char = paragraph_view.GetParagraph().GetEnterRun()->GetEnterChar();
+  paragraph_view.GetLastChild()->AppendChild(&enter_char->GetView());
+}
+
 }
 
 WordLineBreaker::WordLineBreaker()
@@ -40,18 +65,36 @@ void WordLineBreaker::BreakLine(Paragraph& paragraph)
     auto wordwidth = word->GetWordWidth();
     auto spacewidth = word->GetSpaceWidth();
 
-    if( wordwidth > linewidth ) {
-      //split
-    } else if( wordwidth - spacewidth > spaceleft ) {
-      //go to newline
-      lines.push_back(std::vector<Character*>());
-      InsertCharacters(lines.back(), word);
+    if( wordwidth - spacewidth > spaceleft ) {
+      if( lines.back().empty() ) {
+        //split!
+        auto remain = 0;
+        auto splitted = word->GetSplitCharacter(spaceleft, remain);
+
+        for( auto c = word->GetFirstCharacter() ; c != splitted ; c = c->GetNextWordCharacter() )
+          lines.back().push_back(c);
+        
+        lines.push_back(std::vector<Character*>());        
+
+        for( auto c = splitted ; c ; c = c->GetNextWordCharacter() )
+          lines.back().push_back(c);
+        
+        spaceleft = linewidth - remain;
+      } else {
+        //go to newline
+        lines.push_back(std::vector<Character*>());
+        InsertCharacters(lines.back(), word);
+        spaceleft = linewidth - wordwidth;
+      }
+      
     } else {
       //push to current line
       InsertCharacters(lines.back(), word);
       spaceleft -= wordwidth;
     }
   }
+
+  createViews(lines, paragraph_view);
 }
 
 

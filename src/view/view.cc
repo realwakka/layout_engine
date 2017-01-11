@@ -29,6 +29,11 @@ void View::AddChildAt(int index, View* view)
   view->SetParent(this);
 }
 
+void View::AppendChild(View* view)
+{
+  AddChildAt(GetChildCount(), view);
+}
+
 View* View::RemoveChildAt(int index)
 {
   auto removed = childs_[index];
@@ -85,12 +90,18 @@ int View::GetAvailableWidth() const
 
 View* View::GetLastChild() const
 {
-  return childs_[childs_.size() - 1];
+  if( childs_.empty() )
+    return nullptr;
+  else
+    return childs_[childs_.size() - 1];
 }
 
 View* View::GetFirstChild() const
 {
-  return childs_[0];
+  if( childs_.empty() )
+    return nullptr;
+  else
+    return childs_[0];
 }
 
 namespace view_util {
