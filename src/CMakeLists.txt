@@ -48,6 +48,8 @@ set(LE_SRCS
   view/selection/caret_selection_view.cc
   view/character/enter_character_view.cc
   view/run/run_view.cc
+
+  view/linebreaker/word_linebreaker.cc
   
   controller/paragraph_controller.cc
   controller/enter_char_controller.cc
