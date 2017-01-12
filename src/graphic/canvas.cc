@@ -12,7 +12,27 @@ namespace {
 void SetPixel(const Point& p, int brightness, Canvas& canvas)
 {
   auto color = SetARGB(0xFF, brightness, brightness, brightness);
+  color = kColorBlack;
   canvas.SetPixel(p, color);
+}
+
+void DrawLineBresenham(int x0, int y0, int x1, int y1, Canvas& canvas)
+{
+  float dx = x1 - x0;
+  float dy = y1 - y0;
+  float derr = std::abs(dy/dx);
+  float err = derr - 0.5f;
+
+  int y = y0;
+  for( int x=x0 ; x<=x1 ; x++ ) {
+    SetPixel(Point(x,y), 0, canvas);
+    err += derr;
+    if( err >= 0.5f ) {
+      ++y;
+      err -= 1.0f;
+    }
+  }
+  
 }
 
 void DrawLineXiaolinWu(int x0, int y0, int x1, int y1, Canvas& canvas)
@@ -159,7 +179,7 @@ void Canvas::WriteBitmap(const std::string filename)
 
 void Canvas::DrawLine(const Point& p1, const Point& p2)
 {
-  DrawLineXiaolinWu(p1.GetX(), p1.GetY(), p2.GetX(), p2.GetY(), *this);
+  DrawLineBresenham(p1.GetX(), p1.GetY(), p2.GetX(), p2.GetY(), *this);
 }
 
 }  // le
