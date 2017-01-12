@@ -144,23 +144,43 @@ int Word::GetWordHeight() const
   return height;
 }
 
-Character* Word::GetSplitCharacter(int width, int& remain)
-{
+// Character* Word::GetSplitCharacter(int width, int& remain)
+// {
 
-  Character* ret = nullptr;
+//   Character* ret = nullptr;
+//   for( auto c = GetFirstCharacter() ; c ; c = c->GetNextWordCharacter() ) {
+//     width -= c->GetGlyph().GetAdvanceX();
+//     if( width < 0 ) {
+//       ret = c;
+//     }
+//   }
+
+//   remain = 0;  
+//   for( auto c = ret ; c ; c = c->GetNextWordCharacter() ) {
+//     remain += c->GetGlyph().GetAdvanceX();
+//   }
+  
+//   return ret;
+// }
+
+std::vector<std::vector<Character*>> Word::GetSplittedWord(int width,int& space_left) const
+{
+  std::vector<std::vector<Character*>> words;
+  
+  space_left = width;
+  
   for( auto c = GetFirstCharacter() ; c ; c = c->GetNextWordCharacter() ) {
-    width -= c->GetGlyph().GetAdvanceX();
-    if( width < 0 ) {
-      ret = c;
+    auto adv_x = c->GetGlyph().GetAdvanceX();
+    if( space_left - adv_x < 0 ) {
+      words.push_back(std::vector<Character*>());
+      words.back().push_back(c);
+      space_left = width - adv_x;
+    } else {
+      space_left -= adv_x;
+      words.back().push_back(c);
     }
   }
-
-  remain = 0;  
-  for( auto c = ret ; c ; c = c->GetNextWordCharacter() ) {
-    remain += c->GetGlyph().GetAdvanceX();
-  }
-  
-  return ret;
+  return words;
 }
 
 

@@ -69,15 +69,14 @@ void WordLineBreaker::BreakLine(Paragraph& paragraph)
       if( lines.back().empty() ) {
         //split!
         auto remain = 0;
-        auto splitted = word->GetSplitCharacter(spaceleft, remain);
+        auto splitted_words = word->GetSplittedWord(spaceleft, remain);
 
-        for( auto c = word->GetFirstCharacter() ; c != splitted ; c = c->GetNextWordCharacter() )
-          lines.back().push_back(c);
-        
-        lines.push_back(std::vector<Character*>());        
-
-        for( auto c = splitted ; c ; c = c->GetNextWordCharacter() )
-          lines.back().push_back(c);
+        for( auto&& splitted_word : splitted_words ) {
+          for( auto&& splitted_chars : splitted_word ) {
+            lines.back().push_back(splitted_chars);
+          }
+          lines.push_back(std::vector<Character*>());
+        }
         
         spaceleft = linewidth - remain;
       } else {

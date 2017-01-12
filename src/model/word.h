@@ -40,13 +40,12 @@ class Word
 
   WordView& GetView() { return view_; }
 
-  Character* GetSplitCharacter(int width, int& remain);
+  std::vector<std::vector<Character*>> GetSplittedWord(int width, int& space_left) const;
 
  private:
   Container<Character> chars_;
   Node<Paragraph, Word> node_;
   WordView view_;
-  
 };
 
 
