@@ -168,6 +168,7 @@ std::vector<std::vector<Character*>> Word::GetSplittedWord(int width,int& space_
   std::vector<std::vector<Character*>> words;
   
   space_left = width;
+  words.push_back(std::vector<Character*>());
   
   for( auto c = GetFirstCharacter() ; c ; c = c->GetNextWordCharacter() ) {
     auto adv_x = c->GetGlyph().GetAdvanceX();
