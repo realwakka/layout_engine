@@ -1,6 +1,7 @@
 #include "run_view.h"
 
 #include "graphic/canvas.h"
+#include "model/run.h"
 
 namespace le {
 
@@ -24,6 +25,13 @@ void RunView::Paint(Canvas& canvas)
 {
   canvas.Save();
   canvas.GetMatrix().Translate(GetX(), GetY());
+
+  auto& runprop = GetRun().GetRunProp();
+
+  Point p1(0,0);
+  Point p2(GetWidth(), GetParent()->GetHeight());
+
+  canvas.DrawLine(p1, p2);
   
   for(int i=0 ; i<GetChildCount() ; i++ )
     GetChildAt(i)->Paint(canvas);
