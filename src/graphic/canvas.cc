@@ -4,6 +4,7 @@
 #include <cstring>
 #include <fstream>
 #include "model/glyph/glyph.h"
+#include "graphic/paint.h"
 
 namespace le {
 
@@ -145,15 +146,19 @@ void Canvas::DrawGlyph(const Point& point, const Glyph& glyph)
   }
 }
 
-void Canvas::DrawRect(const Point& p1, const Point& p2, Color color)
+void Canvas::DrawRect(const Point& p1, const Point& p2, const Paint& paint)
 {
-  auto x = p1.GetX();
-  auto y = p1.GetY();
-
-  for( auto x = p1.GetX() ; x < p2.GetX() ; x++ ) {
-    for( auto y = p1.GetY() ; y < p2.GetY() ; y++ ) {
-      SetPixel(Point(x,y), color);
+  if( paint.GetStyle() == Paint::Style::kFill ) {
+    for( auto x = p1.GetX() ; x < p2.GetX() ; x++ ) {
+      for( auto y = p1.GetY() ; y < p2.GetY() ; y++ ) {
+        SetPixel(Point(x,y), paint.GetColor());
+      }
     }
+  } else if( paint.GetStyle() == Paint::Style::kStroke ) {
+    DrawLine(p1, Point(p1.GetX(), p2.GetY()));
+    DrawLine(Point(p1.GetX(), p2.GetY()), p2);
+    DrawLine(p2, Point(p2.GetX(), p1.GetY()));
+    DrawLine(Point(p2.GetX(), p1.GetY()), p1);
   }
 }
 

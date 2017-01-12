@@ -2,6 +2,7 @@
 
 #include "model/character/enter_character.h"
 #include "graphic/canvas.h"
+#include "graphic/paint.h"
 #include "view/line_view.h"
 #include <iostream>
 
@@ -34,8 +35,11 @@ void EnterCharacterView::Paint(Canvas& canvas)
 
   Point p1(0, baseline - GetHeight());
   Point p2(GetWidth(), baseline);
+
+  le::Paint p;
+  p.SetStyle(Paint::Style::kStroke);
   
-  canvas.DrawRect(p1, p2, kColorBlack);
+  canvas.DrawRect(p1, p2, p);
   canvas.Restore();
 }
 

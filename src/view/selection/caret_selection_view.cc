@@ -3,6 +3,7 @@
 #include "model/selection/caret_selection.h"
 #include "model/character/character.h"
 
+#include "graphic/paint.h"
 #include "graphic/point.h"
 #include "graphic/canvas.h"
 
@@ -34,8 +35,10 @@ void CaretSelectionView::Paint(Canvas& canvas)
 
   Point p1(GetX(), GetY());
   Point p2(GetX() + width, GetY() + height);
-  
-  canvas.DrawRect(p1, p2, kColorBlack);
+
+  // Paint p;
+  // paint.SetStyle(Paint::Style::kStroke);
+  // canvas.DrawRect(p1, p2, paint);
   
 }
 

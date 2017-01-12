@@ -11,6 +11,7 @@
 namespace le {
 
 class Glyph;
+class Paint;
 
 class Canvas
 {
@@ -19,7 +20,7 @@ class Canvas
   virtual ~Canvas();
 
  public:
-  void DrawRect(const Point& p1, const Point& p2, Color color);
+  void DrawRect(const Point& p1, const Point& p2, const Paint& paint);
   void DrawGlyph(const Point& point, const Glyph& glyph);
   void Save();
   void Restore();
