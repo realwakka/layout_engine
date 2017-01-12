@@ -1,5 +1,7 @@
 #include "run_view.h"
 
+#include "graphic/canvas.h"
+
 namespace le {
 
 RunView::RunView(Run& run)
@@ -14,12 +16,19 @@ void RunView::Layout()
   view_util::SetHorizontalBlockPosition(this);
   for(int i=0 ; i<GetChildCount() ; i++ )
     GetChildAt(i)->Layout();
+
+  SetWidth(GetLastChild()->GetX() + GetLastChild()->GetWidth());
 }
 
 void RunView::Paint(Canvas& canvas)
 {
+  canvas.Save();
+  canvas.GetMatrix().Translate(GetX(), GetY());
+  
   for(int i=0 ; i<GetChildCount() ; i++ )
     GetChildAt(i)->Paint(canvas);
+
+  canvas.Restore();  
 }
 
 View* RunView::GetNextParent() const

@@ -104,6 +104,20 @@ View* View::GetFirstChild() const
     return childs_[0];
 }
 
+Point View::GetAbsolutePosition() const
+{
+  auto x = 0;
+  auto y = 0;
+  auto view = this;
+  while( view ) {
+    x += view->GetX();
+    y += view->GetY();
+    view = view->GetParent();
+  }
+
+  return Point(x,y);
+}
+
 namespace view_util {
 
 void MoveChildsToNewParent(View* begin, View* newparent)

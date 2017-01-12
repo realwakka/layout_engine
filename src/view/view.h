@@ -2,6 +2,7 @@
 #define VIEW_H_
 
 #include <vector>
+#include "graphic/point.h"
 
 namespace le {
 
@@ -48,6 +49,8 @@ class View
 
   virtual int GetAvailableWidth() const;
   virtual View* GetNextParent() const { return nullptr; }
+
+  Point GetAbsolutePosition() const;
 
  private:
   int width_;  

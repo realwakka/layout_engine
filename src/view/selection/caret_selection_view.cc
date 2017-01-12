@@ -21,14 +21,14 @@ CaretSelectionView::~CaretSelectionView()
 
 void CaretSelectionView::Layout()
 {
-  auto view = caret_selection_.GetCharacter().GetView();
-  SetX(view.GetX());
-  SetY(view.GetY());
+  auto pos = caret_selection_.GetCharacter().GetView().GetAbsolutePosition();
+  SetX(pos.GetX());
+  SetY(pos.GetY());
 }
 
 void CaretSelectionView::Paint(Canvas& canvas)
 {
-  auto line = caret_selection_.GetCharacter().GetView().GetParent()->GetParent();
+  auto line = caret_selection_.GetCharacter().GetView().GetParent();
   auto height = line->GetHeight();
   auto width = 5;
 

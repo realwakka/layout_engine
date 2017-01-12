@@ -79,6 +79,7 @@ void WordLineBreaker::BreakLine(Paragraph& paragraph)
           }
           lines.push_back(std::vector<Character*>());
         }
+        lines.pop_back();
         
         spaceleft = linewidth - remain;
       } else {
@@ -93,6 +94,9 @@ void WordLineBreaker::BreakLine(Paragraph& paragraph)
       spaceleft -= wordwidth;
     }
   }
+
+  if( lines.front().empty() )
+    lines.erase(lines.begin());
 
   createViews(lines, paragraph_view);
 }
