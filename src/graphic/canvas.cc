@@ -155,10 +155,10 @@ void Canvas::DrawRect(const Point& p1, const Point& p2, const Paint& paint)
       }
     }
   } else if( paint.GetStyle() == Paint::Style::kStroke ) {
-    DrawLine(p1, Point(p1.GetX(), p2.GetY()));
-    DrawLine(Point(p1.GetX(), p2.GetY()), p2);
-    DrawLine(p2, Point(p2.GetX(), p1.GetY()));
-    DrawLine(Point(p2.GetX(), p1.GetY()), p1);
+    DrawLine(p1, Point(p1.GetX(), p2.GetY()), paint);
+    DrawLine(Point(p1.GetX(), p2.GetY()), p2, paint);
+    DrawLine(p2, Point(p2.GetX(), p1.GetY()), paint);
+    DrawLine(Point(p2.GetX(), p1.GetY()), p1, paint);
   }
 }
 
@@ -182,7 +182,7 @@ void Canvas::WriteBitmap(const std::string filename)
   bitmap_.WriteBitmapFile(filename);
 }
 
-void Canvas::DrawLine(const Point& p1, const Point& p2)
+void Canvas::DrawLine(const Point& p1, const Point& p2, const Paint& paint)
 {
   DrawLineBresenham(p1.GetX(), p1.GetY(), p2.GetX(), p2.GetY(), *this);
 }

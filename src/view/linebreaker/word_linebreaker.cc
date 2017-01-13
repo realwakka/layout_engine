@@ -81,7 +81,7 @@ void WordLineBreaker::BreakLine(Paragraph& paragraph)
         }
         lines.pop_back();
         
-        spaceleft = linewidth - remain;
+        spaceleft = remain;
       } else {
         //go to newline
         InsertCharacters(lines.back(), word);

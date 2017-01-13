@@ -36,7 +36,7 @@ set(LE_SRCS
   model/run.cc
   model/prop/run_prop.cc
   model/prop/font.cc
-  model/prop/underline.cc
+  model/prop/underline/single_underline.cc
   model/selection/caret_selection.cc
 
   view/view.cc

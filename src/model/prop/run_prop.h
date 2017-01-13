@@ -4,8 +4,12 @@
 #include "model/face/face.h"
 #include "model/prop/font.h"
 #include "graphic/color.h"
+#include "model/prop/underline/underline.h"
+#include <memory>
 
 namespace le {
+
+class Underline;
 
 class RunProp
 {
@@ -25,6 +29,9 @@ class RunProp
   bool GetItalic() const { return italic_; }
   void SetItalic(bool italic) { italic_ = italic; }
 
+  Underline* GetUnderline() const { return m_underline.get(); }
+  void SetUnderline(Underline* underline) { m_underline.reset(underline); }
+
  private:
   int size_;
   Font font_;
@@ -32,7 +39,8 @@ class RunProp
 
   bool italic_;
   bool bold_;
-  
+
+  std::unique_ptr<Underline> m_underline;  
   
 };
 

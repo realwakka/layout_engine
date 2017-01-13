@@ -121,7 +121,7 @@ int Word::GetWordAscender() const
 
   auto ascender = 0;  
   for( Run* run : runs ) {
-    auto prop = run->GetRunProp();
+    auto& prop = run->GetRunProp();
     auto face = FaceManager::GetInstance()->GetFace(prop);
     ascender = std::max(face.GetAscender(), ascender);
   }
@@ -137,7 +137,7 @@ int Word::GetWordHeight() const
 
   auto height = 0;  
   for( Run* run : runs ) {
-    auto prop = run->GetRunProp();
+    auto& prop = run->GetRunProp();
     auto face = FaceManager::GetInstance()->GetFace(prop);
     height = std::max(face.GetHeight(), height);
   }

@@ -1,4 +1,5 @@
 #include "run_prop.h"
+#include "model/prop/underline/single_underline.h"
 
 namespace le {
 
@@ -6,7 +7,8 @@ RunProp::RunProp()
     : size_(72),
       color_(kColorBlack),
       italic_(false),
-      bold_(false)
+      bold_(false),
+      m_underline(new SingleUnderline())
 {}
 
 RunProp::~RunProp()

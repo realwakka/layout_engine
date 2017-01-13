@@ -27,14 +27,11 @@ void RunView::Paint(Canvas& canvas)
   canvas.GetMatrix().Translate(GetX(), GetY());
 
   auto& runprop = GetRun().GetRunProp();
-
-  Point p1(0,0);
-  Point p2(GetWidth(), GetParent()->GetHeight());
-
-  canvas.DrawLine(p1, p2);
+  runprop.GetUnderline()->DrawUnderline(*this,canvas);
   
   for(int i=0 ; i<GetChildCount() ; i++ )
     GetChildAt(i)->Paint(canvas);
+  
 
   canvas.Restore();  
 }

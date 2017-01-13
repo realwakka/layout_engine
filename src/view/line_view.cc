@@ -58,7 +58,7 @@ void LineView::Layout()
     if( typeid(*GetChildAt(index)) == typeid(RunView) ) {
       auto run_view = static_cast<RunView*>(GetChildAt(index));
       auto& run = run_view->GetRun();
-      auto prop = run.GetRunProp();
+      auto& prop = run.GetRunProp();
       auto face = FaceManager::GetInstance()->GetFace(prop);
       
       maxheight = std::max( maxheight, face.GetHeight() );
