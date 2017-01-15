@@ -13,6 +13,9 @@ class DocumentView : public View
   DocumentView(Document& document);
   virtual ~DocumentView();
 
+  virtual void Layout();
+  virtual void Paint(Canvas& canvas);
+  
   void createPageViews();
   
   Document& GetDocument() { return document_; }

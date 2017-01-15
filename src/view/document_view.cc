@@ -7,7 +7,8 @@ namespace le {
 
 DocumentView::DocumentView(Document& document)
     : document_(document)
-{}
+{
+}
 
 DocumentView::~DocumentView()
 {}
@@ -24,6 +25,17 @@ void DocumentView::createPageViews()
   }
   
 }
+
+void DocumentView::Layout()
+{
+  view_util::LayoutChilds(this);
+}
+
+void DocumentView::Paint(Canvas& canvas)
+{
+  view_util::PaintChilds(canvas, this);
+}
+
 
 
 }  // le

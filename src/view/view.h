@@ -68,6 +68,8 @@ namespace view_util {
 void SetVerticalBlockPosition(View* view);
 void SetHorizontalBlockPosition(View* view);
 void MoveChildsToNewParent(View* begin, View* newparent);
+void LayoutChilds(View* view);
+void PaintChilds(Canvas& canvas, View* view);
 
 }
 

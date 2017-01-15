@@ -5,11 +5,11 @@ namespace le {
 
 namespace conv_util {
 
-int Twip2Pixel(int twip) {
+constexpr int Twip2Pixel(int twip) {
   return twip / 15;
 }
 
-int PixelToTwip(int pixel) {
+constexpr int PixelToTwip(int pixel) {
   return pixel * 15;
 }
 

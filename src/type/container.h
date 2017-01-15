@@ -140,6 +140,7 @@ template<typename ParentType, typename ChildType>
 class Child
 {
  public:
+  Child();
   int GetIndex(ChildType* child) const;
   ParentType* GetParent() const { return parent_; }
   void SetParent(ParentType* parent) { parent_ = parent; }
@@ -150,7 +151,11 @@ class Child
  private:
   ParentType* parent_;
 };
-
+template<typename ParentType, typename ChildType>
+Child<ParentType,ChildType>::Child()
+: parent_(nullptr)
+{
+}
 template<typename ParentType, typename ChildType>
 int Child<ParentType,ChildType>::GetIndex(ChildType* child) const
 {

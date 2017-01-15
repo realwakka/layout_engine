@@ -158,6 +158,19 @@ void SetHorizontalBlockPosition(View* view)
   }
 }
 
+void LayoutChilds(View* view)
+{
+  for( int i=0 ; i<view->GetChildCount(); i++ )
+    view->GetChildAt(i)->Layout();
+}
+
+void PaintChilds(Canvas& canvas, View* view)
+{
+  for( int i=0 ; i<view->GetChildCount(); i++ )
+    view->GetChildAt(i)->Paint(canvas);
+}
+
+
 }
 
 }  // le

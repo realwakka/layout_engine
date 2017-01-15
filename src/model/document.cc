@@ -9,6 +9,8 @@ Document::Document()
 {
   //AppendChild(new Paragraph());
   AddChildAt(0, new Paragraph());
+
+  view_.createPageViews();
 }
 
 Document::~Document()
