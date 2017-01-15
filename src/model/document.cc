@@ -5,8 +5,10 @@
 namespace le {
 
 Document::Document()
+    : view_(*this)
 {
-  block_list_.push_back(new Paragraph());
+  //AppendChild(new Paragraph());
+  AddChildAt(0, new Paragraph());
 }
 
 Document::~Document()

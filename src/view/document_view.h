@@ -5,11 +5,20 @@
 
 namespace le {
 
+class Document;
+
 class DocumentView : public View
 {
  public:
-  DocumentView();
+  DocumentView(Document& document);
   virtual ~DocumentView();
+
+  void createPageViews();
+  
+  Document& GetDocument() { return document_; }
+
+ private:
+  Document& document_;
   
 };
 

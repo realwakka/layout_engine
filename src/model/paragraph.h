@@ -8,6 +8,7 @@
 
 #include "view/paragraph_view.h"
 #include "model/prop/paragraph_prop.h"
+#include "model/document.h"
 
 namespace le {
 
@@ -35,6 +36,13 @@ class Paragraph
   ParagraphView& GetView(){ return view_; }
   ParagraphProp& GetProp(){ return paragraph_prop_; }
 
+  int GetIndex() { return child_.GetIndex(this); }
+  Document* GetParent() const { return child_.GetParent(); }
+  void SetParent(Document* parent) { child_.SetParent(parent); }
+  Paragraph* GetNextSibling() { child_.GetNextSibling(this); }
+  Paragraph* GetPrevSibling() { child_.GetPrevSibling(this); }
+  
+
  private:
   Container<Run> runs_;
   Container<Word> words_;
@@ -42,6 +50,8 @@ class Paragraph
   EnterRun enter_run_;
   ParagraphView view_;
   ParagraphProp paragraph_prop_;
+
+  Child<Document, Paragraph> child_;
 };
 
 

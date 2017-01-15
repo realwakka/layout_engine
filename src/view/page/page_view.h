@@ -5,11 +5,17 @@
 
 namespace le {
 
+class SectionProp;
+
 class PageView : public View
 {
  public:
-  PageView();
+  PageView(SectionProp& section_prop);
   virtual ~PageView();
+
+ private:
+  SectionProp& section_prop_;
+
 };
 
 

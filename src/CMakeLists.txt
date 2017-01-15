@@ -43,6 +43,7 @@ set(LE_SRCS
   model/document.cc
 
   view/view.cc
+  view/document_view.cc
   view/paragraph_view.cc
   view/line_view.cc
   view/word_view.cc
@@ -51,10 +52,10 @@ set(LE_SRCS
   view/selection/caret_selection_view.cc
   view/character/enter_character_view.cc
   view/run/run_view.cc
+  view/page/page_view.cc
 
   view/linebreaker/word_linebreaker.cc
   
-  controller/paragraph_controller.cc
   controller/enter_char_controller.cc
 
   graphic/canvas.cc

@@ -1,8 +1,8 @@
 #ifndef LE_RENDER_TEXT_H_
 #define LE_RENDER_TEXT_H_
 
-#include "controller/paragraph_controller.h"
 #include "model/document.h"
+#include "model/selection/selection.h"
 
 namespace le {
 
@@ -20,8 +20,8 @@ class RenderText
   void Paint();
   
  private:
-  ParagraphController controller_;
   Document document_;
+  std::unique_ptr<Selection> selection_;
 
 };
 

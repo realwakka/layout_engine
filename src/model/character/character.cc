@@ -5,10 +5,23 @@
 
 #include "model/character/space_character.h"
 #include "model/face/face_manager.h"
+#include "model/character/space_character.h"
+#include "model/character/basic_character.h"
 
 #include <iostream>
 
 namespace le {
+
+Character* CreateCharacter(char ch)
+{
+  switch(ch) {
+    case ' ':
+      return new SpaceCharacter();
+    default:
+      return new BasicCharacter(ch);
+  }
+}
+
 
 Character::Character(char c)
     : c_(c)

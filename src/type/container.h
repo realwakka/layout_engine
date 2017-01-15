@@ -110,48 +110,83 @@ typename std::list<NodeType*>::iterator Node<ContainerType, NodeType>::GetPrev()
   return (--tmp);
 }
 
+template<typename ParentType, typename ChildType>
+class Parent
+{
+ public:
+  ChildType* GetFirstChild() { return childs_.empty() ? nullptr : childs_.front(); }
+  ChildType* GetLastChild() { return childs_.empty() ? nullptr : childs_.back(); }
+  int GetChildCount() const { return childs_.size(); }
+  ChildType* GetChildAt(int index) const { return childs_[index]; }
 
+  void AddChildAt(int index, ChildType* child, ParentType* parent) {
+    if( child == nullptr )
+      throw std::exception();
+  
+    childs_.emplace(childs_.begin() + index, child);
+    child->SetParent(parent);
+  }
 
+  void AppendChild(ChildType* child, ParentType* parent)
+  {
+    AddChildAt(GetChildCount(), child, parent);
+  }
+  
+ private:
+  std::vector<ChildType*> childs_;
+};
 
+template<typename ParentType, typename ChildType>
+class Child
+{
+ public:
+  int GetIndex(ChildType* child) const;
+  ParentType* GetParent() const { return parent_; }
+  void SetParent(ParentType* parent) { parent_ = parent; }
+  
 
-// template<typename Container, typename Node, typename NodeDelegate>
-// class ContainerDelegate {
-//  public:
-//   void InsertBefore(NodeDelegate* new_delegate, NodeDelegate* ref_delegate);
-//  private:
-//   std::list<NodeDelegate*> list_;
-//   Container* container_;
-// };
+  ChildType* GetNextSibling(ChildType* child) const;
+  ChildType* GetPrevSibling(ChildType* child) const;
+ private:
+  ParentType* parent_;
+};
 
-// template<typename Container, typename Node, typename NodeDelegate>
-// void ContainerDelegate::InsertBefore(NodeDelegate* new_delegate, NodeDelegate* ref_delegate)
-// {
-//   if( ref_delegate == nullptr ) {
-//     list_.emplace_back(new_delegate);
-//   } else {
-//     auto it = list_.emplace(ref_delegate->GetIterator(), new_delegate);
-//     new_delegate->SetIterator(it);
-//     new_delegate->
-//   }
+template<typename ParentType, typename ChildType>
+int Child<ParentType,ChildType>::GetIndex(ChildType* child) const
+{
+  auto index = 0;
+  for( ; index < GetParent()->GetChildCount() ; ++index )
+    if( GetParent()->GetChildAt(index) == child )
+      break;
+  return index;
+}
 
-// }
+template<typename ParentType, typename ChildType>
+ChildType* Child<ParentType,ChildType>::GetNextSibling(ChildType* child) const
+{
+  auto parent = GetParent();
+  auto child_count = parent->GetChildCount();
+  if( parent->GetChildAt(child_count - 1) == child ) {
+    return nullptr;
+  } else {
+    auto index = GetIndex(child);
+    return parent->GetChildAt(index - 1);
+  }
+}
 
-// template<typename Container, typename Node, typename ContainerDelegate>
-// class NodeDelegate {
-//  public:
+template<typename ParentType, typename ChildType>
+ChildType* Child<ParentType,ChildType>::GetPrevSibling(ChildType* child) const
+{
+  auto parent = GetParent();
+  if( parent->GetChildAt(0) == child ) {
+    return nullptr;
+  } else {
+    auto index = GetIndex(child);
+    return parent->GetChildAt(index - 1);
+  }
+}
 
   
-//   typename std::list<NodeDelegate*>::iterator GetIterator() const { return iter_; }
-//   void SetIterator(typename std::list<NodeDelegate*>::iterator iter) { iter_ = iter; }
-
-//   void SetContainerDelegate(ContainerDelegate* container_delegate) { container_delegate_ = container_delegate; }
-//   ContainerDelegate* GetContainerDelegate() const { return container_delegate_; }
-  
-//  private:
-//   typename std::list<NodeDelegate*>::iterator iter_;
-//   ContainerDelegate* container_delegate_;
-//   Node* node_;
-// };
 
 }
 

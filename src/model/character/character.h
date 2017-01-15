@@ -8,6 +8,9 @@
 
 namespace le {
 
+Character* CreateCharacter(char ch);
+
+
 class Word;
 class Run;
 class Face;
