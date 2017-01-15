@@ -1,8 +1,11 @@
 #include "paragraph_view.h"
 
 #include "view/line_view.h"
+#include "view/page/page_view.h"
 #include "model/paragraph.h"
 #include "view/linebreaker/word_linebreaker.h"
+
+#include "graphic/canvas.h"
 
 namespace le {
 
@@ -21,20 +24,22 @@ ParagraphView::~ParagraphView()
 
 void ParagraphView::Paint(Canvas& canvas)
 {
+  canvas.Save();
+  canvas.GetMatrix().Translate(GetX(), GetY());
+  
   for( auto index = 0; index < GetChildCount() ; ++index )
     GetChildAt(index)->Paint(canvas);
+
+  canvas.Restore();
 }
 
 void ParagraphView::Layout()
 {
-  SetX(0);
-  SetY(0);
-  
-  if( GetParent() ) {
-    SetWidth(GetParent()->GetWidth());
-  } else {
-    SetWidth(500);
-  }
+  auto page = static_cast<PageView*>(GetParent());
+  SetX(page->GetLeftMargin());
+  SetY(page->GetTopMargin());
+
+  SetWidth( page->GetWidth() - page->GetLeftMargin() - page->GetRightMargin() );
 
   GetParagraph().GetProp().GetLineBreaker()->BreakLine(GetParagraph());
   

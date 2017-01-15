@@ -18,10 +18,10 @@ class PageView : public View
   virtual void Layout();
   virtual void Paint(Canvas& canvas);
 
-  int GetTopMargin() const { section_prop_.GetPageMargin().GetTop(); }
-  int GetBottomMargin() const { section_prop_.GetPageMargin().GetBottom(); }
-  int GetRightMargin() const { section_prop_.GetPageMargin().GetRight(); }
-  int GetLeftMargin() const { section_prop_.GetPageMargin().GetLeft(); }
+  int GetTopMargin() const { conv_util::Twip2Pixel(section_prop_.GetPageMargin().GetTop()); }
+  int GetBottomMargin() const { conv_util::Twip2Pixel(section_prop_.GetPageMargin().GetBottom()); }
+  int GetRightMargin() const { conv_util::Twip2Pixel(section_prop_.GetPageMargin().GetRight()); }
+  int GetLeftMargin() const { conv_util::Twip2Pixel(section_prop_.GetPageMargin().GetLeft()); }
 
  private:
   SectionProp& section_prop_;
