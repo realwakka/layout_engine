@@ -1,14 +1,14 @@
 #ifndef PARAGRAPH_PROP_H_
 #define PARAGRAPH_PROP_H_
 
+#include <memory>
+#include "view/linebreaker/linebreaker.h"
+
 namespace le {
 
 class Indentation
 {
  public:
-  Indentation();
-  virtual ~Indentation();
-
   int GetStart() const { return start_; }
   int GetEnd() const { return end_; }
   int GetFirst() const { return first_; }
@@ -26,7 +26,6 @@ class Indentation
   int hanging_;
 };
 
-
 class ParagraphProp
 {
  public:
@@ -35,11 +34,12 @@ class ParagraphProp
 
   Indentation& GetIndentation() { return indentation_; }
 
+  void SetLineBreaker(LineBreaker* linebreaker) { linebreaker_.reset(linebreaker); }
+  LineBreaker* GetLineBreaker() { return linebreaker_.get(); }
+
  private:
   Indentation indentation_;
-
-  
-
+  std::unique_ptr<LineBreaker> linebreaker_;
   
 };
 

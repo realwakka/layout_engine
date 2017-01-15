@@ -35,9 +35,12 @@ set(LE_SRCS
   model/face/face_manager.cc
   model/run.cc
   model/prop/run_prop.cc
+  model/prop/paragraph_prop.cc
   model/prop/font.cc
   model/prop/underline/single_underline.cc
+  model/prop/section_prop.cc
   model/selection/caret_selection.cc
+  model/document.cc
 
   view/view.cc
   view/paragraph_view.cc

@@ -7,6 +7,7 @@
 #include "type/container.h"
 
 #include "view/paragraph_view.h"
+#include "model/prop/paragraph_prop.h"
 
 namespace le {
 
@@ -32,14 +33,15 @@ class Paragraph
   void PrintInfo();
 
   ParagraphView& GetView(){ return view_; }
+  ParagraphProp& GetProp(){ return paragraph_prop_; }
 
  private:
   Container<Run> runs_;
   Container<Word> words_;
   
   EnterRun enter_run_;
-
   ParagraphView view_;
+  ParagraphProp paragraph_prop_;
 };
 
 

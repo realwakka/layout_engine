@@ -36,10 +36,7 @@ void ParagraphView::Layout()
     SetWidth(500);
   }
 
-  WordLineBreaker linebreaker;
-  linebreaker.BreakLine(paragraph_);
-  
-  //SetHeight(999999);
+  GetParagraph().GetProp().GetLineBreaker()->BreakLine(GetParagraph());
   
   for( auto index = 0; index < GetChildCount() ; ++index )
     GetChildAt(index)->Layout();

@@ -2,6 +2,7 @@
 #define LE_RENDER_TEXT_H_
 
 #include "controller/paragraph_controller.h"
+#include "model/document.h"
 
 namespace le {
 
@@ -20,6 +21,7 @@ class RenderText
   
  private:
   ParagraphController controller_;
+  Document document_;
 
 };
 
