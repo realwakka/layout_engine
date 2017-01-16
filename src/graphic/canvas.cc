@@ -114,7 +114,6 @@ const int kWidth = 500;
 const int kHeight = 500;
 
 Canvas::Canvas()
-    : bitmap_( kWidth, kHeight, 3 )
 {
   matrix_stack_.push(Matrix());
 }
@@ -174,12 +173,12 @@ void Canvas::Restore()
 void Canvas::SetPixel(const Point& point, int color)
 {
   auto transformed = point.Transform(GetMatrix());
-  bitmap_.SetPixel(transformed.GetX(), transformed.GetY(), color);
+  bitmap_->SetPixel(transformed.GetX(), transformed.GetY(), color);
 }
 
 void Canvas::WriteBitmap(const std::string filename)
 {
-  bitmap_.WriteBitmapFile(filename);
+  bitmap_->WriteBitmapFile(filename);
 }
 
 void Canvas::DrawLine(const Point& p1, const Point& p2, const Paint& paint)

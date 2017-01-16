@@ -6,6 +6,7 @@
 #include "bitmap.h"
 #include <stack>
 #include <string>
+#include <memory>
 
 
 namespace le {
@@ -30,9 +31,11 @@ class Canvas
 
   Matrix& GetMatrix() { matrix_stack_.top(); }
 
+  void SetBitmap(Bitmap* bitmap) { bitmap_.reset(bitmap); }
+
  private:
   //char* buffer_;
-  Bitmap bitmap_;
+  std::unique_ptr<Bitmap> bitmap_;
   std::stack<Matrix> matrix_stack_;
   
 };

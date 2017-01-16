@@ -52,7 +52,9 @@ void RenderText::Layout()
 void RenderText::Paint()
 {
   Canvas canvas;
-
+  auto& document_view = document_.GetView();
+  auto bitmap = new Bitmap(document_view.GetWidth(), document_view.GetHeight(), 3);
+  canvas.SetBitmap(bitmap);
   document_.GetView().Paint(canvas);
   selection_->GetView().Paint(canvas);
   canvas.WriteBitmap("output.bmp");

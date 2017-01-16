@@ -29,6 +29,9 @@ void DocumentView::createPageViews()
 void DocumentView::Layout()
 {
   view_util::LayoutChilds(this);
+
+  SetWidth(GetChildAt(0)->GetWidth());
+  SetHeight(GetChildAt(0)->GetHeight());
 }
 
 void DocumentView::Paint(Canvas& canvas)
