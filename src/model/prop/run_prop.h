@@ -32,6 +32,8 @@ class RunProp
   Underline* GetUnderline() const { return m_underline.get(); }
   void SetUnderline(Underline* underline) { m_underline.reset(underline); }
 
+  Font& GetFont() { return font_; }
+
  private:
   int size_;
   Font font_;
