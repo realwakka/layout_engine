@@ -19,6 +19,7 @@ class EnterCharController : public Controller
   virtual void SetBold(bool bold) override;
   virtual void SetItalic(bool italic) override;
   virtual void SetSize(int size) override;
+  virtual void SetPageSize(int width, int height) override;
 
  private:
   EnterCharacter& enter_char_;

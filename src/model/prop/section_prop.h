@@ -63,8 +63,8 @@ class SectionProp
   SectionProp();
   virtual ~SectionProp();
 
-  const PageSize& GetPageSize() const { return page_size_; }
-  const PageMargin& GetPageMargin() const { return page_margin_; }
+  PageSize& GetPageSize() { return page_size_; }
+  PageMargin& GetPageMargin() { return page_margin_; }
 
  private:
   PageSize page_size_;

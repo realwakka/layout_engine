@@ -120,4 +120,12 @@ void EnterCharController::SetSize(int size)
   cached->GetRunProp().SetSize(size);
 }
 
+void EnterCharController::SetPageSize(int width, int height)
+{
+  auto paragraph = enter_char_.GetRun()->GetParagraph();
+  auto& sectionprop = paragraph->GetParent()->GetSectionProp();
+  sectionprop.GetPageSize().SetWidth(width);
+  sectionprop.GetPageSize().SetHeight(height);
+}
+
 }  // le

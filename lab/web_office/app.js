@@ -4,7 +4,6 @@ var io = require('socket.io')(http);
 var net = require('net');
 var fs = require('fs');
 
-
 app.get('/', function(req, res){
     res.sendfile('index.html');
 });

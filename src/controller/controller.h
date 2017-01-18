@@ -15,6 +15,7 @@ class Controller
   virtual void SetItalic(bool italic)  = 0;
   virtual void SetSize(int size)  = 0;
   virtual void InsertChar(Character* character) = 0;
+  virtual void SetPageSize(int width, int height) = 0;
 };
 
 

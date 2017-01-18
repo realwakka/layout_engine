@@ -18,6 +18,7 @@ class RenderText
   void SetSize(int size);
   void Layout();
   void Paint();
+  void SetPageSize(int width, int height);
   
  private:
   Document document_;

@@ -42,6 +42,10 @@ void RenderText::SetSize(int size)
   selection_->GetController()->SetSize(size);
 }
 
+void RenderText::SetPageSize(int width, int height)
+{
+  
+}
 
 void RenderText::Layout()
 {
