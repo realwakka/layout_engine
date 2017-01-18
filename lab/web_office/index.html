@@ -4,7 +4,7 @@
     
   </head>
   <body>
-    <canvas id="canvas" width=window.outerWidth height=window.outerHeight>
+    <canvas id="canvas" width=1000 height=1000>
     <script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
@@ -12,7 +12,7 @@
       var ctx = canvas.getContext('2d');
       
       var socket = io();
-      window.addEventListener("keypress", dokeydown, false )
+      window.addEventListener("keypress", dokeydown, false );
       function dokeydown(e) {
       socket.emit("key event", String.fromCharCode(event.keyCode));
       }
@@ -20,7 +20,8 @@
       socket.on("image", function(info) {
       if (info.image) {
       var img = new Image();
-      img.src = 'data:image/jpeg;base64,' + info.buffer;
+      console.log(info);
+      img.src = 'data:image/png;base64,' + info.buffer.toString('base64');
       ctx.drawImage(img, 0, 0);
       }
       })

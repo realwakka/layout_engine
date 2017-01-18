@@ -17,8 +17,11 @@ class RenderText
   void SetItalic(bool italic);
   void SetSize(int size);
   void Layout();
-  void Paint();
+  void Paint(Canvas& canvas);
   void SetPageSize(int width, int height);
+  void WriteBitmapFile(std::string path);
+
+  Document& GetDocument() { return document_; }
   
  private:
   Document document_;

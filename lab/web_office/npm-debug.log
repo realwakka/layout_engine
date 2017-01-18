@@ -1,0 +1,70 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/nodejs',
+1 verbose cli   '/usr/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '-g',
+1 verbose cli   'nodejs-shm' ]
+2 info using npm@1.3.10
+3 info using node@v0.10.25
+4 verbose cache add [ 'nodejs-shm', null ]
+5 verbose cache add name=undefined spec="nodejs-shm" args=["nodejs-shm",null]
+6 verbose parsed url { protocol: null,
+6 verbose parsed url   slashes: null,
+6 verbose parsed url   auth: null,
+6 verbose parsed url   host: null,
+6 verbose parsed url   port: null,
+6 verbose parsed url   hostname: null,
+6 verbose parsed url   hash: null,
+6 verbose parsed url   search: null,
+6 verbose parsed url   query: null,
+6 verbose parsed url   pathname: 'nodejs-shm',
+6 verbose parsed url   path: 'nodejs-shm',
+6 verbose parsed url   href: 'nodejs-shm' }
+7 silly lockFile e621815c-nodejs-shm nodejs-shm
+8 verbose lock nodejs-shm /home/realwakka/.npm/e621815c-nodejs-shm.lock
+9 silly lockFile e621815c-nodejs-shm nodejs-shm
+10 silly lockFile e621815c-nodejs-shm nodejs-shm
+11 verbose addNamed [ 'nodejs-shm', '' ]
+12 verbose addNamed [ null, '*' ]
+13 silly lockFile 5c1d6cf7-nodejs-shm nodejs-shm@
+14 verbose lock nodejs-shm@ /home/realwakka/.npm/5c1d6cf7-nodejs-shm.lock
+15 silly addNameRange { name: 'nodejs-shm', range: '*', hasData: false }
+16 verbose url raw nodejs-shm
+17 verbose url resolving [ 'https://registry.npmjs.org/', './nodejs-shm' ]
+18 verbose url resolved https://registry.npmjs.org/nodejs-shm
+19 info trying registry request attempt 1 at 00:34:26
+20 http GET https://registry.npmjs.org/nodejs-shm
+21 http 404 https://registry.npmjs.org/nodejs-shm
+22 silly registry.get cb [ 404,
+22 silly registry.get   { 'content-type': 'application/json',
+22 silly registry.get     'cache-control': 'max-age=0',
+22 silly registry.get     'content-length': '2',
+22 silly registry.get     'accept-ranges': 'bytes',
+22 silly registry.get     date: 'Wed, 18 Jan 2017 15:34:29 GMT',
+22 silly registry.get     via: '1.1 varnish',
+22 silly registry.get     age: '0',
+22 silly registry.get     connection: 'keep-alive',
+22 silly registry.get     'x-served-by': 'cache-nrt6132-NRT',
+22 silly registry.get     'x-cache': 'MISS',
+22 silly registry.get     'x-cache-hits': '0',
+22 silly registry.get     'x-timer': 'S1484753668.559143,VS0,VE1099',
+22 silly registry.get     vary: 'Accept-Encoding' } ]
+23 silly addNameRange number 2 { name: 'nodejs-shm', range: '*', hasData: true }
+24 silly addNameRange versions [ undefined, [] ]
+25 error TypeError: Cannot read property 'latest' of undefined
+25 error     at next (/usr/share/npm/lib/cache.js:687:35)
+25 error     at /usr/share/npm/lib/cache.js:675:5
+25 error     at saved (/usr/share/npm/node_modules/npm-registry-client/lib/get.js:142:7)
+25 error     at /usr/lib/nodejs/graceful-fs/polyfills.js:133:7
+25 error     at Object.oncomplete (fs.js:107:15)
+26 error If you need help, you may report this log at:
+26 error     <http://github.com/isaacs/npm/issues>
+26 error or email it to:
+26 error     <npm-@googlegroups.com>
+27 error System Linux 3.14.0
+28 error command "/usr/bin/nodejs" "/usr/bin/npm" "install" "-g" "nodejs-shm"
+29 error cwd /home/realwakka/Downloads/layout_engine/lab/web_office
+30 error node -v v0.10.25
+31 error npm -v 1.3.10
+32 error type non_object_property_load
+33 verbose exit [ 1, true ]

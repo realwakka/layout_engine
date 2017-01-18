@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
   // rendertext.SetBold(false);
   // rendertext.InsertText("asdf");
   rendertext.Layout();
-  rendertext.Paint();
+  rendertext.WriteBitmapFile("output.bmp");
 
   
 }

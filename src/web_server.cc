@@ -1,14 +1,13 @@
 #include "render_text.h"
 
+#include <sys/ipc.h>
+#include <sys/shm.h>
 #include <sys/un.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include "graphic/bitmap.h"
+#include "graphic/canvas.h"
 
-struct SocketEvent {
-  int type_;
-  int data1_;
-  int data2_;
-};
 
 int main(int argc, char* argv[])
 {
@@ -74,7 +73,6 @@ int main(int argc, char* argv[])
       le::RenderText rendertext;
       
       while(1) {
-        SocketEvent event;
         memset(buf, 0, 255);
         if (read(client_sockfd, buf, 255) <= 0) {
           close(client_sockfd);
@@ -85,8 +83,29 @@ int main(int argc, char* argv[])
 
         rendertext.InsertText(std::string(&buf[0]));
         rendertext.Layout();
-        rendertext.Paint();
-        write(client_sockfd, "end", 3);
+
+        auto& document_view = rendertext.GetDocument().GetView();
+
+        auto bitmap = new le::Bitmap(document_view.GetWidth(), document_view.GetHeight(), 3);
+        le::Canvas canvas;
+        canvas.SetBitmap(bitmap);
+        rendertext.Paint(canvas);
+
+        auto data = bitmap->GetData();
+        auto size = bitmap->GetWidth() * bitmap->GetHeight() * bitmap->GetDepth();
+
+        key_t keyval = pid;
+        auto shmid = shmget(keyval,
+                            size,
+                            0666 | IPC_CREAT);
+
+        auto shared_mem = shmat(shmid, (void *)0, 0);
+        memcpy(shared_mem, data, size);
+        std::string json = "{ \"shmkey\":" + std::to_string(keyval) +
+                           ", \"width\":" + std::to_string(bitmap->GetWidth()) +
+                           ", \"height\":" + std::to_string(bitmap->GetHeight()) +
+                           ", \"depth\":" + std::to_string(bitmap->GetDepth()) + "}";
+        write(client_sockfd, json.c_str(), json.size());
       }
     }
   }

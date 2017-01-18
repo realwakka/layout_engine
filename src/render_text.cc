@@ -53,7 +53,17 @@ void RenderText::Layout()
   selection_->GetView().Layout();
 }
 
-void RenderText::Paint()
+void RenderText::Paint(Canvas& canvas)
+{
+  auto& document_view = document_.GetView();
+  document_.GetView().Paint(canvas);
+  selection_->GetView().Paint(canvas);
+
+  
+  
+}
+
+void RenderText::WriteBitmapFile(std::string path)
 {
   Canvas canvas;
   auto& document_view = document_.GetView();
@@ -61,7 +71,7 @@ void RenderText::Paint()
   canvas.SetBitmap(bitmap);
   document_.GetView().Paint(canvas);
   selection_->GetView().Paint(canvas);
-  canvas.WriteBitmap("output.bmp");
+  canvas.WriteBitmap(path);
 }
 
 
