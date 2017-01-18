@@ -4,7 +4,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
-typedef struct SocketEvent {
+struct SocketEvent {
   int type_;
   int data1_;
   int data2_;
@@ -57,21 +57,25 @@ int main(int argc, char* argv[])
   }
 
 
-  printf("accept : \n");
+  printf("accept...");
   while(1)
   {
     client_sockfd = accept(server_sockfd,
                            (struct sockaddr *)&clientaddr,
                            (unsigned int*)&client_len);
-    printf("test test\n");
+    printf("accepted\n");
     pid = fork();
     if (pid == 0) {
       if (client_sockfd == -1) {
         perror("Accept error : ");
         exit(0);
       }
+
+      le::RenderText rendertext;
+      
       while(1) {
-        memset(buf, '0', 255);
+        SocketEvent event;
+        memset(buf, 0, 255);
         if (read(client_sockfd, buf, 255) <= 0) {
           close(client_sockfd);
           exit(0);
@@ -79,14 +83,10 @@ int main(int argc, char* argv[])
 
         printf("recieved : %s\n", buf);
 
-        if (strncmp(buf, "quit",4) == 0) {
-          write(client_sockfd, "bye bye\n", 8);
-          close(client_sockfd);
-          break;
-        }
-
-        write(client_sockfd, "end", 255);
-        printf("send end\n");
+        rendertext.InsertText(std::string(&buf[0]));
+        rendertext.Layout();
+        rendertext.Paint();
+        write(client_sockfd, "end", 3);
       }
     }
   }
