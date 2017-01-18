@@ -4,7 +4,7 @@
     
   </head>
   <body>
-    <canvas id="canvas" width=window.innerWidth height=window.innerHeight>
+    <canvas id="canvas" width=window.outerWidth height=window.outerHeight>
     <script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
@@ -14,7 +14,7 @@
       var socket = io();
       window.addEventListener("keypress", dokeydown, false )
       function dokeydown(e) {
-      socket.emit('chat message', String.fromCharCode(event.keyCode));
+      socket.emit("key event", String.fromCharCode(event.keyCode));
       }
 
       socket.on("image", function(info) {
@@ -23,7 +23,13 @@
       img.src = 'data:image/jpeg;base64,' + info.buffer;
       ctx.drawImage(img, 0, 0);
       }
-      });
+      })
+      
+      socket.on("window size request", function() {
+      console.log("window size requested");
+      socket.emit("window size", { 'width':window.outerWidth, 'height':window.outerHeight});
+      }
+      );
     </script>
   </body>
 </html>
