@@ -1,5 +1,6 @@
 #include "render_text.h"
 
+#include <sys/un.h>
 #include <string>
 
 int main(int argc, char* argv[])
@@ -22,4 +23,6 @@ int main(int argc, char* argv[])
   // rendertext.InsertText("asdf");
   rendertext.Layout();
   rendertext.Paint();
+
+  
 }
