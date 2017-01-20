@@ -13,14 +13,21 @@
       
       var socket = io();
       window.addEventListener("keypress", dokeydown, false );
-      function dokeydown(e) {
+      canvas.addEventListener("mousedown", domousedown );
+      function domousedown(event) {
+      console.log(event);
+      socket.emit("mousedown event",event.toString());
+      
+      }
+
+      function dokeydown(event) {
       socket.emit("key event", String.fromCharCode(event.keyCode));
       }
+
 
       socket.on("image", function(info) {
       if (info.image) {
       var img = new Image();
-      console.log(info);
       img.src = 'data:image/png;base64,' + info.buffer.toString('base64');
       ctx.drawImage(img, 0, 0);
       }

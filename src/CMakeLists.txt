@@ -74,10 +74,7 @@ add_executable(test test.cc)
 target_link_libraries(test LINK_PUBLIC le)
 
 add_executable(web_server web_server.cc)
-target_link_libraries(web_server LINK_PUBLIC le)
-
-add_executable(web_client web_client.cc)
-target_link_libraries(web_client LINK_PUBLIC le)
+target_link_libraries(web_server LINK_PUBLIC le png)
 
 
 

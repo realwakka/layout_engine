@@ -1,3 +1,5 @@
+#include <png.h>
+
 #include "render_text.h"
 
 #include <sys/ipc.h>
@@ -6,13 +8,49 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <iostream>
+#include <cstring>
+#include <vector>
+#include <fstream>
+
 #include "graphic/bitmap.h"
 #include "graphic/canvas.h"
 
+void PngWriteCallback(png_structp png_ptr, png_bytep data, png_size_t length) {
+  std::vector<char> *p = (std::vector<char>*)png_get_io_ptr(png_ptr);
+  p->insert(p->end(), data, data + length);
+}
 
+
+std::vector<char> Buffer2Png(int width, int height, char* buffer)
+{
+  std::vector<char> out;
+  
+  png_structp p = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+  png_infop info_ptr = png_create_info_struct(p);
+  setjmp(png_jmpbuf(p));
+  png_set_IHDR(p, info_ptr, width, height, 8,
+               PNG_COLOR_TYPE_RGB,
+               PNG_INTERLACE_NONE,
+               PNG_COMPRESSION_TYPE_DEFAULT,
+               PNG_FILTER_TYPE_DEFAULT);
+
+
+  std::vector<char*> rows(height);
+  for (size_t y = 0; y < height; ++y)
+    rows[y] = buffer + y * width * 3;
+
+  //png_set_compression_level(p, 1);
+  png_set_rows(p, info_ptr, (unsigned char**)&rows[0]);
+  png_set_write_fn(p, &out, PngWriteCallback, NULL);
+
+  png_write_png(p, info_ptr, PNG_TRANSFORM_IDENTITY, NULL);
+
+  return out;
+}
 
 int main(int argc, char* argv[])
 {
+
   int server_sockfd, client_sockfd;
   int state, client_len;
   pid_t pid;
@@ -93,49 +131,23 @@ int main(int argc, char* argv[])
         auto data = bitmap->GetData();
         auto size = bitmap->GetWidth() * bitmap->GetHeight() * bitmap->GetDepth();
 
-        // key_t keyval = pid;
-        // auto shmid = shmget(keyval,
-        //                     size,
-        //                     0666 | IPC_CREAT);
-
-        // auto shared_mem = shmat(shmid, (void *)0, 0);
-        // memcpy(shared_mem, data, size);
-
-        int buffer_size = sizeof(int) * 3 + size;
-        char* buffer = new char[buffer_size];
-
-        std::cout << "buffer size:" <<buffer_size<<std::endl;
+        //bitmap->WriteBitmapFile("output.bmp");
 
         auto bitmap_width = bitmap->GetWidth();
         auto bitmap_height = bitmap->GetHeight();
         auto bitmap_depth = bitmap->GetDepth();
 
-        std::cout << "width..." << bitmap_width << std::endl;
-        std::cout << "height..." << bitmap_height << std::endl;
-        std::cout << "depth..." << bitmap_depth << std::endl;
-
-        std::cout << "create buffer...";
+        std::cout << "compress...";
+        auto out = Buffer2Png(bitmap_width, bitmap_height, (char*)data);
+        std::cout << "bufferlen:" <<out.size() << "complete!" <<std::endl;
         
-        memcpy(buffer + sizeof(int)*0, &bitmap_width, sizeof(int));
-        memcpy(buffer + sizeof(int)*1, &bitmap_height, sizeof(int));
-        memcpy(buffer + sizeof(int)*2, &bitmap_depth, sizeof(int));
-        memcpy(buffer + sizeof(int)*3, buffer, size);
+        std::cout << "writing...";
+        write(client_sockfd, out.data(), out.size());
 
-        std::cout << "complete!" << std::endl;
-        std::cout << "writing..." <<std::endl;
+        std::ofstream outfile("output.png", std::ios::out);
+        outfile.write(out.data(), out.size());
         
-        write(client_sockfd, buffer, buffer_size);
-
-        delete[] buffer;
-
-        // std::string json =
-        //   "{ \"shmkey\":" + std::to_string(keyval) +
-        //   ", \"width\":" + std::to_string(bitmap->GetWidth()) +
-        //   ", \"height\":" + std::to_string(bitmap->GetHeight()) +
-        //   ", \"depth\":" + std::to_string(bitmap->GetDepth()) +
-        //   ", \"data\":" + std::to_string(bitmap->GetDepth()) +
-        //   "}";
-        // write(client_sockfd, json.c_str(), json.size());
+        std::cout << "complete!" <<std::endl;
       }
     }
   }
