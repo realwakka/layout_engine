@@ -6,6 +6,8 @@
 
 namespace le {
 
+class MouseEvent;
+
 class RenderText
 {
  public:
@@ -20,6 +22,8 @@ class RenderText
   void Paint(Canvas& canvas);
   void SetPageSize(int width, int height);
   void WriteBitmapFile(std::string path);
+
+  void OnMousePressed(const MouseEvent& event);
 
   Document& GetDocument() { return document_; }
   

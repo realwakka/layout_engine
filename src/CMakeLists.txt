@@ -57,8 +57,9 @@ set(LE_SRCS
   view/linebreaker/word_linebreaker.cc
   
   controller/enter_char_controller.cc
-  controller/event/mouse_event.h
-
+  controller/event/mouse_event.cc
+  controller/command/insert_char_command.cc
+  
   graphic/canvas.cc
   graphic/point.cc
   graphic/matrix.cc

@@ -58,9 +58,6 @@ void RenderText::Paint(Canvas& canvas)
   auto& document_view = document_.GetView();
   document_.GetView().Paint(canvas);
   selection_->GetView().Paint(canvas);
-
-  
-  
 }
 
 void RenderText::WriteBitmapFile(std::string path)
@@ -72,6 +69,11 @@ void RenderText::WriteBitmapFile(std::string path)
   document_.GetView().Paint(canvas);
   selection_->GetView().Paint(canvas);
   canvas.WriteBitmap(path);
+}
+
+void RenderText::OnMousePressed(const MouseEvent& event)
+{
+  selection_->GetController()->OnMousePressed(event);
 }
 
 

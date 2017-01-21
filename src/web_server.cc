@@ -14,12 +14,13 @@
 
 #include "graphic/bitmap.h"
 #include "graphic/canvas.h"
+#include "controller/event/mouse_event.h"
 
 #include <jsoncpp/json/json.h>
 
 std::string ReadNextJson(int fd)
 {
-  std::cout << "READ NEXT JSON" << std::endl;
+  std::cout << "READ NEXT JSON..." << std::endl;
   std::string json;
   char buf = 0;
   int open = 0;
@@ -29,7 +30,6 @@ std::string ReadNextJson(int fd)
     auto sz = read(fd, &buf, sizeof(buf));
     if( sz < 0 )
       exit(0);
-    std::cout << "READ NEXT JSON WHILE : " << buf << std::endl;
     json.push_back(buf);
     if( buf == '{' ) {
       ++open;
@@ -60,6 +60,19 @@ bool ProcessEvent(const std::string& json, le::RenderText& rendertext)
     rendertext.Layout();
     return true;
   } else if ( event_type == "mousedown" ) {
+    
+    auto x = std::stoi(root.get("x", "0" ).asString());
+    auto y = std::stoi(root.get("y", "0" ).asString());
+
+    le::MouseEvent event;
+    event.SetX(x);
+    event.SetY(y);
+
+    rendertext.OnMousePressed(event);
+    
+    // rendertext.InsertText(key);
+    // rendertext.Layout();
+    
     return false;
   }
   
