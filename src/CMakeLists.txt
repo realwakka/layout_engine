@@ -57,6 +57,7 @@ set(LE_SRCS
   view/linebreaker/word_linebreaker.cc
   
   controller/enter_char_controller.cc
+  controller/event/mouse_event.h
 
   graphic/canvas.cc
   graphic/point.cc
@@ -74,7 +75,7 @@ add_executable(test test.cc)
 target_link_libraries(test LINK_PUBLIC le)
 
 add_executable(web_server web_server.cc)
-target_link_libraries(web_server LINK_PUBLIC le png)
+target_link_libraries(web_server LINK_PUBLIC le png jsoncpp)
 
 
 

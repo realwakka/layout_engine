@@ -27,14 +27,14 @@ io.on('connection', function(socket){
 	console.log('user disconnected');
     });
 
-    socket.on('key event', function(ch){
-	console.log('key event :' + ch);
-	client.write(ch);
+    socket.on('keypress event', function(event){
+	console.log(event);
+	client.write(JSON.stringify(event));
     });
 
     socket.on('mousedown event', function(event){
 	console.log(event);
-	//client.write(ch);
+	client.write(JSON.stringify(event));
     });
 
 
@@ -47,6 +47,8 @@ io.on('connection', function(socket){
     var chunks_len = 0;
     const chunks = [];
     client.on('data', function(data) {
+	console.log("received image");
+	console.log(data);
 	socket.emit('image', { image: true, buffer: data.toString("base64")});
     });
 

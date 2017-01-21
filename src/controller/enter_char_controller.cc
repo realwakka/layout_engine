@@ -4,6 +4,7 @@
 #include "model/character/basic_character.h"
 #include "model/character/space_character.h"
 #include "model/text_run.h"
+#include "controller/event/mouse_event.h"
 
 namespace le {
 
@@ -126,6 +127,15 @@ void EnterCharController::SetPageSize(int width, int height)
   auto& sectionprop = paragraph->GetParent()->GetSectionProp();
   sectionprop.GetPageSize().SetWidth(width);
   sectionprop.GetPageSize().SetHeight(height);
+}
+
+void EnterCharController::OnMousePressed(const MouseEvent& event)
+{
+  auto document = enter_char_.GetRun()->GetParagraph()->GetParent();
+  Point p(event.GetX(), event.GetY());
+  auto view = document->GetView();
+  
+  
 }
 
 }  // le

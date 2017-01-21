@@ -20,6 +20,7 @@ class EnterCharController : public Controller
   virtual void SetItalic(bool italic) override;
   virtual void SetSize(int size) override;
   virtual void SetPageSize(int width, int height) override;
+  virtual void OnMousePressed(const MouseEvent& event) override;
 
  private:
   EnterCharacter& enter_char_;

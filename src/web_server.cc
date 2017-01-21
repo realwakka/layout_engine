@@ -15,6 +15,58 @@
 #include "graphic/bitmap.h"
 #include "graphic/canvas.h"
 
+#include <jsoncpp/json/json.h>
+
+std::string ReadNextJson(int fd)
+{
+  std::cout << "READ NEXT JSON" << std::endl;
+  std::string json;
+  char buf = 0;
+  int open = 0;
+
+  
+  while( true ) {
+    auto sz = read(fd, &buf, sizeof(buf));
+    if( sz < 0 )
+      exit(0);
+    std::cout << "READ NEXT JSON WHILE : " << buf << std::endl;
+    json.push_back(buf);
+    if( buf == '{' ) {
+      ++open;
+    } else if( buf == '}' ) {
+      --open;
+      if( open == 0 )
+        break;
+    }
+  }
+
+  return json;
+}
+
+bool ProcessEvent(const std::string& json, le::RenderText& rendertext)
+{
+
+  Json::Value root;
+  Json::Reader reader;
+
+  if( !reader.parse(json, root) )
+    return false;
+
+  auto event_type = root.get("type", "" ).asString();
+  if( event_type == "keypress" ) {
+    auto key = root.get("key", "" ).asString();
+    std::cout << "received key : " <<key<< std::endl;
+    rendertext.InsertText(key);
+    rendertext.Layout();
+    return true;
+  } else if ( event_type == "mousedown" ) {
+    return false;
+  }
+  
+  
+}
+
+
 void PngWriteCallback(png_structp png_ptr, png_bytep data, png_size_t length) {
   std::vector<char> *p = (std::vector<char>*)png_get_io_ptr(png_ptr);
   p->insert(p->end(), data, data + length);
@@ -64,7 +116,7 @@ int main(int argc, char* argv[])
   state = 0;
 
   if (access("/tmp/sock1", F_OK) == 0) {
-    
+    perror("sock file error : ");
   }
 
   client_len = sizeof(clientaddr);
@@ -108,18 +160,14 @@ int main(int argc, char* argv[])
       
       while(1) {
         memset(buf, 0, 255);
-        if (read(client_sockfd, buf, 1) <= 0) {
-          close(client_sockfd);
-          exit(0);
+
+        auto json = ReadNextJson(client_sockfd);
+        std::cout << "received : "<<json << std::endl;
+        if ( !ProcessEvent(json, rendertext) ) {
+          continue;
         }
-
-        printf("recieved : %s\n", buf);
-
-        rendertext.InsertText(std::string(&buf[0]));
-        rendertext.Layout();
-
+        
         auto& document_view = rendertext.GetDocument().GetView();
-
         auto bitmap = new le::Bitmap(document_view.GetWidth(), document_view.GetHeight(), 3);
 
         std::cout << "painting...";
@@ -131,7 +179,7 @@ int main(int argc, char* argv[])
         auto data = bitmap->GetData();
         auto size = bitmap->GetWidth() * bitmap->GetHeight() * bitmap->GetDepth();
 
-        //bitmap->WriteBitmapFile("output.bmp");
+        // bitmap->WriteBitmapFile("output.bmp");
 
         auto bitmap_width = bitmap->GetWidth();
         auto bitmap_height = bitmap->GetHeight();
@@ -144,8 +192,8 @@ int main(int argc, char* argv[])
         std::cout << "writing...";
         write(client_sockfd, out.data(), out.size());
 
-        std::ofstream outfile("output.png", std::ios::out);
-        outfile.write(out.data(), out.size());
+        // std::ofstream outfile("output.png", std::ios::out);
+        // outfile.write(out.data(), out.size());
         
         std::cout << "complete!" <<std::endl;
       }

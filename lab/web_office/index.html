@@ -12,16 +12,18 @@
       var ctx = canvas.getContext('2d');
       
       var socket = io();
-      window.addEventListener("keypress", dokeydown, false );
+      window.addEventListener("keypress", dokeypress, false );
       canvas.addEventListener("mousedown", domousedown );
       function domousedown(event) {
       console.log(event);
-      socket.emit("mousedown event",event.toString());
-      
+      socket.emit("mousedown event",{type: "mousedown", x: event.clientX, y: event.clientY});
       }
 
-      function dokeydown(event) {
-      socket.emit("key event", String.fromCharCode(event.keyCode));
+      function dokeypress(event) {
+      if (event.keyCode == 32 && event.target == document.body) {
+      event.preventDefault();
+      }
+      socket.emit("keypress event", {type: "keypress", key : String.fromCharCode(event.keyCode)});
       }
 
 

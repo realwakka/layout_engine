@@ -6,6 +6,7 @@
 namespace le {
 
 class Character;
+class MouseEvent;
 
 class Controller
 {
@@ -16,6 +17,8 @@ class Controller
   virtual void SetSize(int size)  = 0;
   virtual void InsertChar(Character* character) = 0;
   virtual void SetPageSize(int width, int height) = 0;
+  
+  virtual void OnMousePressed(const MouseEvent& event) = 0;
 };
 
 
