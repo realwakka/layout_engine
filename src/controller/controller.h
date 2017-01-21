@@ -12,6 +12,7 @@ class Controller
 {
  public:
   virtual void InsertText(std::string text)  = 0;
+  virtual void BackSpaceChar() = 0;
   virtual void SetBold(bool bold)  = 0;
   virtual void SetItalic(bool italic)  = 0;
   virtual void SetSize(int size)  = 0;

@@ -10,6 +10,17 @@ namespace le {
 
 namespace {
 
+void BackSpaceWordInternal(Paragraph& paragraph)
+{
+  
+}
+
+void BackSpaceRunInternal(Paragraph& paragraph)
+{
+
+}
+
+
 void InsertWordInternal(Paragraph* paragraph, Character* character)
 {
   auto last_word = paragraph->GetLastWord();
@@ -86,6 +97,14 @@ void EnterCharController::InsertChar(Character* character)
 
   InsertWordInternal(paragraph, character);
   InsertRunInternal(paragraph, character);
+}
+
+void EnterCharController::BackSpaceChar()
+{
+  auto paragraph = enter_char_.GetRun()->GetParagraph();
+
+  BackSpaceWordInternal(*paragraph);
+  BackSpaceRunInternal(*paragraph);
 }
 
 void EnterCharController::SetBold(bool bold)

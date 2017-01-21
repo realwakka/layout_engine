@@ -14,13 +14,15 @@ class EnterCharController : public Controller
   virtual ~EnterCharController();
 
  public:
-  virtual void InsertText(std::string text) override;
-  virtual void InsertChar(Character* character) override;
-  virtual void SetBold(bool bold) override;
-  virtual void SetItalic(bool italic) override;
-  virtual void SetSize(int size) override;
-  virtual void SetPageSize(int width, int height) override;
-  virtual void OnMousePressed(const MouseEvent& event) override;
+  void InsertText(std::string text) override;
+  void InsertChar(Character* character) override;
+  void BackSpaceChar() override;
+  
+  void SetBold(bool bold) override;
+  void SetItalic(bool italic) override;
+  void SetSize(int size) override;
+  void SetPageSize(int width, int height) override;
+  void OnMousePressed(const MouseEvent& event) override;
 
  private:
   EnterCharacter& enter_char_;

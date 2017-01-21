@@ -14,12 +14,12 @@ void InsertCharCommand::Apply()
 
 void InsertCharCommand::UnApply() 
 {
-
+  
 }
 
 std::string InsertCharCommand::GetDecription() 
 {
-
+  return "insert char";
 }
 
 
