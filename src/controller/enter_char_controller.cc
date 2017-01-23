@@ -38,7 +38,6 @@ void BackSpaceRunInternal(Paragraph& paragraph)
   }
 }
 
-
 void InsertWordInternal(Paragraph* paragraph, Character* character)
 {
   auto last_word = paragraph->GetLastWord();

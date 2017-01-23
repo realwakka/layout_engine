@@ -24,7 +24,8 @@ void EnterCharacterView::Layout()
   view_util::SetHorizontalBlockPosition(this);
 
   SetWidth(kViewSize);
-  SetHeight(kViewSize);
+  
+  SetHeight(GetParent()->GetHeight());
 }
 void EnterCharacterView::Paint(Canvas& canvas)
 {

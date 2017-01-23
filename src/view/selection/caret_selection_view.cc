@@ -36,10 +36,9 @@ void CaretSelectionView::Paint(Canvas& canvas)
   Point p1(GetX(), GetY());
   Point p2(GetX() + width, GetY() + height);
 
-  // Paint p;
-  // paint.SetStyle(Paint::Style::kStroke);
-  // canvas.DrawRect(p1, p2, paint);
-  
+  le::Paint paint;
+  paint.SetStyle(Paint::Style::kStroke);
+  canvas.DrawRect(p1, p2, paint);
 }
 
 }  // le

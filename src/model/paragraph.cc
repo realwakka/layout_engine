@@ -19,12 +19,15 @@ void Paragraph::RemoveRun(Run* run)
 {
   if( run != nullptr ) {
     runs_.Remove(run->GetIterator());
+    
   }
 }
 
 void Paragraph::RemoveWord(Word* word)
 {
-
+  if( word != nullptr ) {
+    words_.Remove(word->GetIterator());
+  }
 }
 
 
