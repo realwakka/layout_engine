@@ -21,7 +21,9 @@ class Paragraph
   EnterRun* GetEnterRun() { return &enter_run_; }
   
   void InsertRun(Run* new_run, Run* ref_run);
+  void RemoveRun(Run* run);
   void InsertWord(Word* new_word, Word* ref_word);
+  void RemoveWord(Word* word);
 
   Word* GetLastWord() { return words_.GetLastNode(); }
   Word* GetFirstWord() { return words_.GetFirstNode(); }

@@ -76,5 +76,10 @@ void RenderText::OnMousePressed(const MouseEvent& event)
   selection_->GetController()->OnMousePressed(event);
 }
 
+void RenderText::BackSpace()
+{
+  selection_->GetController()->BackSpaceChar();
+}
+
 
 }  // le

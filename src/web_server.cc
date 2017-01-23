@@ -59,6 +59,17 @@ bool ProcessEvent(const std::string& json, le::RenderText& rendertext)
     rendertext.InsertText(key);
     rendertext.Layout();
     return true;
+  } else if( event_type == "keydown" ) {
+    //auto code = std::stoi(root.get("keyCode", "" ).asString());
+    auto code = root.get("keyCode", "" ).asInt();
+
+    if( code == 8 ) {
+      rendertext.BackSpace();
+      rendertext.Layout();
+      return true;
+    }
+    return false;
+    
   } else if ( event_type == "mousedown" ) {
     
     auto x = std::stoi(root.get("x", "0" ).asString());

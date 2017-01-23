@@ -15,6 +15,7 @@ class RenderText
   virtual ~RenderText();
 
   void InsertText(const std::string& text);
+  void BackSpace();
   void SetBold(bool bold);
   void SetItalic(bool italic);
   void SetSize(int size);

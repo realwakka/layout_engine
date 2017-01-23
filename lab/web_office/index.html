@@ -12,18 +12,29 @@
       var ctx = canvas.getContext('2d');
       
       var socket = io();
-      window.addEventListener("keypress", dokeypress, false );
+      document.addEventListener("keypress", dokeypress, true );
+      document.addEventListener("keydown", dokeydown, true );
       canvas.addEventListener("mousedown", domousedown );
       function domousedown(event) {
       console.log(event);
       socket.emit("mousedown event",{type: "mousedown", x: event.clientX, y: event.clientY});
       }
 
-      function dokeypress(event) {
-      if (event.keyCode == 32 && event.target == document.body) {
+      function dokeydown(event) {
+      console.log(event);
+      if (event.keyCode == 8 && event.keyCode == 32 && event.target == document.body) {
       event.preventDefault();
       }
-      socket.emit("keypress event", {type: "keypress", key : String.fromCharCode(event.keyCode)});
+      socket.emit("keydown event", {type: "keydown", key: event.key,keyCode: event.keyCode});
+      }
+
+      function dokeypress(event) {
+      console.log(event);
+      if (event.keyCode == 8 && event.keyCode == 32 && event.target == document.body) {
+      event.preventDefault();
+      }
+
+      socket.emit("keypress event", {type: "keypress", key : event.key, keycode : event.keycode});
       }
 
 

@@ -15,6 +15,19 @@ Paragraph::Paragraph()
 Paragraph::~Paragraph()
 {}
 
+void Paragraph::RemoveRun(Run* run)
+{
+  if( run != nullptr ) {
+    runs_.Remove(run->GetIterator());
+  }
+}
+
+void Paragraph::RemoveWord(Word* word)
+{
+
+}
+
+
 void Paragraph::InsertRun(Run* new_run, Run* ref_run)
 {
   if( ref_run == nullptr ) {

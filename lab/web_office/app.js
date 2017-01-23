@@ -27,6 +27,11 @@ io.on('connection', function(socket){
 	console.log('user disconnected');
     });
 
+    socket.on('keydown event', function(event){
+	console.log(event);
+	client.write(JSON.stringify(event));
+    });
+
     socket.on('keypress event', function(event){
 	console.log(event);
 	client.write(JSON.stringify(event));
@@ -34,7 +39,7 @@ io.on('connection', function(socket){
 
     socket.on('mousedown event', function(event){
 	console.log(event);
-	client.write(JSON.stringify(event));
+	//client.write(JSON.stringify(event));
     });
 
 
