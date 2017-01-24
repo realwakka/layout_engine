@@ -66,6 +66,10 @@ void LineView::Layout()
     }
   }
 
+  for( auto index = 0; index < GetChildCount() ; ++index ) {
+    GetChildAt(index)->SetHeight(maxheight);
+  }
+
   SetHeight(maxheight);
   SetBaseline(baseline);
 }

@@ -33,8 +33,8 @@ void EnterCharacterView::Paint(Canvas& canvas)
 
   auto baseline = static_cast<LineView*>(GetParent())->GetBaseline();
 
-  Point p1(0, baseline - GetHeight());
-  Point p2(GetWidth(), baseline);
+  Point p1(0, 0);
+  Point p2(GetWidth(), GetHeight());
 
   le::Paint p;
   p.SetStyle(Paint::Style::kStroke);
@@ -43,6 +43,9 @@ void EnterCharacterView::Paint(Canvas& canvas)
   canvas.Restore();
 }
 
-
+// bool EnterCharacterView::HitTest(HitItem& hititem, const Point& point)
+// {
+  
+// }
 
 }  // le

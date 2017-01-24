@@ -1,6 +1,8 @@
 #include "view.h"
 
 #include "view/hititem.h"
+#include <iostream>
+#include <typeinfo>
 
 namespace le {
 
@@ -125,6 +127,7 @@ bool View::HitTest(HitItem& hititem, const Point& point)
 {
   if( view_util::HitTestRect(this, point) ) {
     hititem.SetView(this);
+    std::cout << "success hit : " << typeid(*this).name() << std::endl;
     return true;
   } else {
     return false;

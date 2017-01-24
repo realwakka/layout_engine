@@ -2,6 +2,7 @@
 
 #include "graphic/canvas.h"
 #include "model/run.h"
+#include "model/face/face_manager.h"
 
 namespace le {
 
@@ -19,6 +20,14 @@ void RunView::Layout()
     GetChildAt(i)->Layout();
 
   SetWidth(GetLastChild()->GetX() + GetLastChild()->GetWidth());
+
+  auto& prop = run_.GetRunProp();
+  auto face = FaceManager::GetInstance()->GetFace(prop);
+  auto height = face.GetHeight();
+
+  for(int i=0 ; i<GetChildCount() ; i++ )
+    GetChildAt(i)->SetHeight(height);
+  
 }
 
 void RunView::Paint(Canvas& canvas)

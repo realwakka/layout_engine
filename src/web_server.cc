@@ -72,8 +72,8 @@ bool ProcessEvent(const std::string& json, le::RenderText& rendertext)
     
   } else if ( event_type == "mousedown" ) {
     
-    auto x = std::stoi(root.get("x", "0" ).asString());
-    auto y = std::stoi(root.get("y", "0" ).asString());
+    auto x = root.get("x", "0" ).asInt();
+    auto y = root.get("y", "0" ).asInt();
 
     le::MouseEvent event;
     event.SetX(x);

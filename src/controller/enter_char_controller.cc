@@ -178,6 +178,8 @@ void EnterCharController::OnMousePressed(const MouseEvent& event)
   HitItem item;
   if( view.GetLayer()->HitTest(item, point) ) {
     std::cout << "clicked : " << typeid(*item.GetView()).name() << std::endl;
+  } else {
+    std::cout << "no clicked" << std::endl;
   }
   
 }

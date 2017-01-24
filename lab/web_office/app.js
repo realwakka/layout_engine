@@ -39,7 +39,7 @@ io.on('connection', function(socket){
 
     socket.on('mousedown event', function(event){
 	console.log(event);
-	//client.write(JSON.stringify(event));
+	client.write(JSON.stringify(event));
     });
 
 

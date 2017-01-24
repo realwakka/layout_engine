@@ -15,6 +15,8 @@ class EnterCharacterView : public CharacterView
 
   virtual void Layout() override;
   virtual void Paint(Canvas& canvas) override;
+
+  // bool HitTest(HitItem& hititem, const Point& point) override;
   
 };
 
