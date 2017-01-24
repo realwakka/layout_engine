@@ -7,6 +7,8 @@
 namespace le {
 
 class Canvas;
+class Layer;
+class HitItem;
 
 class View
 {
@@ -51,6 +53,10 @@ class View
   virtual View* GetNextParent() const { return nullptr; }
 
   Point GetAbsolutePosition() const;
+
+  virtual Layer* GetLayer() { return GetParent()->GetLayer(); }
+
+  bool HitTest(HitItem& hititem, const Point& point) const { return false; }
 
  private:
   int width_;  

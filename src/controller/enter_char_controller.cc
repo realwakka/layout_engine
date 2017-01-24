@@ -169,7 +169,7 @@ void EnterCharController::OnMousePressed(const MouseEvent& event)
 {
   auto document = enter_char_.GetRun()->GetParagraph()->GetParent();
   Point p(event.GetX(), event.GetY());
-  auto view = document->GetView();
+  auto& view = document->GetView();
   
   
 }

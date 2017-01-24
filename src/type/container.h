@@ -114,8 +114,8 @@ template<typename ParentType, typename ChildType>
 class Parent
 {
  public:
-  ChildType* GetFirstChild() { return childs_.empty() ? nullptr : childs_.front(); }
-  ChildType* GetLastChild() { return childs_.empty() ? nullptr : childs_.back(); }
+  ChildType* GetFirstChild() const { return childs_.empty() ? nullptr : childs_.front(); }
+  ChildType* GetLastChild() const { return childs_.empty() ? nullptr : childs_.back(); }
   int GetChildCount() const { return childs_.size(); }
   ChildType* GetChildAt(int index) const { return childs_[index]; }
 
@@ -131,6 +131,8 @@ class Parent
   {
     AddChildAt(GetChildCount(), child, parent);
   }
+
+  void RemoveChildAt(int index) { childs_.erase(childs_.begin() + index); }
   
  private:
   std::vector<ChildType*> childs_;
@@ -141,13 +143,13 @@ class Child
 {
  public:
   Child();
-  int GetIndex(ChildType* child) const;
+  int GetIndex(const ChildType* child) const;
   ParentType* GetParent() const { return parent_; }
   void SetParent(ParentType* parent) { parent_ = parent; }
   
 
-  ChildType* GetNextSibling(ChildType* child) const;
-  ChildType* GetPrevSibling(ChildType* child) const;
+  ChildType* GetNextSibling(const ChildType* child) const;
+  ChildType* GetPrevSibling(const ChildType* child) const;
  private:
   ParentType* parent_;
 };
@@ -157,7 +159,7 @@ Child<ParentType,ChildType>::Child()
 {
 }
 template<typename ParentType, typename ChildType>
-int Child<ParentType,ChildType>::GetIndex(ChildType* child) const
+int Child<ParentType,ChildType>::GetIndex(const ChildType* child) const
 {
   auto index = 0;
   for( ; index < GetParent()->GetChildCount() ; ++index )
@@ -167,7 +169,7 @@ int Child<ParentType,ChildType>::GetIndex(ChildType* child) const
 }
 
 template<typename ParentType, typename ChildType>
-ChildType* Child<ParentType,ChildType>::GetNextSibling(ChildType* child) const
+ChildType* Child<ParentType,ChildType>::GetNextSibling(const ChildType* child) const
 {
   auto parent = GetParent();
   auto child_count = parent->GetChildCount();
@@ -180,7 +182,7 @@ ChildType* Child<ParentType,ChildType>::GetNextSibling(ChildType* child) const
 }
 
 template<typename ParentType, typename ChildType>
-ChildType* Child<ParentType,ChildType>::GetPrevSibling(ChildType* child) const
+ChildType* Child<ParentType,ChildType>::GetPrevSibling(const ChildType* child) const
 {
   auto parent = GetParent();
   if( parent->GetChildAt(0) == child ) {

@@ -6,7 +6,9 @@
 namespace le {
 
 DocumentView::DocumentView(Document& document)
-    : document_(document)
+    : document_(document),
+      layer_(new Layer(this))
+      
 {
 }
 
