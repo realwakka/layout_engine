@@ -7,6 +7,8 @@
 #include "controller/event/mouse_event.h"
 #include "view/hititem.h"
 
+#include <iostream>
+
 namespace le {
 
 namespace {
@@ -168,13 +170,14 @@ void EnterCharController::SetPageSize(int width, int height)
 
 void EnterCharController::OnMousePressed(const MouseEvent& event)
 {
+  std::cout << "PRESSSSSSSSSSSSSSSSSSSSSSSSSSS" << std::endl;
   auto document = enter_char_.GetRun()->GetParagraph()->GetParent();
   auto& view = document->GetView();
 
   Point point(event.GetX(), event.GetY());
   HitItem item;
   if( view.GetLayer()->HitTest(item, point) ) {
-    
+    std::cout << "clicked : " << typeid(*item.GetView()).name() << std::endl;
   }
   
 }
