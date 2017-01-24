@@ -5,6 +5,7 @@
 #include "model/character/space_character.h"
 #include "model/text_run.h"
 #include "controller/event/mouse_event.h"
+#include "view/hititem.h"
 
 namespace le {
 
@@ -168,9 +169,13 @@ void EnterCharController::SetPageSize(int width, int height)
 void EnterCharController::OnMousePressed(const MouseEvent& event)
 {
   auto document = enter_char_.GetRun()->GetParagraph()->GetParent();
-  Point p(event.GetX(), event.GetY());
   auto& view = document->GetView();
-  
+
+  Point point(event.GetX(), event.GetY());
+  HitItem item;
+  if( view.GetLayer()->HitTest(item, point) ) {
+    
+  }
   
 }
 

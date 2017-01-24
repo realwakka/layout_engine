@@ -54,6 +54,7 @@ set(LE_SRCS
   view/run/run_view.cc
   view/page/page_view.cc
   view/layer.cc
+  view/hititem.cc
 
   view/linebreaker/word_linebreaker.cc
   

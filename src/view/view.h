@@ -53,10 +53,8 @@ class View
   virtual View* GetNextParent() const { return nullptr; }
 
   Point GetAbsolutePosition() const;
-
   virtual Layer* GetLayer() { return GetParent()->GetLayer(); }
-
-  bool HitTest(HitItem& hititem, const Point& point) const { return false; }
+  virtual bool HitTest(HitItem& hititem, const Point& point);
 
  private:
   int width_;  
@@ -76,6 +74,7 @@ void SetHorizontalBlockPosition(View* view);
 void MoveChildsToNewParent(View* begin, View* newparent);
 void LayoutChilds(View* view);
 void PaintChilds(Canvas& canvas, View* view);
+bool HitTestRect(const View* view, const Point& point);
 
 }
 

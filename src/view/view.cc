@@ -1,5 +1,7 @@
 #include "view.h"
 
+#include "view/hititem.h"
+
 namespace le {
 
 View::View()
@@ -118,6 +120,17 @@ Point View::GetAbsolutePosition() const
   return Point(x,y);
 }
 
+
+bool View::HitTest(HitItem& hititem, const Point& point)
+{
+  if( view_util::HitTestRect(this, point) ) {
+    hititem.SetView(this);
+    return true;
+  } else {
+    return false;
+  }
+}
+
 namespace view_util {
 
 void MoveChildsToNewParent(View* begin, View* newparent)
@@ -168,6 +181,12 @@ void PaintChilds(Canvas& canvas, View* view)
 {
   for( int i=0 ; i<view->GetChildCount(); i++ )
     view->GetChildAt(i)->Paint(canvas);
+}
+
+bool HitTestRect(const View* view, const Point& point)
+{
+  return point.GetX() > 0 && point.GetY() > 0 &&
+    point.GetX() < view->GetWidth() && point.GetY() < view->GetHeight();
 }
 
 

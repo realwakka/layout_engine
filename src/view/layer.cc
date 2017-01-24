@@ -10,7 +10,9 @@ bool HitTestView(View* view, HitItem& hititem, const Point& point)
 {
   if( view->HitTest(hititem, point) ) {
     for( int i=0 ; i<view->GetChildCount() ; ++i ) {
-      auto result = HitTestView(view->GetChildAt(i), hititem, point);
+      auto child = view->GetChildAt(i);
+      Point child_point( point.GetX() - child->GetX(), point.GetY() - child->GetY());
+      auto result = HitTestView(view->GetChildAt(i), hititem, child_point);
       if( result )
         return true;
     }
