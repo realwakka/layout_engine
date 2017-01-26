@@ -22,9 +22,11 @@ class Face
 
   int GetHeight() const;
   int GetAscender() const;
-  
+
  private:
   FT_Face ft_face_;
+
+  friend class FaceManager;
 };
 
 }  // le

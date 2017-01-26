@@ -20,9 +20,11 @@ FaceManager* FaceManager::instance_ = nullptr;
 
 FaceManager* FaceManager::GetInstance()
 {
-  if( instance_ == nullptr )
+  if( instance_ == nullptr ) {
     instance_ = new FaceManager();
-
+    instance_->LoadSystemFaces();
+  }
+  
   return instance_;
 }
 
@@ -38,6 +40,39 @@ FaceManager::FaceManager()
 FaceManager::~FaceManager()
 {
   
+}
+
+std::pair<std::string, int> FaceManager::CreateFaceCacheKey(std::string path, int index)
+{
+  return std::make_pair(path, index);
+}
+
+void FaceManager::LoadSystemFaces()
+{
+  auto pat = FcPatternCreate();
+  
+  auto os = FcObjectSetBuild(FC_FILE, FC_FT_FACE, nullptr);
+  auto fs = FcFontList(nullptr, pat, os);
+
+  for(int i=0 ; i<fs->nfont ; ++i ) {
+    auto pattern = fs->fonts[i];
+    FT_Face ft_face = nullptr;
+    FcResult result = FcPatternGetFTFace(pattern, FC_FT_FACE, 0, &ft_face);
+    char* path = nullptr;
+    result = FcPatternGetString(pattern, "file", 0, (FcChar8**)&path);
+    auto res = FT_New_Face( ft_library_, path, 0, &ft_face );
+
+    auto key = CreateFaceCacheKey(path, 0);
+    face_cache_map_.emplace(key, ft_face);
+    
+    if( !default_face_ )
+      default_face_ = ft_face;
+  }
+}
+
+Face FaceManager::GetDefaultFace()
+{
+  return Face(default_face_);
 }
 
 
@@ -72,86 +107,27 @@ Face FaceManager::GetFace(const RunProp& runprop)
 
 Glyph FaceManager::GetGlyph(const RunProp& runprop, const Character& character)
 {
-  auto pat = FcPatternCreate();
-  
-  //FcPatternAddString( pat, "family", reinterpret_cast<const FcChar8*>(face.GetFamily().c_str()) );
-  auto langset = FcLangSetCreate();
-  FcLangSetAdd(langset, reinterpret_cast<const FcChar8*>("en"));
-  FcPatternAddLangSet(pat, "lang", langset);
-  auto os = FcObjectSetBuild(FC_FAMILY,FC_FILE, FC_FT_FACE, nullptr);
-  auto fs = FcFontList(nullptr, pat, os);
+  FT_Face ft_face = runprop.GetFont().GetPrimaryFont().ft_face_;
+  FT_Set_Char_Size(ft_face, runprop.GetSize() << 6 , 0, 96,96);
 
-  if( fs->nfont ) {
-    FT_Face ft_face = nullptr;
-    auto pattern = fs->fonts[0];
-    FcResult result = FcPatternGetFTFace(pattern, FC_FT_FACE, 0, &ft_face);
-    
-    char* file = nullptr;
-    result = FcPatternGetString(pattern, "file", 0, (FcChar8**)&file);
-    auto res = FT_New_Face( ft_library_, file, 0, &ft_face );
-    
-    FT_Set_Char_Size(ft_face, runprop.GetSize() << 6 , 0, 96,96);
+  auto index = FT_Get_Char_Index(ft_face,character.GetChar());
+  auto error = FT_Load_Glyph( ft_face, index, FT_LOAD_NO_BITMAP );
 
-    auto index = FT_Get_Char_Index(ft_face,character.GetChar());
-    auto error = FT_Load_Glyph( ft_face, index, FT_LOAD_NO_BITMAP );
+  FT_Glyph ft_glyph;
+  error = FT_Get_Glyph( ft_face->glyph, &ft_glyph );
 
-    FT_Glyph ft_glyph;
-    error = FT_Get_Glyph( ft_face->glyph, &ft_glyph );
-
-    if( runprop.GetBold() ) {
-      auto outline_glyph = reinterpret_cast<FT_OutlineGlyph>(ft_glyph);
-      FT_Outline_Embolden( &outline_glyph->outline, (ft_face->size->metrics.x_ppem*5/100) << 6);
-    }
-
-    if( runprop.GetItalic() ) {
-      auto outline_glyph = reinterpret_cast<FT_OutlineGlyph>(ft_glyph);
-      FT_Matrix transform = {0x10000, 0x06000, 0x00000, 0x10000};
-      FT_Outline_Transform( &outline_glyph->outline, &transform );
-    }
-    
-
-    return Glyph(ft_glyph);
-    //return res;
-
+  if( runprop.GetBold() ) {
+    auto outline_glyph = reinterpret_cast<FT_OutlineGlyph>(ft_glyph);
+    FT_Outline_Embolden( &outline_glyph->outline, (ft_face->size->metrics.x_ppem*5/100) << 6);
   }
-  else {
-    throw std::exception{};
+
+  if( runprop.GetItalic() ) {
+    auto outline_glyph = reinterpret_cast<FT_OutlineGlyph>(ft_glyph);
+    FT_Matrix transform = {0x10000, 0x06000, 0x00000, 0x10000};
+    FT_Outline_Transform( &outline_glyph->outline, &transform );
   }
-  
 
-  
-  // std::string family_name = "Times new roman";
-
-  // auto family = new std::string("Times new roman");
-  // auto index = FTC_CMapCache_Lookup(ft_cmapcache_,family,0,character.GetChar());
-
-  // FTC_Node ftc_node;
-  // // FTC_SBit ftc_sbit;
-  
-  // FTC_ImageType ft_image_type = new FTC_ImageTypeRec_();
-  // FT_Glyph ft_glyph;
-  
-  // ft_image_type->face_id = &family_name;
-  // ft_image_type->width = 32;
-  // ft_image_type->height = 32;
-  // ft_image_type->flags = FT_LOAD_DEFAULT | FT_LOAD_RENDER;
-  
-  // auto ret = FTC_ImageCache_Lookup(ft_imgcache_, ft_image_type, index, &ft_glyph, &ftc_node);
-
-  // return Glyph(ft_glyph);
-}
-
-
-
-Face* FaceManager::GetDefaultFace()
-{
-  FT_Face ft_face;
-  std::string family_name = "Times new roman";
-  FTC_FaceID faceid = &family_name;
-  FTC_Manager_LookupFace( ft_manager_, faceid, &ft_face );
-  
-  auto face = new Face(ft_face);
-  return face;
+  return Glyph(ft_glyph);
 }
 
 }  // le

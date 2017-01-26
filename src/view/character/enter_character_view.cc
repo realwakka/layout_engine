@@ -4,6 +4,8 @@
 #include "graphic/canvas.h"
 #include "graphic/paint.h"
 #include "view/line_view.h"
+#include "model/run.h"
+#include "model/face/face_manager.h"
 #include <iostream>
 
 namespace le {
@@ -23,8 +25,12 @@ void EnterCharacterView::Layout()
 {
   view_util::SetHorizontalBlockPosition(this);
 
+  auto& runprop = GetCharacter().GetRun()->GetRunProp();
+  auto face = FaceManager::GetInstance()->GetFace(runprop);
+  auto height = face.GetHeight();
+
   SetWidth(kViewSize);
-  SetHeight(GetParent()->GetHeight());
+  SetHeight(height);
 }
 void EnterCharacterView::Paint(Canvas& canvas)
 {

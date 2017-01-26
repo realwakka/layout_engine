@@ -20,9 +20,6 @@ class RunProp
   int GetSize() const { return size_; }
   void SetSize(int size) { size_ = size; }
 
-  Color GetColor() const { return color_; }
-  void SetColor(Color color) { color_ = color; }
-
   bool GetBold() const { return bold_; }
   void SetBold(bool bold) { bold_ = bold; }
 
@@ -32,7 +29,10 @@ class RunProp
   Underline* GetUnderline() const { return m_underline.get(); }
   void SetUnderline(Underline* underline) { m_underline.reset(underline); }
 
-  Font& GetFont() { return font_; }
+  Color GetColor() const { return color_; }
+  void SetColor(Color color) { color_ = color; }
+  
+  const Font& GetFont() const { return font_; }
 
  private:
   int size_;

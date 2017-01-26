@@ -21,11 +21,15 @@ class Font
   void SetCs( Face cs )  { cs = cs_; }
   void SetHAnsi( Face hansi )  { hansi = hansi_; }
 
+  const Face& GetPrimaryFont() const { return primary_; }
+
  private:
   Face ascii_;
   Face eastasia_;
   Face cs_;
   Face hansi_;
+
+  Face& primary_;
 };
 
 
