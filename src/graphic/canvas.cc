@@ -19,21 +19,50 @@ void SetPixel(const Point& p, int brightness, Canvas& canvas)
 
 void DrawLineBresenham(int x0, int y0, int x1, int y1, Canvas& canvas)
 {
-  float dx = x1 - x0;
-  float dy = y1 - y0;
-  float derr = std::abs(dy/dx);
-  float err = derr - 0.5f;
+  int addx,addy;
+  int counter = 0;
 
-  int y = y0;
-  for( int x=x0 ; x<=x1 ; x++ ) {
-    SetPixel(Point(x,y), 0, canvas);
-    err += derr;
-    if( err >= 0.5f ) {
-      ++y;
-      err -= 1.0f;
-    }
+  int dx = x1 - x0;
+  int dy = y1 - y0;
+
+  if ( dx < 0 ) {
+    addx = -1;
+    dx = -dx;
+  } else {
+    addx = 1;
+  }
+
+  if ( dy < 0 ) {
+    addy = -1;
+    dy = -dy;
+  } else {
+    addy = 1;
   }
   
+  int x = x0;
+  int y = y0;
+
+  if ( dx >= dy ) {
+    for (int i = 0; i < dx; ++i ) {
+      x += addx;
+      counter += dy;
+      if( counter >= dx ) {
+        y += addy;
+        counter -= dx;
+      }
+      SetPixel(Point(x,y), 0, canvas);
+    }
+  } else {
+    for (int i = 0; i < dy; ++i ) {
+      y += addy;
+      counter += dx;
+      if( counter >= dy ) {
+        x += addx;
+        counter -= dy;
+      }
+      SetPixel(Point(x,y), 0, canvas);
+    }
+  }
 }
 
 void DrawLineXiaolinWu(int x0, int y0, int x1, int y1, Canvas& canvas)
