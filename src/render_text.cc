@@ -47,6 +47,8 @@ void RenderText::SetPageSize(int width, int height)
   
 }
 
+
+
 void RenderText::Layout()
 {
   document_.GetView().Layout();
@@ -79,6 +81,11 @@ void RenderText::OnMousePressed(const MouseEvent& event)
 void RenderText::BackSpace()
 {
   selection_->GetController()->BackSpaceChar();
+}
+
+void RenderText::OnKeyDown(const KeyEvent& event)
+{
+  selection_->GetController()->OnKeyDown(event);
 }
 
 

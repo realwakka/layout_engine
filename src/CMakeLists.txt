@@ -60,6 +60,7 @@ set(LE_SRCS
   
   controller/enter_char_controller.cc
   controller/event/mouse_event.cc
+  controller/event/key_event.cc
   controller/command/insert_char_command.cc
   
   graphic/canvas.cc

@@ -7,6 +7,7 @@ namespace le {
 
 class Character;
 class MouseEvent;
+class KeyEvent;
 
 class Controller
 {
@@ -20,6 +21,7 @@ class Controller
   virtual void SetPageSize(int width, int height) = 0;
   
   virtual void OnMousePressed(const MouseEvent& event) = 0;
+  virtual void OnKeyDown(const KeyEvent& event) = 0;
 };
 
 

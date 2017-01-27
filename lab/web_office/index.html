@@ -30,10 +30,6 @@
 
       function dokeypress(event) {
       console.log(event);
-      if (event.keyCode == 8 && event.keyCode == 32 && event.target == document.body) {
-      event.preventDefault();
-      }
-
       socket.emit("keypress event", {type: "keypress", key : event.key, keycode : event.keycode});
       }
 

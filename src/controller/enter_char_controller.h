@@ -23,7 +23,7 @@ class EnterCharController : public Controller
   void SetSize(int size) override;
   void SetPageSize(int width, int height) override;
   void OnMousePressed(const MouseEvent& event) override;
-
+  void OnKeyDown(const KeyEvent& event) override;
  private:
   EnterCharacter& enter_char_;
 

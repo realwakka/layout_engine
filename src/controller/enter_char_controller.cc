@@ -170,7 +170,6 @@ void EnterCharController::SetPageSize(int width, int height)
 
 void EnterCharController::OnMousePressed(const MouseEvent& event)
 {
-  std::cout << "PRESSSSSSSSSSSSSSSSSSSSSSSSSSS" << std::endl;
   auto document = enter_char_.GetRun()->GetParagraph()->GetParent();
   auto& view = document->GetView();
 
@@ -182,6 +181,11 @@ void EnterCharController::OnMousePressed(const MouseEvent& event)
     std::cout << "no clicked" << std::endl;
   }
   
+}
+
+void EnterCharController::OnKeyDown(const KeyEvent& event)
+{
+  std::cout << "KEY DOWN" << std::endl;
 }
 
 }  // le

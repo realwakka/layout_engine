@@ -15,6 +15,8 @@
 #include "graphic/bitmap.h"
 #include "graphic/canvas.h"
 #include "controller/event/mouse_event.h"
+#include "controller/event/key_event.h"
+
 
 #include <jsoncpp/json/json.h>
 
@@ -62,7 +64,10 @@ bool ProcessEvent(const std::string& json, le::RenderText& rendertext)
   } else if( event_type == "keydown" ) {
     //auto code = std::stoi(root.get("keyCode", "" ).asString());
     auto code = root.get("keyCode", "" ).asInt();
-
+    le::KeyEvent keyevent;
+    keyevent.SetCode(static_cast<le::KeyboardCode>(code));
+    rendertext.OnKeyDown(keyevent);
+    
     if( code == 8 ) {
       rendertext.BackSpace();
       rendertext.Layout();

@@ -7,6 +7,7 @@
 namespace le {
 
 class MouseEvent;
+class KeyEvent;
 
 class RenderText
 {
@@ -25,7 +26,7 @@ class RenderText
   void WriteBitmapFile(std::string path);
 
   void OnMousePressed(const MouseEvent& event);
-
+  void OnKeyDown(const KeyEvent& event);
   Document& GetDocument() { return document_; }
   
  private:
