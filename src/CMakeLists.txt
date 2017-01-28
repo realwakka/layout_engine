@@ -62,6 +62,8 @@ set(LE_SRCS
   controller/event/mouse_event.cc
   controller/event/key_event.cc
   controller/command/insert_char_command.cc
+  controller/command/ins_char_delegate.cc
+  controller/command/del_char_delegate.cc
   
   graphic/canvas.cc
   graphic/point.cc

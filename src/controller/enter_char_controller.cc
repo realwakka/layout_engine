@@ -6,6 +6,9 @@
 #include "model/text_run.h"
 #include "controller/event/mouse_event.h"
 #include "view/hititem.h"
+#include "controller/event/key_event.h"
+#include "controller/command/insert_char_command.h"
+
 
 #include <iostream>
 
@@ -114,9 +117,10 @@ void EnterCharController::InsertText(std::string text)
 void EnterCharController::InsertChar(Character* character)
 {
   auto paragraph = enter_char_.GetRun()->GetParagraph();
-
-  InsertWordInternal(paragraph, character);
-  InsertRunInternal(paragraph, character);
+  InsertCharCommand command(paragraph, nullptr, character);
+  command.Apply();
+  // InsertWordInternal(paragraph, character);
+  // InsertRunInternal(paragraph, character);
 }
 
 void EnterCharController::BackSpaceChar()
@@ -186,6 +190,20 @@ void EnterCharController::OnMousePressed(const MouseEvent& event)
 void EnterCharController::OnKeyDown(const KeyEvent& event)
 {
   std::cout << "KEY DOWN" << std::endl;
+
+  switch( event.GetCode() ) {
+    case KeyboardCode::VKEY_BACK:
+      
+      break;
+    case KeyboardCode::VKEY_RIGHT:
+
+      break;
+    case KeyboardCode::VKEY_LEFT:
+
+      break;
+      
+  }
+
 }
 
 }  // le

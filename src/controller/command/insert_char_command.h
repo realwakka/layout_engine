@@ -5,16 +5,27 @@
 
 namespace le {
 
+class Paragraph;
+class Character;
+class CharCommandDelegate;
+
 class InsertCharCommand : public Command
 {
  public:
-  InsertCharCommand();
+  InsertCharCommand(Paragraph* paragraph, Character* character, Character* inserted);
+
   virtual ~InsertCharCommand();
 
   void Apply() override;
   void UnApply() override;
-  std::string GetDecription() override;
+  std::string GetDecription() override { return "Insert Char"; }
+
+ private:
+  std::vector<CharCommandDelegate*> delegate_list_;
   
+  //selected
+  Paragraph* paragraph_;
+  Character* character_;
 
 };
 
