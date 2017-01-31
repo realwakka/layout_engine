@@ -48,6 +48,12 @@ class Word
   WordView view_;
 };
 
+namespace word_util {
+
+std::vector<Word*> CreateWords(std::vector<Character*> chars);
+
+}
+
 
 }  // le
 

@@ -2,6 +2,7 @@
 
 #include "model/character/character.h"
 #include "model/character/space_character.h"
+#include "model/character/basic_character.h"
 #include "model/paragraph.h"
 #include "model/face/face_manager.h"
 #include <algorithm>
@@ -182,6 +183,29 @@ std::vector<std::vector<Character*>> Word::GetSplittedWord(int width,int& space_
     }
   }
   return words;
+}
+
+namespace word_util
+{
+
+std::vector<Word*> CreateWords(std::vector<Character*> chars)
+{
+  std::vector<Word*> words;
+  words.push_back(new Word());
+
+  for( Character* character : chars ) {
+    if( typeid(*character) == typeid(BasicCharacter) ){
+      if( typeid(*words.back()) == typeid(SpaceCharacter) )
+        words.push_back(new Word());
+
+      words.back()->InsertCharacter(character, nullptr);
+    } else if( typeid(*character) == typeid(SpaceCharacter) ){
+      words.back()->InsertCharacter(character, nullptr);
+    }
+  }
+  return words;
+}
+
 }
 
 

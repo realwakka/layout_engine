@@ -11,6 +11,7 @@ class CharCommandDelegate
  public:
   virtual void Apply(Character* character, Paragraph* paragraph) = 0;
   virtual void UnApply(Character* character, Paragraph* paragraph) = 0;
+  virtual void ReApply(Character* character, Paragraph* paragraph) = 0;
 };
 
 

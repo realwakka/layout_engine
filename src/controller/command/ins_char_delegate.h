@@ -15,6 +15,7 @@ class InsCharDelegate : public CharCommandDelegate
   
   void Apply(Character* character, Paragraph* paragraph) override;
   void UnApply(Character* character, Paragraph* paragraph) override;
+  void ReApply(Character* character, Paragraph* paragraph) override;
   
  private:
   TextRun* run_;

@@ -16,9 +16,15 @@ class InsertCharCommand : public Command
 
   virtual ~InsertCharCommand();
 
+  void AppendChild(Command* child) override;
+
   void Apply() override;
   void UnApply() override;
+  void ReApply() override;
   std::string GetDecription() override { return "Insert Char"; }
+
+ private:
+  bool MergeAvailable(Command* child) const;
 
  private:
   std::vector<CharCommandDelegate*> delegate_list_;

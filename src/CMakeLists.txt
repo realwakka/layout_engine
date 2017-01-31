@@ -64,6 +64,8 @@ set(LE_SRCS
   controller/command/insert_char_command.cc
   controller/command/ins_char_delegate.cc
   controller/command/del_char_delegate.cc
+  controller/command/command_stack.cc
+  controller/command/initial_command.cc
   
   graphic/canvas.cc
   graphic/point.cc
