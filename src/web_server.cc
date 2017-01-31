@@ -62,18 +62,24 @@ bool ProcessEvent(const std::string& json, le::RenderText& rendertext)
     rendertext.Layout();
     return true;
   } else if( event_type == "keydown" ) {
-    //auto code = std::stoi(root.get("keyCode", "" ).asString());
     auto code = root.get("keyCode", "" ).asInt();
-    le::KeyEvent keyevent;
-    keyevent.SetCode(static_cast<le::KeyboardCode>(code));
-    rendertext.OnKeyDown(keyevent);
+    auto ctrl = root.get("ctrlKey", "false" ).asBool();
+    auto alt = root.get("altKey", "false" ).asBool();
+    auto shift = root.get("shiftKey", "false" ).asBool();
     
-    if( code == 8 ) {
-      rendertext.BackSpace();
-      rendertext.Layout();
-      return true;
-    }
-    return false;
+    le::KeyEvent keyevent;
+    auto str = root.get("key", "" ).asString();
+    if( str.length() == 1 )
+      keyevent.SetChar(str[0]);
+    
+    keyevent.SetCode(static_cast<le::KeyboardCode>(code));
+    keyevent.SetCtrlDown(ctrl);
+    keyevent.SetAltDown(alt);
+    keyevent.SetShiftDown(shift);
+    
+    rendertext.OnKeyDown(keyevent);
+    rendertext.Layout();
+    return true;
     
   } else if ( event_type == "mousedown" ) {
     
@@ -85,10 +91,6 @@ bool ProcessEvent(const std::string& json, le::RenderText& rendertext)
     event.SetY(y);
 
     rendertext.OnMousePressed(event);
-    
-    // rendertext.InsertText(key);
-    // rendertext.Layout();
-    
     return false;
   }
   

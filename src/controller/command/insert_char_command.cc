@@ -1,5 +1,7 @@
 #include "insert_char_command.h"
 
+#include <typeinfo>
+
 #include "controller/command/char_command_delegate.h"
 #include "controller/command/ins_char_delegate.h"
 

@@ -25,12 +25,12 @@
       if (event.keyCode == 8 && event.keyCode == 32 && event.target == document.body) {
       event.preventDefault();
       }
-      socket.emit("keydown event", {type: "keydown", key: event.key,keyCode: event.keyCode});
+      socket.emit("keydown event", {type: "keydown", key: event.key,keyCode: event.keyCode, ctrlKey: event.ctrlKey, altKey: event.altKey, shiftKey: event.shiftKey});
       }
 
       function dokeypress(event) {
       console.log(event);
-      socket.emit("keypress event", {type: "keypress", key : event.key, keycode : event.keycode});
+      //socket.emit("keypress event", {type: "keypress", key : event.key, keycode : event.keycode});
       }
 
 

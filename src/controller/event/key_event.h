@@ -2,10 +2,11 @@
 #define LE_KEY_EVENT_H_
 
 #include "controller/event/keyboard_codes.h"
+#include "controller/event/event.h"
 
 namespace le {
 
-class KeyEvent
+class KeyEvent : public Event
 {
  public:
   KeyEvent();

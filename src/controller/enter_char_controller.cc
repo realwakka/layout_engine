@@ -133,18 +133,32 @@ void EnterCharController::OnMousePressed(const MouseEvent& event)
 void EnterCharController::OnKeyDown(const KeyEvent& event)
 {
   std::cout << "KEY DOWN" << std::endl;
+  std::cout << "KEY : " << event.GetChar() << std::endl;
 
-  switch( event.GetCode() ) {
-    case KeyboardCode::VKEY_BACK:
+  if( event.GetCtrlDown() || event.GetCtrlDown() ) {
+
+    if( event.GetCtrlDown() && event.GetCode() == KeyboardCode::VKEY_Z ) {
+      std::cout << "UNDO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
+    }
+  } else if( event.GetChar() != 0 ) {
+    auto character = CreateCharacter(event.GetChar());
+    auto paragraph = enter_char_.GetRun()->GetParagraph();
+    auto stack = CommandStack::GetInstance();
+    stack->DoCommand<InsertCharCommand>(paragraph, nullptr, character);
+  } else {
+    switch( event.GetCode() ) {
+      case KeyboardCode::VKEY_BACK:
       
-      break;
-    case KeyboardCode::VKEY_RIGHT:
+        break;
+      case KeyboardCode::VKEY_RIGHT:
 
-      break;
-    case KeyboardCode::VKEY_LEFT:
+        break;
+      case KeyboardCode::VKEY_LEFT:
 
-      break;
+        break;
       
+    }
+
   }
 
 }

@@ -2,6 +2,7 @@
 
 #include "view/view.h"
 #include <iostream>
+#include <typeinfo>
 
 namespace le {
 
