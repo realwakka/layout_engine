@@ -136,9 +136,9 @@ void EnterCharController::OnKeyDown(const KeyEvent& event)
   std::cout << "KEY : " << event.GetChar() << std::endl;
 
   if( event.GetCtrlDown() || event.GetCtrlDown() ) {
-
+    
     if( event.GetCtrlDown() && event.GetCode() == KeyboardCode::VKEY_Z ) {
-      std::cout << "UNDO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
+      CommandStack::GetInstance()->UndoCommand();
     }
   } else if( event.GetChar() != 0 ) {
     auto character = CreateCharacter(event.GetChar());
