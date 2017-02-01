@@ -8,7 +8,6 @@
 #include "view/hititem.h"
 #include "controller/event/key_event.h"
 #include "controller/command/insert_char_command.h"
-#include "controller/command/command_stack.h"
 
 #include <iostream>
 
@@ -62,8 +61,8 @@ void EnterCharController::InsertChar(Character* character)
 {
   auto paragraph = enter_char_.GetRun()->GetParagraph();
 
-  auto stack = CommandStack::GetInstance();
-  stack->DoCommand<InsertCharCommand>(paragraph, nullptr, character);
+  // auto stack = CommandStack::GetInstance();
+  // stack->DoCommand<InsertCharCommand>(paragraph, nullptr, character);
 }
 
 void EnterCharController::BackSpaceChar()
@@ -138,13 +137,13 @@ void EnterCharController::OnKeyDown(const KeyEvent& event)
   if( event.GetCtrlDown() || event.GetCtrlDown() ) {
     
     if( event.GetCtrlDown() && event.GetCode() == KeyboardCode::VKEY_Z ) {
-      CommandStack::GetInstance()->UndoCommand();
+      // CommandStack::GetInstance()->UndoCommand();
     }
   } else if( event.GetChar() != 0 ) {
     auto character = CreateCharacter(event.GetChar());
     auto paragraph = enter_char_.GetRun()->GetParagraph();
-    auto stack = CommandStack::GetInstance();
-    stack->DoCommand<InsertCharCommand>(paragraph, nullptr, character);
+    // auto stack = CommandStack::GetInstance();
+    // stack->DoCommand<InsertCharCommand>(paragraph, nullptr, character);
   } else {
     switch( event.GetCode() ) {
       case KeyboardCode::VKEY_BACK:

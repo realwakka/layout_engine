@@ -62,10 +62,7 @@ set(LE_SRCS
   controller/event/mouse_event.cc
   controller/event/key_event.cc
   controller/command/insert_char_command.cc
-  controller/command/ins_char_delegate.cc
-  controller/command/del_char_delegate.cc
-  controller/command/command_stack.cc
-  controller/command/initial_command.cc
+  controller/command/delete_char_command.cc
   controller/command/commit.cc
   controller/command/commit_tree.cc
   

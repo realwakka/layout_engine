@@ -15,23 +15,23 @@ class Command
 
   virtual std::string GetDecription() = 0;
 
-  virtual void AppendChild(Command* child) { parent_.AppendChild(child, this); }
+ //  virtual void AppendChild(Command* child) { parent_.AppendChild(child, this); }
 
-  Command* GetFirstChild() { return parent_.GetFirstChild(); }
-  Command* GetLastChild() { return parent_.GetLastChild(); }
-  Command* GetChildAt(int index) const { return parent_.GetChildAt(index); }
-  int GetChildCount() const { return parent_.GetChildCount(); }
-  void AddChildAt(int index, Command* child) { parent_.AddChildAt(index, child, this); }
+ //  Command* GetFirstChild() { return parent_.GetFirstChild(); }
+ //  Command* GetLastChild() { return parent_.GetLastChild(); }
+ //  Command* GetChildAt(int index) const { return parent_.GetChildAt(index); }
+ //  int GetChildCount() const { return parent_.GetChildCount(); }
+ //  void AddChildAt(int index, Command* child) { parent_.AddChildAt(index, child, this); }
 
-  int GetIndex() { return child_.GetIndex(this); }
-  Command* GetParent() const { return child_.GetParent(); }
-  void SetParent(Command* parent) { child_.SetParent(parent); }
-  Command* GetNextSibling() { child_.GetNextSibling(this); }
-  Command* GetPrevSibling() { child_.GetPrevSibling(this); }
+ //  int GetIndex() { return child_.GetIndex(this); }
+ //  Command* GetParent() const { return child_.GetParent(); }
+ //  void SetParent(Command* parent) { child_.SetParent(parent); }
+ //  Command* GetNextSibling() { child_.GetNextSibling(this); }
+ //  Command* GetPrevSibling() { child_.GetPrevSibling(this); }
 
- private:
-  Parent<Command, Command> parent_;
-  Child<Command, Command> child_;
+ // private:
+ //  Parent<Command, Command> parent_;
+ //  Child<Command, Command> child_;
 };
 
 
