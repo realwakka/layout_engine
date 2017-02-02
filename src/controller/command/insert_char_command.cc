@@ -1,6 +1,7 @@
 #include "insert_char_command.h"
 
 #include <typeinfo>
+#include <iostream>
 
 #include "model/paragraph.h"
 #include "model/character/basic_character.h"
@@ -67,9 +68,9 @@ void InsertRunInternal(Paragraph* paragraph, Character* character)
 }
 
 
-void BackSpaceWordInternal(Paragraph& paragraph)
+void BackSpaceWordInternal(Paragraph* paragraph)
 {
-  auto last_word = paragraph.GetLastWord();
+  auto last_word = paragraph->GetLastWord();
   if( last_word == nullptr ) {
 
   } else {
@@ -77,13 +78,13 @@ void BackSpaceWordInternal(Paragraph& paragraph)
     last_word->RemoveCharacter(prev_char);
 
     if( last_word->GetFirstCharacter() == nullptr )
-      paragraph.RemoveWord(last_word);
+      paragraph->RemoveWord(last_word);
   }
 }
 
-Run* BackSpaceRunInternal(Paragraph& paragraph)
+Run* BackSpaceRunInternal(Paragraph* paragraph)
 {
-  auto last_run = paragraph.GetLastRun();
+  auto last_run = paragraph->GetLastRun();
   Run* ret = nullptr;
   if( last_run == nullptr ) {
 
@@ -92,7 +93,7 @@ Run* BackSpaceRunInternal(Paragraph& paragraph)
     last_run->RemoveCharacter(prev_char);
 
     if( last_run->GetFirstCharacter() == nullptr ) {
-      paragraph.RemoveRun(last_run);
+      paragraph->RemoveRun(last_run);
       ret = last_run;
     }
   }
@@ -123,9 +124,13 @@ void InsertCharCommand::Apply()
 
 void InsertCharCommand::UnApply() 
 {
+  std::cout << "unapply!!!!!!!!!!!!!!!!!!!!!!!" << inserted_->GetChar() << std::endl;
   if( paragraph_ ) {
-    BackSpaceWordInternal(*paragraph_);
-    BackSpaceRunInternal(*paragraph_);
+    std::cout << "remove word" << std::endl;
+    BackSpaceWordInternal(paragraph_);
+    std::cout << "remove run" << std::endl;
+    BackSpaceRunInternal(paragraph_);
+    std::cout << "complete" << std::endl;
   }
 }
 

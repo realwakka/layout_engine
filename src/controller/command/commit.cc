@@ -5,6 +5,8 @@
 namespace le {
 
 Commit::Commit()
+    : complete_(false),
+      time_(std::time(nullptr))
 {}
 
 Commit::~Commit()

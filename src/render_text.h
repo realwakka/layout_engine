@@ -28,6 +28,10 @@ class RenderText
   void OnMousePressed(const MouseEvent& event);
   void OnKeyDown(const KeyEvent& event);
   Document& GetDocument() { return document_; }
+
+  void Commit();
+  void UnDo();
+  void ReDo();
   
  private:
   Document document_;

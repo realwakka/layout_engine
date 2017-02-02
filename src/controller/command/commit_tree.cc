@@ -15,15 +15,26 @@ CommitTree::~CommitTree()
 
 bool CommitTree::DoCommit()
 {
-  if( current_->GetChildCount() != 0 ) {
-    auto commit = new Commit();
-    current_->AppendChild(commit);
-    current_ = commit;
-  }
+  current_->SetComplete(true);
 }
 
 void CommitTree::AddCommand(Command* command)
 {
+  if( current_ == nullptr ) {
+    current_ = new Commit();
+  } else {
+    auto now = std::time(nullptr);
+    auto diff = now - current_->GetTime();
+    if( diff > 5 )
+      DoCommit();
+    
+    if( current_->GetComplete() ) {
+      auto commit = new Commit();
+      current_->AppendChild(commit);
+      current_ = commit;
+    }
+  }
+
   command->Apply();
   current_->AddCommand(command);
 }
@@ -38,16 +49,19 @@ CommitTree* CommitTree::GetInstance()
 
 void CommitTree::UnDo()
 {
-  DoCommit();
-  if( current_->GetParent() ) {
-    current_->GetParent()->UnApply();
+  if( current_ ) {
+    DoCommit();
+    current_->UnApply();
     current_ = current_->GetParent();
   }
-  
 }
 void CommitTree::ReDo()
 {
-  DoCommit();
+  if( current_ && current_->GetLastChild() ) {
+    DoCommit();
+    current_ = current_->GetLastChild();
+    current_->ReApply();
+  }
 }
 
 

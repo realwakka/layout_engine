@@ -5,6 +5,7 @@
 #include "model/selection/caret_selection.h"
 #include "model/character/character.h"
 #include "controller/controller.h"
+#include "controller/command/commit_tree.h"
 
 namespace le {
 
@@ -47,7 +48,10 @@ void RenderText::SetPageSize(int width, int height)
   
 }
 
-
+void RenderText::Commit()
+{
+  CommitTree::GetInstance()->DoCommit();
+}
 
 void RenderText::Layout()
 {
@@ -82,6 +86,17 @@ void RenderText::BackSpace()
 {
   selection_->GetController()->BackSpaceChar();
 }
+
+void RenderText::UnDo()
+{
+  CommitTree::GetInstance()->UnDo();
+}
+
+void RenderText::ReDo()
+{
+  CommitTree::GetInstance()->ReDo();
+}
+
 
 void RenderText::OnKeyDown(const KeyEvent& event)
 {

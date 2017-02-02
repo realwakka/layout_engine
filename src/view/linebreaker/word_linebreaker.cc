@@ -39,7 +39,11 @@ void createViews(std::vector<std::vector<Character*>>& lines, ParagraphView& par
   }
 
   auto enter_char = paragraph_view.GetParagraph().GetEnterRun()->GetEnterChar();
+  if( paragraph_view.GetLastChild() == nullptr ) 
+    paragraph_view.AppendChild(new LineView);
+  
   paragraph_view.GetLastChild()->AppendChild(&enter_char->GetView());
+
 }
 
 }

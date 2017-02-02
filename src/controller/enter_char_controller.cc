@@ -8,6 +8,7 @@
 #include "view/hititem.h"
 #include "controller/event/key_event.h"
 #include "controller/command/insert_char_command.h"
+#include "controller/command/delete_char_command.h"
 #include "controller/command/commit_tree.h"
 
 
@@ -62,9 +63,8 @@ void EnterCharController::InsertText(std::string text)
 void EnterCharController::InsertChar(Character* character)
 {
   auto paragraph = enter_char_.GetRun()->GetParagraph();
-
-  // auto stack = CommandStack::GetInstance();
-  // stack->DoCommand<InsertCharCommand>(paragraph, nullptr, character);
+  auto command = new InsertCharCommand(paragraph, nullptr, character);
+  CommitTree::GetInstance()->AddCommand(command);
 }
 
 void EnterCharController::BackSpaceChar()
@@ -139,6 +139,9 @@ void EnterCharController::OnKeyDown(const KeyEvent& event)
   if( event.GetCtrlDown() || event.GetCtrlDown() ) {
     
     if( event.GetCtrlDown() && event.GetCode() == KeyboardCode::VKEY_Z ) {
+      std::cout << "UNDO UNDO" << std::endl;
+      CommitTree::GetInstance()->UnDo();
+      std::cout << "UNDO COMPLETE" << std::endl;
       // CommandStack::GetInstance()->UndoCommand();
     }
   } else if( event.GetChar() != 0 ) {
@@ -147,13 +150,15 @@ void EnterCharController::OnKeyDown(const KeyEvent& event)
 
     auto command = new InsertCharCommand(paragraph, nullptr, character);
     CommitTree::GetInstance()->AddCommand(command);
-    // auto stack = CommandStack::GetInstance();
-    // stack->DoCommand<InsertCharCommand>(paragraph, nullptr, character);
+
   } else {
     switch( event.GetCode() ) {
-      case KeyboardCode::VKEY_BACK:
-      
+      case KeyboardCode::VKEY_BACK: {
+        auto paragraph = enter_char_.GetRun()->GetParagraph();
+        auto command = new DeleteCharCommand(paragraph, nullptr);
+        CommitTree::GetInstance()->AddCommand(command);
         break;
+      }
       case KeyboardCode::VKEY_RIGHT:
 
         break;

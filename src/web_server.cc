@@ -56,11 +56,12 @@ bool ProcessEvent(const std::string& json, le::RenderText& rendertext)
 
   auto event_type = root.get("type", "" ).asString();
   if( event_type == "keypress" ) {
-    auto key = root.get("key", "" ).asString();
-    std::cout << "received key : " <<key<< std::endl;
-    rendertext.InsertText(key);
-    rendertext.Layout();
-    return true;
+    // auto key = root.get("key", "" ).asString();
+    // std::cout << "received key : " <<key<< std::endl;
+    // rendertext.InsertText(key);
+    // rendertext.Layout();
+    // return true;
+    
   } else if( event_type == "keydown" ) {
     auto code = root.get("keyCode", "" ).asInt();
     auto ctrl = root.get("ctrlKey", "false" ).asBool();
@@ -98,7 +99,8 @@ bool ProcessEvent(const std::string& json, le::RenderText& rendertext)
 }
 
 
-void PngWriteCallback(png_structp png_ptr, png_bytep data, png_size_t length) {
+void PngWriteCallback(png_structp png_ptr, png_bytep data, png_size_t length)
+{
   std::vector<char> *p = (std::vector<char>*)png_get_io_ptr(png_ptr);
   p->insert(p->end(), data, data + length);
 }

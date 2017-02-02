@@ -3,6 +3,7 @@
 
 #include "type/container.h"
 #include <vector>
+#include <ctime>
 
 namespace le {
 
@@ -34,10 +35,17 @@ class Commit
   Commit* GetNextSibling() { child_.GetNextSibling(this); }
   Commit* GetPrevSibling() { child_.GetPrevSibling(this); }
 
+  bool GetComplete() const { return complete_; }
+  void SetComplete( bool complete ) { complete_ = complete; }
+
+  std::time_t GetTime() const { return time_; }
+
  private:
   Parent<Commit, Commit> parent_;
   Child<Commit, Commit> child_;
   std::vector<Command*> commands_;
+  bool complete_;
+  std::time_t time_;
   
 };
 
