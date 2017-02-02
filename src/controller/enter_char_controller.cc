@@ -11,7 +11,6 @@
 #include "controller/command/delete_char_command.h"
 #include "controller/command/commit_tree.h"
 
-
 #include <iostream>
 
 namespace le {
@@ -138,12 +137,12 @@ void EnterCharController::OnKeyDown(const KeyEvent& event)
 
   if( event.GetCtrlDown() || event.GetCtrlDown() ) {
     
-    if( event.GetCtrlDown() && event.GetCode() == KeyboardCode::VKEY_Z ) {
-      std::cout << "UNDO UNDO" << std::endl;
+    if( event.GetCtrlDown() && event.GetCode() == KeyboardCode::VKEY_Z )
       CommitTree::GetInstance()->UnDo();
-      std::cout << "UNDO COMPLETE" << std::endl;
-      // CommandStack::GetInstance()->UndoCommand();
-    }
+
+    if( event.GetCtrlDown() && event.GetCode() == KeyboardCode::VKEY_Y )
+      CommitTree::GetInstance()->ReDo();
+
   } else if( event.GetChar() != 0 ) {
     auto character = CreateCharacter(event.GetChar());
     auto paragraph = enter_char_.GetRun()->GetParagraph();

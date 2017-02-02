@@ -9,7 +9,9 @@ CommitTree* CommitTree::instance_ = nullptr;
 
 CommitTree::CommitTree()
     : current_(new Commit())
-{}
+{
+  current_->SetComplete(true);
+}
 CommitTree::~CommitTree()
 {}
 

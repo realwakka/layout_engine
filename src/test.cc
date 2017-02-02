@@ -19,6 +19,7 @@ int main(int argc, char* argv[])
   rendertext.InsertText(text);
   rendertext.Layout();
   rendertext.UnDo();
+  rendertext.ReDo();
   // rendertext.SetSize(15);
   // rendertext.InsertText(text);
   // // rendertext.SetBold(false);
