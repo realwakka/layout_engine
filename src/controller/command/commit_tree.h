@@ -14,6 +14,8 @@ class CommitTree
 
   bool DoCommit();
   void AddCommand(Command* command);
+  void UnDo();
+  void ReDo();
 
   static CommitTree* GetInstance();
 

@@ -8,6 +8,8 @@
 #include "view/hititem.h"
 #include "controller/event/key_event.h"
 #include "controller/command/insert_char_command.h"
+#include "controller/command/commit_tree.h"
+
 
 #include <iostream>
 
@@ -142,6 +144,9 @@ void EnterCharController::OnKeyDown(const KeyEvent& event)
   } else if( event.GetChar() != 0 ) {
     auto character = CreateCharacter(event.GetChar());
     auto paragraph = enter_char_.GetRun()->GetParagraph();
+
+    auto command = new InsertCharCommand(paragraph, nullptr, character);
+    CommitTree::GetInstance()->AddCommand(command);
     // auto stack = CommandStack::GetInstance();
     // stack->DoCommand<InsertCharCommand>(paragraph, nullptr, character);
   } else {
