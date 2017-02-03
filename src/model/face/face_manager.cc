@@ -51,7 +51,7 @@ void FaceManager::LoadSystemFaces()
 {
   auto pat = FcPatternCreate();
   
-  auto os = FcObjectSetBuild(FC_FILE, FC_FT_FACE, nullptr);
+  auto os = FcObjectSetBuild(FC_FILE, FC_FT_FACE, FC_LANG, nullptr);
   auto fs = FcFontList(nullptr, pat, os);
 
   for(int i=0 ; i<fs->nfont ; ++i ) {
@@ -65,8 +65,16 @@ void FaceManager::LoadSystemFaces()
     auto key = CreateFaceCacheKey(path, 0);
     face_cache_map_.emplace(key, ft_face);
     
-    if( !default_face_ )
-      default_face_ = ft_face;
+    if( default_face_ == nullptr ) {
+      FcLangSet* langset = nullptr;
+      auto result = FcPatternGetLangSet(pattern, "lang", 0, &langset);
+      if( result == FcResultMatch ) {
+        auto en_result = FcLangSetHasLang(langset, reinterpret_cast<const unsigned char*>("en"));
+        if ( en_result == FcLangEqual )
+          default_face_ = ft_face;
+      }
+
+    }
   }
 }
 
