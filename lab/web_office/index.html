@@ -4,7 +4,26 @@
     
   </head>
   <body>
-    <canvas id="canvas" width=1000 height=1000>
+    <select id="fontsize">
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="14">14</option>
+      <option value="18">18</option>
+      <option value="24">24</option>
+      <option value="30">30</option>
+      <option value="36">36</option>
+      <option value="48">48</option>
+      <option value="60">60</option>
+      <option value="72">72</option>
+      <option value="96">96</option>
+    </select>
+    <div id="canvas_div" style="position:absolute; top:75; left:75; z-index:3">
+      <canvas id="canvas" width=1000 height=1000>
+    </div>
+    
     <script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
@@ -45,8 +64,15 @@
       socket.on("window size request", function() {
       console.log("window size requested");
       socket.emit("window size", { 'width':window.outerWidth, 'height':window.outerHeight});
+      });
+
+      var fontsize = document.getElementById("fontsize");
+      fontsize.onchange = function() {
+      var size = fontsize.options[fontsize.selectedIndex].value;
+      socket.emit("fontsize", { 'size':size});
+      console.log(size);
       }
-      );
+      
     </script>
   </body>
 </html>

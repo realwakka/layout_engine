@@ -48,6 +48,12 @@ io.on('connection', function(socket){
 	//client.write(size);
     });
 
+    socket.on('fontsize', function(size){
+	console.log(size);
+	client.write(JSON.stringify(size));
+	//client.write(size);
+    });
+    
     var buffer_len = 0;
     var chunks_len = 0;
     const chunks = [];
