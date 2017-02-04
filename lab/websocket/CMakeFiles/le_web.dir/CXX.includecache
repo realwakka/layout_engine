@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/sidong/layout_engine/lab/websocket/server.cc
+server.h
+/home/sidong/layout_engine/lab/websocket/server.h
+
+/home/sidong/layout_engine/lab/websocket/server.h
+

@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/sidong/layout_engine/lab/websocket/main.cc
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+libwebsockets.h
+-
+iostream
+-
+

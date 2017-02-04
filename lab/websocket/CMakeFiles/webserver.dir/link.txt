@@ -1,0 +1,1 @@
+/usr/bin/c++    -std=c++11 -g   CMakeFiles/webserver.dir/main.cc.o  -o webserver -rdynamic lible_web.so -lwebsockets -Wl,-rpath,/home/sidong/layout_engine/lab/websocket 

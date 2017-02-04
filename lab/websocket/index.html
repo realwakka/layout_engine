@@ -6,8 +6,8 @@
     <script type="text/javascript">
       $(function() {
       window.WebSocket = window.WebSocket || window.MozWebSocket;
-      var websocket = new WebSocket('ws://127.0.0.1:9000',
-      'dumb-increment-protocol');
+      var websocket = new WebSocket('ws://127.0.0.1:8080',
+      'le_web_protocol');
       websocket.onopen = function () {
       $('h1').css('color', 'green');
       };

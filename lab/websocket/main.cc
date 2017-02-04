@@ -2,19 +2,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <libwebsockets.h>
+#include <iostream>
 
-static int callback_http(struct libwebsocket_context* context,
-                         struct libwebsocket* wsi,
-                         enum libwebsocket_callback_reasons reason,
+static int callback_http(lws* wsi,
+                         lws_callback_reasons reason,
                          void *user,
                          void *in, size_t len)
 {
   switch (reason) {
-    // http://git.warmcat.com/cgi-bin/cgit/libwebsockets/tree/lib/libwebsockets.h#n260
     case LWS_CALLBACK_CLIENT_WRITEABLE:
       printf("connection established\n");
 
-      // http://git.warmcat.com/cgi-bin/cgit/libwebsockets/tree/lib/libwebsockets.h#n281
     case LWS_CALLBACK_HTTP: {
       // auto universal_response = "Hello, World!";
       // libwebsocket_write(wsi, (unsigned char*)universal_response, strlen(universal_response), LWS_WRITE_HTTP);
@@ -25,9 +23,8 @@ static int callback_http(struct libwebsocket_context* context,
       if (strcmp(requested_uri, "/") == 0) {
         printf("say hello~\n");
         const char* universal_response = "Hello, World!";
-        // http://git.warmcat.com/cgi-bin/cgit/libwebsockets/tree/lib/libwebsockets.h#n597
-        libwebsocket_write(wsi, (unsigned char*)universal_response,
-                           strlen(universal_response), LWS_WRITE_HTTP);
+        lws_write(wsi, (unsigned char*)universal_response,
+                  strlen(universal_response), LWS_WRITE_HTTP);
         break;
 
       } else {
@@ -44,7 +41,7 @@ static int callback_http(struct libwebsocket_context* context,
           printf("resource path: %s\n", resource_path);
 
           char *extension = strrchr(resource_path, '.');
-          char *mime;
+          const char *mime;
 
           // choose mime type based on the file extension
           if (extension == NULL) {
@@ -67,7 +64,7 @@ static int callback_http(struct libwebsocket_context* context,
           // for more information how this function handles headers
           // see it's source code
           // http://git.warmcat.com/cgi-bin/cgit/libwebsockets/tree/lib/parsers.c#n1896
-          libwebsockets_serve_http_file(context, wsi, resource_path, mime);
+          lws_serve_http_file(wsi, resource_path, mime, nullptr, 0);
 
         }
       }
@@ -109,7 +106,7 @@ static int callback_http(struct libwebsocket_context* context,
       // why there's `buf[LWS_SEND_BUFFER_PRE_PADDING]` and how long it is.
       // we know that our response has the same length as request because
       // it's the same message in reverse order.
-      libwebsocket_write(wsi, &buf[LWS_SEND_BUFFER_PRE_PADDING], len, LWS_WRITE_TEXT);
+      lws_write(wsi, &buf[LWS_SEND_BUFFER_PRE_PADDING], len, LWS_WRITE_TEXT);
 
       // release memory back into the wild
       free(buf);
@@ -125,9 +122,8 @@ static int callback_http(struct libwebsocket_context* context,
 
 
 
-static int callback_dumb_increment(struct libwebsocket_context* context,
-                                   struct libwebsocket *wsi,
-                                   enum libwebsocket_callback_reasons reason,
+static int callback_dumb_increment(lws *wsi,
+                                   lws_callback_reasons reason,
                                    void *user, void *in, size_t len)
 {
 
@@ -163,7 +159,7 @@ static int callback_dumb_increment(struct libwebsocket_context* context,
       // why there's `buf[LWS_SEND_BUFFER_PRE_PADDING]` and how long it is.
       // we know that our response has the same length as request because
       // it's the same message in reverse order.
-      libwebsocket_write(wsi, &buf[LWS_SEND_BUFFER_PRE_PADDING], len, LWS_WRITE_TEXT);
+      lws_write(wsi, &buf[LWS_SEND_BUFFER_PRE_PADDING], len, LWS_WRITE_TEXT);
 
       // release memory back into the wild
       free(buf);
@@ -177,19 +173,20 @@ static int callback_dumb_increment(struct libwebsocket_context* context,
   return 0;
 }
 
-static struct libwebsocket_protocols protocols[] = {
+lws_protocols protocols[] = {
   /* first protocol must always be HTTP handler */
   {
-    "http-only",   // name
-    callback_http, // callback
-    0              // per_session_data_size
+    "le_web_protocol",
+    callback_http,
+    0,
+    0,
   },
-  {
-    "dumb-increment-protocol", // protocol name - very important!
-    callback_dumb_increment,   // callback
-    0                          // we don't use any per session data
+  // {
+  //   "dumb-increment-protocol", // protocol name - very important!
+  //   callback_dumb_increment,   // callback
+  //   0                          // we don't use any per session data
 
-  },
+  // },
   {
     NULL, NULL, 0   /* End of list */
   }
@@ -199,16 +196,16 @@ static struct libwebsocket_protocols protocols[] = {
 int main(void) {
   int port = 8080;
   const char *interface = NULL;
-  struct libwebsocket_context *context;
+  lws_context *context;
   int opts = 0;
 
-  struct lws_context_creation_info info;
+  lws_context_creation_info info;
   memset(&info, 0, sizeof(info));
   
   info.port = port;
   info.iface = interface;
   info.protocols = protocols;
-  info.extensions = libwebsocket_get_internal_extensions();
+  info.extensions = nullptr;
   //if (!use_ssl) {
   info.ssl_cert_filepath = NULL;
   info.ssl_private_key_filepath = NULL;
@@ -220,7 +217,7 @@ int main(void) {
   info.uid = -1;
   info.options = opts;
 
-  context = libwebsocket_create_context(&info);
+  context = lws_create_context(&info);
   
 
   if (context == NULL) {
@@ -232,14 +229,10 @@ int main(void) {
 
   // infinite loop, to end this server send SIGTERM. (CTRL+C)
   while (1) {
-    libwebsocket_service(context, 50);
-    // libwebsocket_service will process all waiting events with their
-    // callback functions and then wait 50 ms.
-    // (this is a single threaded webserver and this will keep our server
-    // from generating load while there are not requests to process)
+    auto n = lws_service(context, 50);
   }
 
-  libwebsocket_context_destroy(context);
+  lws_context_destroy(context);
 
   return 0;
 }
