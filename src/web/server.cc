@@ -2,10 +2,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <cstring>
 
 #include <iostream>
 #include <string>
+#include <string.h>
 #include <algorithm>
 #include <thread>
 #include <jsoncpp/json/json.h>
@@ -77,6 +78,8 @@ bool ProcessEvent(const std::string& json, le::RenderText& rendertext)
     auto ctrl = root.get("ctrlKey", "false" ).asBool();
     auto alt = root.get("altKey", "false" ).asBool();
     auto shift = root.get("shiftKey", "false" ).asBool();
+
+    std::cout << "keydown : " << code << std::endl;
     
     le::KeyEvent keyevent;
     auto str = root.get("key", "" ).asString();
@@ -87,8 +90,12 @@ bool ProcessEvent(const std::string& json, le::RenderText& rendertext)
     keyevent.SetCtrlDown(ctrl);
     keyevent.SetAltDown(alt);
     keyevent.SetShiftDown(shift);
+
+    std::cout << "before  : " << code << std::endl;
     
     rendertext.OnKeyDown(keyevent);
+
+    std::cout << "layout  : " << code << std::endl;
     rendertext.Layout();
     return true;
     
@@ -135,7 +142,10 @@ int callback_http(lws* wsi,
 
     case LWS_CALLBACK_ESTABLISHED: {
       printf("connection established\n");
+      user = lws_get_protocol(wsi)->user;
       auto rendertext = new RenderText();
+
+      std::cout << "user : " << user << std::endl;
 
       auto rendertext_map = static_cast<std::unordered_map<lws*, RenderText*>*>(user);
       rendertext_map->emplace(wsi, rendertext);
@@ -145,6 +155,7 @@ int callback_http(lws* wsi,
       printf("connection closed\n");
       break;
     case LWS_CALLBACK_RECEIVE: {
+      user = lws_get_protocol(wsi)->user;
       std::string str = reinterpret_cast<char*>(in);
       std::cout << str << std::endl;
       auto rendertext_map = static_cast<std::unordered_map<lws*, RenderText*>*>(user);
@@ -174,7 +185,13 @@ int callback_http(lws* wsi,
         auto out = Buffer2Png(bitmap_width, bitmap_height, (char*)data);
         std::cout << "bufferlen:" <<out.size() << "complete!" <<std::endl;
 
-        lws_write(wsi, (unsigned char*)out.data(), out.size(), LWS_WRITE_TEXT);
+        unsigned char* send_data = new unsigned char[LWS_PRE + out.size()];
+        std::memcpy(&send_data[LWS_PRE], out.data(), out.size());
+        
+
+        lws_write(wsi, (unsigned char*)&send_data[LWS_PRE], out.size(), LWS_WRITE_BINARY);
+
+        delete[] send_data;
         
       }
 
