@@ -19,7 +19,7 @@ set(LE_WEB_SRCS
 
 
 add_library(le_web SHARED ${LE_WEB_SRCS})
-target_link_libraries(le_web LINK_PUBLIC websockets le)
+target_link_libraries(le_web LINK_PUBLIC websockets le jsoncpp)
 
 
 add_executable(webserver main.cc)

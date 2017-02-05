@@ -17,7 +17,6 @@
 #include "controller/event/mouse_event.h"
 #include "controller/event/key_event.h"
 
-
 #include <jsoncpp/json/json.h>
 
 std::string ReadNextJson(int fd)
