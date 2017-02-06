@@ -9,6 +9,7 @@
 #include <string.h>
 #include <algorithm>
 #include <thread>
+#include <memory>
 #include <jsoncpp/json/json.h>
 
 #include "render_text.h"
@@ -126,17 +127,10 @@ int callback_http(lws* wsi,
       printf("connection client established\n");
       break;
     case LWS_CALLBACK_HTTP: {
-      // auto universal_response = "Hello, World!";
-      // libwebsocket_write(wsi, (unsigned char*)universal_response, strlen(universal_response), LWS_WRITE_HTTP);
-      // break;
       char *requested_uri = (char *) in;
       printf("requested URI: %s\n", requested_uri);
 
       lws_serve_http_file(wsi, "index.html", "text/html", nullptr, 0);
-
-      // close connection
-      // libwebsocket_close_and_free_session(context, wsi,
-      //                                     LWS_CLOSE_STATUS_NORMAL);
       break;
     }
 
@@ -185,13 +179,14 @@ int callback_http(lws* wsi,
         auto out = Buffer2Png(bitmap_width, bitmap_height, (char*)data);
         std::cout << "bufferlen:" <<out.size() << "complete!" <<std::endl;
 
-        unsigned char* send_data = new unsigned char[LWS_PRE + out.size()];
-        std::memcpy(&send_data[LWS_PRE], out.data(), out.size());
+        std::unique_ptr<unsigned char[]> send_data(new unsigned char[LWS_PRE + out.size()]);
+        //unsigned char* send_data = new unsigned char[LWS_PRE + out.size()];
+        std::memcpy(&send_data.get()[LWS_PRE], out.data(), out.size());
         
 
-        lws_write(wsi, (unsigned char*)&send_data[LWS_PRE], out.size(), LWS_WRITE_BINARY);
+        lws_write(wsi, (unsigned char*)&send_data.get()[LWS_PRE], out.size(), LWS_WRITE_BINARY);
 
-        delete[] send_data;
+        //delete[] send_data;
         
       }
 
