@@ -3,36 +3,49 @@
   <head>
     <meta charset="utf-8">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script type="text/javascript">
-      $(function() {
-      window.WebSocket = window.WebSocket || window.MozWebSocket;
-      var websocket = new WebSocket('ws://127.0.0.1:8080',
-      'le_web_protocol');
-      websocket.onopen = function () {
-      $('h1').css('color', 'green');
-      };
-      websocket.onerror = function () {
-      $('h1').css('color', 'red');
-      };
-      websocket.onmessage = function (message) {
-      console.log(message.data);
-      $('div').append($('<p>', { text: message.data }));
-        };
-        
-        $('button').click(function(e) {
-        e.preventDefault();
-        websocket.send($('input').val());
-        $('input').val('');
-        });
-        });
-    </script>
   </head>
   <body>
-    <h1>WebSockets test</h1>
-    <form>
-      <input type="text" />
-      <button>Send</button>
-    </form>
-    <div></div>
+    <div id="canvas_div" style="position:absolute; top:75; left:75; z-index:3">
+      <canvas id="canvas" width=1000 height=1000>
+    </div>
+    <script>
+      document.addEventListener("keydown", function(event) {
+
+      console.log(event);
+      if (event.keyCode == 8 && event.keyCode == 32 && event.target == document.body) {
+      event.preventDefault();
+      }
+      websocket.send(JSON.stringify({type: "keydown", key: event.key,keyCode: event.keyCode, ctrlKey: event.ctrlKey, altKey: event.altKey, shiftKey: event.shiftKey}));
+
+      }, true );
+      var canvas = document.getElementById('canvas');
+      var ctx = canvas.getContext('2d');
+
+      var websocket = new WebSocket('ws://127.0.0.1:8080','le_web_protocol');
+      websocket.onopen = function() {
+      console.log("onopen");
+      }
+
+      websocket.onerror = function() {
+      console.log("onerror");
+      }
+
+      websocket.onmessage = function(message) {
+      var reader = new FileReader();
+
+      reader.onload = function(e) {
+      var img = new Image();
+      img.src = e.target.result;
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+      };
+
+      reader.readAsDataURL(message.data);
+      }
+      
+
+    </script>
+
   </body>
 </html>

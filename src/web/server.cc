@@ -122,6 +122,8 @@ int callback_http(lws* wsi,
                   void *user,
                   void *in, size_t len)
 {
+
+  auto rendertext_map = static_cast<std::unordered_map<lws*, RenderText*>*>(lws_get_protocol(wsi)->user);
   switch (reason) {
     case LWS_CALLBACK_CLIENT_WRITEABLE:
       printf("connection client established\n");
@@ -136,23 +138,20 @@ int callback_http(lws* wsi,
 
     case LWS_CALLBACK_ESTABLISHED: {
       printf("connection established\n");
-      user = lws_get_protocol(wsi)->user;
       auto rendertext = new RenderText();
 
       std::cout << "user : " << user << std::endl;
 
-      auto rendertext_map = static_cast<std::unordered_map<lws*, RenderText*>*>(user);
       rendertext_map->emplace(wsi, rendertext);
       break;
     }
     case LWS_CALLBACK_CLOSED:
       printf("connection closed\n");
+      rendertext_map->erase(wsi);
       break;
     case LWS_CALLBACK_RECEIVE: {
-      user = lws_get_protocol(wsi)->user;
       std::string str = reinterpret_cast<char*>(in);
       std::cout << str << std::endl;
-      auto rendertext_map = static_cast<std::unordered_map<lws*, RenderText*>*>(user);
       auto it = rendertext_map->find(wsi);
       if( it != rendertext_map->end() ) {
         auto& rendertext = *it->second;
@@ -197,6 +196,19 @@ int callback_http(lws* wsi,
       std::cout<< "pid : " << getpid() << std::endl;
       return getpid();
     }
+    case LWS_CALLBACK_LOCK_POLL:
+      printf("lock poll %d\n", reason);
+      break;
+    case LWS_CALLBACK_UNLOCK_POLL:
+      printf("unlock poll %d\n", reason);
+      break;
+    case LWS_CALLBACK_ADD_POLL_FD:
+      printf("add pool fd %d\n", reason);
+      break;
+    case LWS_CALLBACK_DEL_POLL_FD:
+      printf("delete pool fd %d\n", reason);
+      break;
+      
     default:
       printf("unhandled callback %d\n", reason);
       break;
