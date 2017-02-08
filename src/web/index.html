@@ -12,7 +12,7 @@
       document.addEventListener("keydown", function(event) {
 
       console.log(event);
-      if (event.keyCode == 8 && event.keyCode == 32 && event.target == document.body) {
+      if (event.keyCode == 8 || event.keyCode == 32) {
       event.preventDefault();
       }
       websocket.send(JSON.stringify({type: "keydown", key: event.key,keyCode: event.keyCode, ctrlKey: event.ctrlKey, altKey: event.altKey, shiftKey: event.shiftKey}));
