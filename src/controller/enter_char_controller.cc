@@ -159,10 +159,10 @@ void EnterCharController::OnKeyDown(const KeyEvent& event)
         break;
       }
       case KeyboardCode::VKEY_RIGHT:
-
+        std::cout << "RIGHT!!!!" << std::endl;
         break;
       case KeyboardCode::VKEY_LEFT:
-
+        std::cout << "LEFT!!!!" << std::endl;
         break;
       
     }

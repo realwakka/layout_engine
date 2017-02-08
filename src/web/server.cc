@@ -166,16 +166,14 @@ void Server::Start()
   context = lws_create_context(&info);
 
   le::RenderText rendertext;
-  
 
-  if (context == NULL) {
+  if (context == nullptr) {
     fprintf(stderr, "libwebsocket init failed\n");
     return;
   }
 
   printf("starting server...\n");
 
-  // infinite loop, to end this server send SIGTERM. (CTRL+C)
   while (1) {
     auto n = lws_service(context, 50);
   }

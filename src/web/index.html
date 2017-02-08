@@ -30,13 +30,20 @@
       document.addEventListener("keydown", function(event) {
 
       console.log(event);
-      if (event.keyCode == 8 || event.keyCode == 32) {
+
+      switch( event.keyCode ) {
+      case 8:
+      case 32:
+      case 37:
+      case 38:
+      case 39:
+      case 40:
       event.preventDefault();
+      default:
       }
       websocket.send(JSON.stringify({type: "keydown", key: event.key,keyCode: event.keyCode, ctrlKey: event.ctrlKey, altKey: event.altKey, shiftKey: event.shiftKey}));
 
       }, true );
-
 
       
 
