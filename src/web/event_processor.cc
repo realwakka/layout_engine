@@ -2,21 +2,19 @@
 
 #include <jsoncpp/json/json.h>
 #include <iostream>
+#include <cstring>
 
 #include "controller/event/mouse_event.h"
 #include "controller/event/key_event.h"
 #include "render_text.h"
+#include "painter.h"
 
 namespace le {
 namespace web {
 
-EventProcessor::EventProcessor()
-{}
+namespace {
 
-EventProcessor::~EventProcessor()
-{}
-
-bool EventProcessor::ProcessEvent(const std::string& json, RenderText& rendertext)
+bool ProcessEvent(const std::string& json, RenderText& rendertext, lws* wsi)
 {
   Json::Value root;
   Json::Reader reader;
@@ -69,7 +67,61 @@ bool EventProcessor::ProcessEvent(const std::string& json, RenderText& rendertex
 
     rendertext.OnMousePressed(event);
     return false;
+  } else if( event_type == "paint" ) {
+
+    std::cout << "paint event!!!!!!!!!!!!!!"<< std::endl;
+    // need to change paint as event!
+    Painter painter;
+    auto out =  painter.PaintToPng(rendertext);
+    std::unique_ptr<unsigned char[]> send_data(new unsigned char[LWS_PRE + out.size()]);
+
+    std::memcpy(&send_data.get()[LWS_PRE], out.data(), out.size());
+    lws_write(wsi, (unsigned char*)&send_data.get()[LWS_PRE], out.size(), LWS_WRITE_BINARY);
+
   }
+}
+
+}
+
+EventProcessor::EventProcessor(lws* wsi)
+    : running_(true),
+      empty_(true),
+      wsi_(wsi)
+{
+  event_executor_ = new std::thread([this]() {
+      while( running_ ) {
+        while( empty_ );
+        if( running_ ) {
+        // if( empty_ ) {
+        //   while( empty_ );
+          
+        // } else {
+          std::lock_guard<std::mutex> lock(processing_);
+          auto&& json = event_queue_.front();
+          ProcessEvent(json, rendertext_, wsi_);
+          event_queue_.pop();
+          empty_ = event_queue_.empty();
+
+        }
+          
+        // }
+      }
+    });
+}
+
+EventProcessor::~EventProcessor()
+{
+  empty_ = false;
+  running_ = false;
+  event_executor_->join();
+}
+
+
+bool EventProcessor::PushEvent(const std::string& str)
+{
+  std::lock_guard<std::mutex> lock(processing_);
+  event_queue_.push(str);
+  empty_ = false;
 }
 
 }  // web

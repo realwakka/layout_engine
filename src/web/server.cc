@@ -37,40 +37,40 @@ int CallBackLe(lws* wsi,
       break;
 
     case LWS_CALLBACK_ESTABLISHED: {
-      auto rendertext_map = static_cast<std::unordered_map<lws*, RenderText*>*>(lws_get_protocol(wsi)->user);
       printf("connection established\n");
-      auto rendertext = new RenderText();
+      auto event_processor_map = static_cast<std::unordered_map<lws*, EventProcessor*>*>(lws_get_protocol(wsi)->user);
+      event_processor_map->emplace(wsi, new EventProcessor(wsi));
+      // auto rendertext = new RenderText();
 
-      std::cout << "user : " << user << std::endl;
-
-      rendertext_map->emplace(wsi, rendertext);
+      // std::cout << "user : " << user << std::endl;
+      // rendertext_map->emplace(wsi, rendertext);
       break;
     }
     case LWS_CALLBACK_CLOSED: {
-      auto rendertext_map = static_cast<std::unordered_map<lws*, RenderText*>*>(lws_get_protocol(wsi)->user);
-      printf("connection closed\n");
-      rendertext_map->erase(wsi);
+      auto event_processor_map = static_cast<std::unordered_map<lws*, EventProcessor*>*>(lws_get_protocol(wsi)->user);
+      auto it = event_processor_map->find(wsi);
+      if( it != event_processor_map->end() ) {
+        auto removed = it->second;
+        event_processor_map->erase(wsi);
+        delete removed;
+
+      }
+
+      
+      // auto rendertext_map = static_cast<std::unordered_map<lws*, RenderText*>*>(lws_get_protocol(wsi)->user);
+      // printf("connection closed\n");
+      // rendertext_map->erase(wsi);
       break;
     }
     case LWS_CALLBACK_RECEIVE: {
-      auto rendertext_map = static_cast<std::unordered_map<lws*, RenderText*>*>(lws_get_protocol(wsi)->user);
+      auto event_processor_map = static_cast<std::unordered_map<lws*, EventProcessor*>*>(lws_get_protocol(wsi)->user);
+      // auto rendertext_map = static_cast<std::unordered_map<lws*, RenderText*>*>(lws_get_protocol(wsi)->user);
       std::string str = reinterpret_cast<char*>(in);
       std::cout << str << std::endl;
-      auto it = rendertext_map->find(wsi);
-      if( it != rendertext_map->end() ) {
-        auto&& rendertext = *it->second;
-        EventProcessor event_processor;
-        event_processor.ProcessEvent(str, rendertext);
-
-        Painter painter;
-        auto out =  painter.PaintToPng(rendertext);
-        std::unique_ptr<unsigned char[]> send_data(new unsigned char[LWS_PRE + out.size()]);
-        //unsigned char* send_data = new unsigned char[LWS_PRE + out.size()];
-        std::memcpy(&send_data.get()[LWS_PRE], out.data(), out.size());
-        lws_write(wsi, (unsigned char*)&send_data.get()[LWS_PRE], out.size(), LWS_WRITE_BINARY);
-
-        //delete[] send_data;
-        
+      auto it = event_processor_map->find(wsi);
+      if( it != event_processor_map->end() ) {
+        it->second->PushEvent(str);
+        it->second->PushEvent("{\"type\":\"paint\"}");
       }
       break;
     }
@@ -146,7 +146,7 @@ void Server::Start()
 
   lws_protocols protocols[] = {
     { "http_protocol", CallBackHttp, 0, 0, },
-    { "le_web_protocol", CallBackLe, 0, 0, 0, &rendertext_map_, },
+    { "le_web_protocol", CallBackLe, 0, 0, 0, &event_processor_map_, },
     { nullptr, nullptr, 0 }
   };
 
