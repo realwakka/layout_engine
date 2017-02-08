@@ -57,7 +57,7 @@ Painter::~Painter()
 
 std::vector<char> Painter::PaintToPng(RenderText& rendertext)
 {
-
+  std::cout << "paint!!!!!" << std::endl;
   auto&& document_view = rendertext.GetDocument().GetView();
   auto bitmap = new le::Bitmap(document_view.GetWidth(), document_view.GetHeight(), 3);
   
@@ -78,6 +78,8 @@ std::vector<char> Painter::PaintToPng(RenderText& rendertext)
   std::cout << "compress...";
   auto out = Buffer2Png(bitmap_width, bitmap_height, (char*)data);
   std::cout << "bufferlen:" <<out.size() << "complete!" <<std::endl;
+  
+  return out;
 }
 
 

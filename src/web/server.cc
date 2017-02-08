@@ -66,10 +66,14 @@ int CallBackLe(lws* wsi,
         auto out =  painter.PaintToPng(rendertext);
         std::unique_ptr<unsigned char[]> send_data(new unsigned char[LWS_PRE + out.size()]);
         //unsigned char* send_data = new unsigned char[LWS_PRE + out.size()];
+        std::cout << "memcopy..." << std::endl;
         std::memcpy(&send_data.get()[LWS_PRE], out.data(), out.size());
-        
+
+        std::cout << "lws_write..." << std::endl;
 
         lws_write(wsi, (unsigned char*)&send_data.get()[LWS_PRE], out.size(), LWS_WRITE_BINARY);
+
+        std::cout << "complete!" << std::endl;
 
         //delete[] send_data;
         
