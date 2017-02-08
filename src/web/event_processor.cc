@@ -24,11 +24,6 @@ bool ProcessEvent(const std::string& json, RenderText& rendertext, lws* wsi)
 
   auto event_type = root.get("type", "" ).asString();
   if( event_type == "keypress" ) {
-    // auto key = root.get("key", "" ).asString();
-    // std::cout << "received key : " <<key<< std::endl;
-    // rendertext.InsertText(key);
-    // rendertext.Layout();
-    // return true;
     
   } else if( event_type == "keydown" ) {
     auto code = root.get("keyCode", "" ).asInt();
@@ -68,9 +63,6 @@ bool ProcessEvent(const std::string& json, RenderText& rendertext, lws* wsi)
     rendertext.OnMousePressed(event);
     return false;
   } else if( event_type == "paint" ) {
-
-    std::cout << "paint event!!!!!!!!!!!!!!"<< std::endl;
-    // need to change paint as event!
     Painter painter;
     auto out =  painter.PaintToPng(rendertext);
     std::unique_ptr<unsigned char[]> send_data(new unsigned char[LWS_PRE + out.size()]);
@@ -91,20 +83,13 @@ EventProcessor::EventProcessor(lws* wsi)
   event_executor_ = new std::thread([this]() {
       while( running_ ) {
         while( empty_ );
-        if( running_ ) {
-        // if( empty_ ) {
-        //   while( empty_ );
-          
-        // } else {
-          std::lock_guard<std::mutex> lock(processing_);
+        std::lock_guard<std::mutex> lock(processing_);
+        if( !event_queue_.empty() ) {
           auto&& json = event_queue_.front();
           ProcessEvent(json, rendertext_, wsi_);
           event_queue_.pop();
           empty_ = event_queue_.empty();
-
         }
-          
-        // }
       }
     });
 }
