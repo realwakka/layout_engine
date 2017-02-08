@@ -5,6 +5,24 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   </head>
   <body>
+    <div id="ribbon_div">
+      <select id="fontsize">
+	<option value="8">8</option>
+	<option value="9">9</option>
+	<option value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+	<option value="14">14</option>
+	<option value="18">18</option>
+	<option value="24">24</option>
+	<option value="30">30</option>
+	<option value="36">36</option>
+	<option value="48">48</option>
+	<option value="60">60</option>
+	<option value="72">72</option>
+	<option value="96">96</option>
+      </select>
+    </div>
     <div id="canvas_div" style="position:absolute; top:75; left:75; z-index:3">
       <canvas id="canvas" width=1000 height=1000>
     </div>
@@ -18,8 +36,19 @@
       websocket.send(JSON.stringify({type: "keydown", key: event.key,keyCode: event.keyCode, ctrlKey: event.ctrlKey, altKey: event.altKey, shiftKey: event.shiftKey}));
 
       }, true );
+
+
+      
+
       var canvas = document.getElementById('canvas');
       var ctx = canvas.getContext('2d');
+
+      canvas.addEventListener("mousedown", function(event) {
+      
+      console.log(event);
+      websocket.send(JSON.stringify({type: "mousedown", x: event.clientX, y: event.clientY}));
+
+      } );
 
       var websocket = new WebSocket('ws://127.0.0.1:8080','le_web_protocol');
       websocket.onopen = function() {

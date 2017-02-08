@@ -66,20 +66,12 @@ int CallBackLe(lws* wsi,
         auto out =  painter.PaintToPng(rendertext);
         std::unique_ptr<unsigned char[]> send_data(new unsigned char[LWS_PRE + out.size()]);
         //unsigned char* send_data = new unsigned char[LWS_PRE + out.size()];
-        std::cout << "memcopy..." << std::endl;
         std::memcpy(&send_data.get()[LWS_PRE], out.data(), out.size());
-
-        std::cout << "lws_write..." << std::endl;
-
         lws_write(wsi, (unsigned char*)&send_data.get()[LWS_PRE], out.size(), LWS_WRITE_BINARY);
-
-        std::cout << "complete!" << std::endl;
 
         //delete[] send_data;
         
       }
-
-      
       break;
     }
     case LWS_CALLBACK_GET_THREAD_ID: {
@@ -152,12 +144,10 @@ void Server::Start()
   lws_context *context;
   int opts = 0;
 
-
   lws_protocols protocols[] = {
-    /* first protocol must always be HTTP handler */
     { "http_protocol", CallBackHttp, 0, 0, },
     { "le_web_protocol", CallBackLe, 0, 0, 0, &rendertext_map_, },
-    { NULL, NULL, 0 }
+    { nullptr, nullptr, 0 }
   };
 
   lws_context_creation_info info;
