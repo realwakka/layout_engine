@@ -16,45 +16,12 @@
 #include "graphic/canvas.h"
 
 #include "event_processor.h"
+#include "painter.h"
 
 namespace le {
 namespace web {
 
 namespace {
-
-void PngWriteCallback(png_structp png_ptr, png_bytep data, png_size_t length)
-{
-  std::vector<char> *p = (std::vector<char>*)png_get_io_ptr(png_ptr);
-  p->insert(p->end(), data, data + length);
-}
-
-std::vector<char> Buffer2Png(int width, int height, char* buffer)
-{
-  std::vector<char> out;
-  
-  png_structp p = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-  png_infop info_ptr = png_create_info_struct(p);
-  setjmp(png_jmpbuf(p));
-  png_set_IHDR(p, info_ptr, width, height, 8,
-               PNG_COLOR_TYPE_RGB,
-               PNG_INTERLACE_NONE,
-               PNG_COMPRESSION_TYPE_DEFAULT,
-               PNG_FILTER_TYPE_DEFAULT);
-
-
-  std::vector<char*> rows(height);
-  for (size_t y = 0; y < height; ++y)
-    rows[y] = buffer + y * width * 3;
-
-  //png_set_compression_level(p, 1);
-  png_set_rows(p, info_ptr, (unsigned char**)&rows[0]);
-  png_set_write_fn(p, &out, PngWriteCallback, NULL);
-
-  png_write_png(p, info_ptr, PNG_TRANSFORM_IDENTITY, NULL);
-
-  return out;
-}
-
 
 
 int CallBackLe(lws* wsi,
@@ -94,28 +61,9 @@ int CallBackLe(lws* wsi,
         auto&& rendertext = *it->second;
         EventProcessor event_processor;
         event_processor.ProcessEvent(str, rendertext);
-        auto&& document_view = rendertext.GetDocument().GetView();
-        auto bitmap = new le::Bitmap(document_view.GetWidth(), document_view.GetHeight(), 3);
 
-        std::cout << "painting...";
-        le::Canvas canvas;
-        canvas.SetBitmap(bitmap);
-        rendertext.Paint(canvas);
-        std::cout << "complete!" <<std::endl;
-
-        auto data = bitmap->GetData();
-        auto size = bitmap->GetWidth() * bitmap->GetHeight() * bitmap->GetDepth();
-
-        // bitmap->WriteBitmapFile("output.bmp");
-
-        auto bitmap_width = bitmap->GetWidth();
-        auto bitmap_height = bitmap->GetHeight();
-        auto bitmap_depth = bitmap->GetDepth();
-
-        std::cout << "compress...";
-        auto out = Buffer2Png(bitmap_width, bitmap_height, (char*)data);
-        std::cout << "bufferlen:" <<out.size() << "complete!" <<std::endl;
-
+        Painter painter;
+        auto out =  painter.PaintToPng(rendertext);
         std::unique_ptr<unsigned char[]> send_data(new unsigned char[LWS_PRE + out.size()]);
         //unsigned char* send_data = new unsigned char[LWS_PRE + out.size()];
         std::memcpy(&send_data.get()[LWS_PRE], out.data(), out.size());
@@ -150,7 +98,6 @@ int CallBackLe(lws* wsi,
     case LWS_CALLBACK_DEL_POLL_FD:
       std::cout << "delete pool fd "<< std::endl;
       break;
-      
     default:
       std::cout << "unhandled callback " << reason << std::endl;
       break;
@@ -179,11 +126,8 @@ int CallBackHttp(lws* wsi,
       break;
     }
   }
-
   return 0;
 }
-
-
 
 }
 
@@ -207,32 +151,10 @@ void Server::Start()
 
   lws_protocols protocols[] = {
     /* first protocol must always be HTTP handler */
-    {
-      "http_protocol",
-      CallBackHttp,
-      0,
-      0,
-    },
-    {
-      "le_web_protocol",
-      CallBackLe,
-      0,
-      0,
-      0,
-      &rendertext_map_,
-      
-    },
-    {
-      NULL, NULL, 0   /* End of list */
-    }
+    { "http_protocol", CallBackHttp, 0, 0, },
+    { "le_web_protocol", CallBackLe, 0, 0, 0, &rendertext_map_, },
+    { NULL, NULL, 0 }
   };
-
-  
-  // lws_protocols protocol;
-  // memset(&protocol, 0, sizeof(protocol));
-  // protocol.name = "le_web_protocol";
-  // protocol.callback = CallBackHttp;
-  // protocol.user = &rendertext_map_;
 
   lws_context_creation_info info;
   memset(&info, 0, sizeof(info));

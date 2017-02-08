@@ -16,6 +16,7 @@ link_directories(
 set(LE_WEB_SRCS
   server.cc
   event_processor.cc
+  painter.cc
   )
 
 

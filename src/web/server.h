@@ -1,7 +1,6 @@
 #ifndef LE_WEB_SERVER_H_
 #define LE_WEB_SERVER_H_
 
-#include <png.h>
 #include <unordered_map>
 #include "render_text.h"
 #include <libwebsockets.h>
