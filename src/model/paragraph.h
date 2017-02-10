@@ -19,6 +19,7 @@ class Paragraph
   virtual ~Paragraph();
 
   EnterRun* GetEnterRun() { return &enter_run_; }
+  EnterCharacter* GetEnterChar() { return GetEnterRun()->GetEnterChar(); }
   
   void InsertRun(Run* new_run, Run* ref_run);
   void RemoveRun(Run* run);

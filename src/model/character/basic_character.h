@@ -13,6 +13,10 @@ class BasicCharacter : public Character
   
   virtual CharacterView& GetView() override { return view_; }
 
+  Character* GetNextCharacter() override;
+  Character* GetPrevCharacter() override;
+  
+
  private:
   CharacterView view_;
   

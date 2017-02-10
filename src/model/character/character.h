@@ -43,6 +43,9 @@ class Character
   std::list<Character*>::iterator GetRunIterator() { return run_node_.GetIterator(); }
   void SetRunIterator(std::list<Character*>::iterator iter) { run_node_.SetIterator(iter); }
 
+  virtual Character* GetNextCharacter() = 0;
+  virtual Character* GetPrevCharacter() = 0;
+  
   void UpdateGlyph();
 
   virtual CharacterView& GetView() = 0;

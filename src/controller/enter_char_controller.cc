@@ -4,6 +4,7 @@
 #include "model/character/basic_character.h"
 #include "model/character/space_character.h"
 #include "model/text_run.h"
+#include "model/selection/caret_selection.h"
 #include "controller/event/mouse_event.h"
 #include "view/hititem.h"
 #include "controller/event/key_event.h"
@@ -48,7 +49,7 @@ void BackSpaceRunInternal(Paragraph& paragraph)
 }
 
 
-EnterCharController::EnterCharController(EnterCharacter& enter_char)
+EnterCharController::EnterCharController(Character& enter_char)
     : enter_char_(enter_char)
 {}
 EnterCharController::~EnterCharController()
@@ -158,12 +159,20 @@ void EnterCharController::OnKeyDown(const KeyEvent& event)
         CommitTree::GetInstance()->AddCommand(command);
         break;
       }
-      case KeyboardCode::VKEY_RIGHT:
+      case KeyboardCode::VKEY_RIGHT: {
         std::cout << "RIGHT!!!!" << std::endl;
+        auto next_char = enter_char_.GetNextCharacter();
+        
         break;
-      case KeyboardCode::VKEY_LEFT:
+      }
+      case KeyboardCode::VKEY_LEFT: {
         std::cout << "LEFT!!!!" << std::endl;
+        auto prev_char = enter_char_.GetPrevCharacter();
+        auto selection = new CaretSelection(*prev_char);
+        
+        
         break;
+      }
       
     }
 

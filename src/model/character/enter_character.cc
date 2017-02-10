@@ -25,5 +25,32 @@ std::unique_ptr<Controller> EnterCharacter::GetController()
   return std::unique_ptr<EnterCharController>(new EnterCharController(*this));
 }
 
+Character* EnterCharacter::GetNextCharacter()
+{
+  auto next_paragraph = GetRun()->GetParagraph()->GetNextSibling();
+  if( next_paragraph ) {
+    auto first_run = next_paragraph->GetFirstRun();
+    if( first_run ) {
+      return first_run->GetFirstCharacter();
+    } else {
+      return next_paragraph->GetEnterChar();
+    }
+  } else {
+    return nullptr;
+  }
+}
+
+Character* EnterCharacter::GetPrevCharacter()
+{
+  auto prev_paragraph = GetRun()->GetParagraph()->GetPrevSibling();
+  if( prev_paragraph ) {
+    return prev_paragraph->GetEnterChar();
+  } else {
+    return nullptr;
+  }
+
+}
+
+
 
 }  // le

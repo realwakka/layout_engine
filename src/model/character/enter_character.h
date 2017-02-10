@@ -17,6 +17,9 @@ class EnterCharacter : public Character
 
   virtual CharacterView& GetView() override { return view_; }
   virtual std::unique_ptr<Controller> GetController() override;
+
+  Character* GetNextCharacter() override;
+  Character* GetPrevCharacter() override;
   
  private:
   EnterCharacterView view_;

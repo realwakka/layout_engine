@@ -13,6 +13,9 @@ class SpaceCharacter : public Character
   virtual ~SpaceCharacter();
 
   virtual CharacterView& GetView() override { return view_; }
+  
+  Character* GetNextCharacter() override;
+  Character* GetPrevCharacter() override;
 
  private:
   SpaceCharacterView view_;

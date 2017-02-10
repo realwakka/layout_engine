@@ -29,6 +29,8 @@ class RenderText
   void OnKeyDown(const KeyEvent& event);
   Document& GetDocument() { return document_; }
 
+  void SetSelection(Selection* selection) { selection_.reset(selection); }
+
   void Commit();
   void UnDo();
   void ReDo();

@@ -5,12 +5,12 @@
 
 namespace le {
 
-class EnterCharacter;
+class Character;
 
 class EnterCharController : public Controller
 {
  public:
-  EnterCharController(EnterCharacter& enter_char);
+  EnterCharController(Character& enter_char);
   virtual ~EnterCharController();
 
  public:
@@ -25,7 +25,7 @@ class EnterCharController : public Controller
   void OnMousePressed(const MouseEvent& event) override;
   void OnKeyDown(const KeyEvent& event) override;
  private:
-  EnterCharacter& enter_char_;
+  Character& enter_char_;
 
 };
 
