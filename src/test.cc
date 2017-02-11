@@ -2,6 +2,8 @@
 
 #include <sys/un.h>
 #include <string>
+#include "controller/event/key_event.h"
+#include "controller/event/keyboard_codes.h"
 
 int main(int argc, char* argv[])
 {
@@ -17,9 +19,17 @@ int main(int argc, char* argv[])
   // rendertext.SetBold(true);
   // rendertext.SetSize(30);
   rendertext.InsertText(text);
+  
+  
   rendertext.Layout();
-  rendertext.UnDo();
-  rendertext.ReDo();
+
+  le::KeyEvent keyevent;
+  keyevent.SetCode(le::KeyboardCode::VKEY_LEFT);
+  rendertext.OnKeyDown(keyevent);
+
+  
+  // rendertext.UnDo();
+  // rendertext.ReDo();
   // rendertext.SetSize(15);
   // rendertext.InsertText(text);
   // // rendertext.SetBold(false);

@@ -4,8 +4,9 @@
 
 namespace le {
 
-Document::Document()
-    : view_(*this)
+Document::Document(RenderText* rendertext)
+    : view_(*this),
+      rendertext_(rendertext)
 {
   //AppendChild(new Paragraph());
   AddChildAt(0, new Paragraph());

@@ -10,6 +10,7 @@
 namespace le {
 
 RenderText::RenderText()
+    : document_(this)
 {
   auto selection = new CaretSelection(*document_.GetFirstChild()->GetEnterRun()->GetEnterChar());
   selection_.reset(selection);
@@ -22,7 +23,7 @@ void RenderText::InsertText(const std::string& text)
 {
   for( char c : text ) {
     auto character = CreateCharacter(c);
-    selection_->GetController()->InsertChar(character);
+    selection_->GetController(this)->InsertChar(character);
     //paragraph_.PrintInfo();
   }
   //paragraph_.GetFirstRun()->UpdateGlyph();
@@ -30,17 +31,17 @@ void RenderText::InsertText(const std::string& text)
 
 void RenderText::SetBold(bool bold)
 {
-  selection_->GetController()->SetBold(bold);
+  selection_->GetController(this)->SetBold(bold);
 }
 
 void RenderText::SetItalic(bool italic)
 {
-  selection_->GetController()->SetItalic(italic);
+  selection_->GetController(this)->SetItalic(italic);
 }
 
 void RenderText::SetSize(int size)
 {
-  selection_->GetController()->SetSize(size);
+  selection_->GetController(this)->SetSize(size);
 }
 
 void RenderText::SetPageSize(int width, int height)
@@ -79,12 +80,12 @@ void RenderText::WriteBitmapFile(std::string path)
 
 void RenderText::OnMousePressed(const MouseEvent& event)
 {
-  selection_->GetController()->OnMousePressed(event);
+  selection_->GetController(this)->OnMousePressed(event);
 }
 
 void RenderText::BackSpace()
 {
-  selection_->GetController()->BackSpaceChar();
+  selection_->GetController(this)->BackSpaceChar();
 }
 
 void RenderText::UnDo()
@@ -100,7 +101,7 @@ void RenderText::ReDo()
 
 void RenderText::OnKeyDown(const KeyEvent& event)
 {
-  selection_->GetController()->OnKeyDown(event);
+  selection_->GetController(this)->OnKeyDown(event);
 }
 
 

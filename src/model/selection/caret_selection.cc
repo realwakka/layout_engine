@@ -18,9 +18,9 @@ CaretSelection::CaretSelection(Character& character)
 CaretSelection::~CaretSelection()
 {}
 
-std::unique_ptr<Controller> CaretSelection::GetController() const
+std::unique_ptr<Controller> CaretSelection::GetController(RenderText* rendertext) const
 {
-  return character_.GetController();
+  return std::unique_ptr<Controller>(new EnterCharController(character_, rendertext));
 }
 
 View& CaretSelection::GetView() 

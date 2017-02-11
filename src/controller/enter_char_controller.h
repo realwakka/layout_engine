@@ -6,11 +6,12 @@
 namespace le {
 
 class Character;
+class RenderText;
 
 class EnterCharController : public Controller
 {
  public:
-  EnterCharController(Character& enter_char);
+  EnterCharController(Character& enter_char, RenderText* rendertext);
   virtual ~EnterCharController();
 
  public:
@@ -26,6 +27,7 @@ class EnterCharController : public Controller
   void OnKeyDown(const KeyEvent& event) override;
  private:
   Character& enter_char_;
+  RenderText* rendertext_;
 
 };
 

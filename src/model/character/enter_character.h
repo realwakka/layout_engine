@@ -8,6 +8,7 @@ namespace le {
 
 class EnterRun;
 class Run;
+class RenderText;
 
 class EnterCharacter : public Character
 {
@@ -16,7 +17,6 @@ class EnterCharacter : public Character
   virtual ~EnterCharacter();
 
   virtual CharacterView& GetView() override { return view_; }
-  virtual std::unique_ptr<Controller> GetController() override;
 
   Character* GetNextCharacter() override;
   Character* GetPrevCharacter() override;

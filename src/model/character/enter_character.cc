@@ -20,10 +20,10 @@ EnterCharacter::EnterCharacter(EnterRun* enter_run_)
 EnterCharacter::~EnterCharacter()
 {}
 
-std::unique_ptr<Controller> EnterCharacter::GetController()
-{
-  return std::unique_ptr<EnterCharController>(new EnterCharController(*this));
-}
+// std::unique_ptr<Controller> EnterCharacter::GetController(RenderText* rendertext)
+// {
+//   return std::unique_ptr<EnterCharController>(new EnterCharController(*this, rendertext));
+// }
 
 Character* EnterCharacter::GetNextCharacter()
 {
@@ -42,13 +42,17 @@ Character* EnterCharacter::GetNextCharacter()
 
 Character* EnterCharacter::GetPrevCharacter()
 {
-  auto prev_paragraph = GetRun()->GetParagraph()->GetPrevSibling();
-  if( prev_paragraph ) {
-    return prev_paragraph->GetEnterChar();
+  auto last_run = GetRun()->GetParagraph()->GetFirstRun();
+  if( last_run ) {
+    return last_run->GetLastCharacter();
   } else {
-    return nullptr;
+    auto prev_paragraph = GetRun()->GetParagraph()->GetPrevSibling();
+    if( prev_paragraph ) {
+      return prev_paragraph->GetEnterChar();
+    } else {
+      return nullptr;
+    }
   }
-
 }
 
 

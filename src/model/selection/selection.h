@@ -7,11 +7,12 @@ namespace le {
 
 class Controller;
 class View;
+class RenderText;
 
 class Selection
 {
  public:
-  virtual std::unique_ptr<Controller> GetController() const = 0;
+  virtual std::unique_ptr<Controller> GetController(RenderText* rendertext) const = 0;
   virtual View& GetView() = 0;
 
 };

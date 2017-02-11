@@ -9,10 +9,12 @@
 
 namespace le {
 
+class RenderText;
+
 class Document
 {
  public:
-  Document();
+  Document(RenderText* rendertext);
   virtual ~Document();
 
   SectionProp& GetSectionProp() { return section_prop_; }
@@ -24,12 +26,14 @@ class Document
   int GetChildCount() const { return parent_.GetChildCount(); }
   void AddChildAt(int index, Paragraph* child) { parent_.AddChildAt(index, child, this); }
   void AppendChild(Paragraph* child) { parent_.AppendChild(child, this); }
-  
+
+  RenderText* GetRenderText() { return rendertext_; }
 
  private:
   SectionProp section_prop_;
   DocumentView view_;
   Parent<Document, Paragraph> parent_;
+  RenderText* rendertext_;
 };
 
 

@@ -6,8 +6,8 @@ namespace le {
 class Event
 {
  public:
-  Event() {}
-  virtual ~Event() {}
+  Event();
+  virtual ~Event();
 
   bool GetShiftDown() const { return shift_down_; }
   void SetShiftDown(bool shift_down) { shift_down_ = shift_down; }

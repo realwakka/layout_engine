@@ -11,6 +11,7 @@
 #include "controller/command/insert_char_command.h"
 #include "controller/command/delete_char_command.h"
 #include "controller/command/commit_tree.h"
+#include "render_text.h"
 
 #include <iostream>
 
@@ -49,8 +50,9 @@ void BackSpaceRunInternal(Paragraph& paragraph)
 }
 
 
-EnterCharController::EnterCharController(Character& enter_char)
-    : enter_char_(enter_char)
+EnterCharController::EnterCharController(Character& enter_char, RenderText* rendertext)
+    : enter_char_(enter_char),
+      rendertext_(rendertext)
 {}
 EnterCharController::~EnterCharController()
 {}
@@ -162,15 +164,21 @@ void EnterCharController::OnKeyDown(const KeyEvent& event)
       case KeyboardCode::VKEY_RIGHT: {
         std::cout << "RIGHT!!!!" << std::endl;
         auto next_char = enter_char_.GetNextCharacter();
+        if (next_char) {
+          auto selection = new CaretSelection(*next_char);
+          rendertext_->SetSelection(selection);
+        }
         
         break;
       }
       case KeyboardCode::VKEY_LEFT: {
         std::cout << "LEFT!!!!" << std::endl;
         auto prev_char = enter_char_.GetPrevCharacter();
-        auto selection = new CaretSelection(*prev_char);
-        
-        
+        if( prev_char ) {
+          auto selection = new CaretSelection(*prev_char);
+          rendertext_->SetSelection(selection);
+        }
+
         break;
       }
       

@@ -61,6 +61,7 @@ set(LE_SRCS
   controller/enter_char_controller.cc
   controller/event/mouse_event.cc
   controller/event/key_event.cc
+  controller/event/event.cc
   controller/command/insert_char_command.cc
   controller/command/delete_char_command.cc
   controller/command/commit.cc
