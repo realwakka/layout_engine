@@ -21,12 +21,11 @@ int main(int argc, char* argv[])
   rendertext.InsertText(text);
   
   
-  rendertext.Layout();
-
   le::KeyEvent keyevent;
   keyevent.SetCode(le::KeyboardCode::VKEY_LEFT);
   rendertext.OnKeyDown(keyevent);
-  rendertext.InsertText(text);
+  
+  rendertext.InsertText("a");
 
   
   // rendertext.UnDo();
@@ -36,6 +35,7 @@ int main(int argc, char* argv[])
   // // rendertext.SetBold(false);
   // // rendertext.InsertText("asdf");
   rendertext.Layout();
+  rendertext.UnDo();
   rendertext.WriteBitmapFile("output.bmp");
 
   

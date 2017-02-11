@@ -40,6 +40,8 @@ class Run
 
   static Run* GetCachedRun() { return cached_run_; }
   static void SetCachedRun(Run* cached_run){ cached_run_ =  cached_run; }
+
+  void Split(Character* character);
   
  private:
   Paragraph* paragraph_;

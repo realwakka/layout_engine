@@ -29,7 +29,8 @@ class RenderText
   void OnKeyDown(const KeyEvent& event);
   Document& GetDocument() { return document_; }
 
-  void SetSelection(Selection* selection) { selection_.reset(selection); }
+  void SetSelection(Selection* selection) { selection_ = selection; }
+  Selection* GetSelection() { return selection_; }
   
   
   void Commit();
@@ -38,7 +39,7 @@ class RenderText
   
  private:
   Document document_;
-  std::unique_ptr<Selection> selection_;
+  Selection* selection_;
 
 };
 

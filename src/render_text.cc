@@ -12,8 +12,7 @@ namespace le {
 RenderText::RenderText()
     : document_(this)
 {
-  auto selection = new CaretSelection(*document_.GetFirstChild()->GetEnterRun()->GetEnterChar());
-  selection_.reset(selection);
+  selection_ = new CaretSelection(*document_.GetFirstChild()->GetEnterRun()->GetEnterChar());
 }
 
 RenderText::~RenderText()

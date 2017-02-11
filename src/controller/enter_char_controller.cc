@@ -10,7 +10,9 @@
 #include "controller/event/key_event.h"
 #include "controller/command/insert_char_command.h"
 #include "controller/command/delete_char_command.h"
+#include "controller/command/set_selection_command.h"
 #include "controller/command/commit_tree.h"
+
 #include "render_text.h"
 
 #include <iostream>
@@ -46,6 +48,32 @@ namespace {
 //       paragraph.RemoveRun(last_run);
 //   }
 // }
+
+void ProcessLeftKey(RenderText* rendertext, Character* selected)
+{
+  auto prev_char = selected->GetPrevCharacter();
+  if( prev_char ) {
+    auto command = new SetSelectionCommand(
+        rendertext,
+        new CaretSelection(*prev_char),
+        rendertext->GetSelection() );
+
+    CommitTree::GetInstance()->AddCommand(command);
+  }
+
+}
+void ProcessRightKey( RenderText* rendertext, Character* selected )
+{
+  auto next_char = selected->GetNextCharacter();
+  if (next_char) {
+    auto command = new SetSelectionCommand(
+        rendertext,
+        new CaretSelection(*next_char),
+        rendertext->GetSelection() );
+
+    CommitTree::GetInstance()->AddCommand(command);
+  }
+}
 
 }
 
@@ -162,23 +190,11 @@ void EnterCharController::OnKeyDown(const KeyEvent& event)
         break;
       }
       case KeyboardCode::VKEY_RIGHT: {
-        std::cout << "RIGHT!!!!" << std::endl;
-        auto next_char = enter_char_.GetNextCharacter();
-        if (next_char) {
-          auto selection = new CaretSelection(*next_char);
-          rendertext_->SetSelection(selection);
-        }
-        
+        ProcessRightKey(rendertext_, &enter_char_);
         break;
       }
       case KeyboardCode::VKEY_LEFT: {
-        std::cout << "LEFT!!!!" << std::endl;
-        auto prev_char = enter_char_.GetPrevCharacter();
-        if( prev_char ) {
-          auto selection = new CaretSelection(*prev_char);
-          rendertext_->SetSelection(selection);
-        }
-
+        ProcessLeftKey(rendertext_, &enter_char_);
         break;
       }
       

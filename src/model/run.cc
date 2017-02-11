@@ -85,5 +85,26 @@ void Run::UpdateGlyph()
   }
 }
 
+void Run::Split(Character* character)
+{
+  if( character->GetRun() != this )
+    throw std::exception();
+
+  Run* run = new Run();
+  std::vector<Character*> removed;
+  for( Character* ch = GetFirstCharacter() ;
+       ch != character ; ch = ch->GetNextRunCharacter() ) {
+    removed.push_back(ch);
+  }
+
+  for( Character* ch : removed ) {
+    RemoveCharacter(ch);
+    run->InsertCharacter(ch, nullptr);
+  }
+
+  GetParagraph()->InsertRun(run, this);
+}
+
+
 
 }  // le

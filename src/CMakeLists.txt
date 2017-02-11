@@ -64,8 +64,12 @@ set(LE_SRCS
   controller/event/event.cc
   controller/command/insert_char_command.cc
   controller/command/delete_char_command.cc
+  controller/command/set_selection_command.cc
+
+
   controller/command/commit.cc
   controller/command/commit_tree.cc
+  
   
   graphic/canvas.cc
   graphic/point.cc

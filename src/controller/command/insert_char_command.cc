@@ -12,55 +12,18 @@ namespace le {
 
 namespace {
 
-// void InsertWordInternal(Character* selected, Character* character)
-// {
-//   auto last_word = paragraph->GetLastWord();
-  
-//   if( last_word == nullptr ) {
-//     last_word = new Word();
-//     paragraph->InsertWord(last_word, nullptr);
-//     last_word->InsertCharacter(character, nullptr);
-//   } else {
-    
-//     auto prev_char = last_word->GetLastCharacter();
-//     if( typeid(*character) == typeid(BasicCharacter) ) {
-//       if( typeid(*prev_char) == typeid(BasicCharacter) ) {
-//         last_word->InsertCharacter(character, nullptr);
-//       } else if ( typeid(*prev_char) == typeid(SpaceCharacter) ) {
-//         last_word->InsertCharacter(character, nullptr);
-//         last_word->Split(character);
-//       } else {
-
-//       }
-//     } else if (typeid(*character) == typeid(SpaceCharacter) ) {
-//       if( typeid(*prev_char) == typeid(BasicCharacter) ) {
-//         last_word->InsertCharacter(character, nullptr);
-//       } else if( typeid(*prev_char) == typeid(SpaceCharacter) ) {
-//         last_word->InsertCharacter(character, nullptr);
-//         last_word->Split(character);
-//       } else {
-
-//       }
-      
-//     } else {
-
-//     }
-//   }
-// }
-
-void InsertRunInternal(Character* inserted, Character* selected)
+Run* InsertRunInternal(Character* inserted, Character* selected, Run* cached)
 {
-  auto cached = Run::GetCachedRun();
   Run* inserted_run = nullptr;
   if( cached ) {
+    inserted_run = cached;
     if( typeid(*selected) == typeid(EnterCharacter) ) {
       selected->GetRun()->GetParagraph()->InsertRun(cached, nullptr);
-      inserted_run = cached;
       cached->InsertCharacter(inserted, nullptr);
-
     } else {
-      //split run
-
+      selected->GetRun()->Split(selected);
+      selected->GetParagraph()->InsertRun(cached, selected->GetRun());
+      cached->InsertCharacter(inserted, nullptr);
     }
     
   } else {
@@ -68,6 +31,7 @@ void InsertRunInternal(Character* inserted, Character* selected)
       auto last_run =  selected->GetRun()->GetParagraph()->GetLastRun();
       if(last_run == nullptr) {
         last_run = new TextRun();
+        inserted_run = last_run;
         selected->GetRun()->GetParagraph()->InsertRun(last_run, nullptr);
       }
       last_run->InsertCharacter(inserted, nullptr);
@@ -88,6 +52,8 @@ void InsertRunInternal(Character* inserted, Character* selected)
       }
     }
   }
+
+  return inserted_run;
 
 }
 
@@ -129,7 +95,8 @@ void InsertRunInternal(Character* inserted, Character* selected)
 
 InsertCharCommand::InsertCharCommand(Character* inserted, Character* selected)
     : selected_(selected),
-      inserted_(inserted)
+      inserted_(inserted),
+      inserted_run_(nullptr)
 {
   
 }
@@ -141,17 +108,23 @@ void InsertCharCommand::Apply()
 {
   // InsertWordInternal(character_, inserted_);
   std::cout << "insert char apply" << std::endl;
-  
-  InsertRunInternal(inserted_, selected_);
-  Run::SetCachedRun(nullptr);
-
+  inserted_run_ = Run::GetCachedRun();
+  inserted_run_ = InsertRunInternal(inserted_, selected_, inserted_run_);
   selected_->GetParagraph()->CreateWords();
-
-  
+  Run::SetCachedRun(nullptr);
 }
 
 void InsertCharCommand::UnApply() 
 {
+  auto run = inserted_->GetRun();
+  run->RemoveCharacter(inserted_);
+  
+  if( inserted_run_ ) {
+    inserted_run_->GetParagraph()->RemoveRun(inserted_run_);
+  }
+  
+  selected_->GetParagraph()->CreateWords();
+  
   // std::cout << "unapply!!!!!!!!!!!!!!!!!!!!!!!" << inserted_->GetChar() << std::endl;
   // if( paragraph_ ) {
   //   std::cout << "remove word" << std::endl;
@@ -164,6 +137,9 @@ void InsertCharCommand::UnApply()
 
 void InsertCharCommand::ReApply() 
 {
+  InsertRunInternal(inserted_, selected_, inserted_run_);
+  selected_->GetParagraph()->CreateWords();
+  
   // if( paragraph_ ) {
   //   InsertWordInternal(paragraph_, inserted_);
   //   InsertRunInternal(paragraph_, inserted_);
