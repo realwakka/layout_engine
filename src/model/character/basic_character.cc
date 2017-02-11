@@ -13,8 +13,37 @@ BasicCharacter::BasicCharacter(char c)
 BasicCharacter::~BasicCharacter()
 {}
 
-
 Character* BasicCharacter::GetNextCharacter()
+{
+  auto next_para_char = GetNextParagraphCharacter();
+  if( next_para_char ) {
+    return next_para_char;
+  } else {
+    auto next_paragraph = GetRun()->GetParagraph()->GetNextSibling();
+    if( next_paragraph ) {
+      return next_paragraph->GetFirstCharacter();
+    } else {
+      return nullptr;
+    }
+  }
+}
+
+Character* BasicCharacter::GetPrevCharacter()
+{
+  auto prev_paragraph_char = GetPrevParagraphCharacter();
+  if( prev_paragraph_char ) {
+    return prev_paragraph_char;
+  } else {
+    auto prev_paragraph = GetRun()->GetParagraph()->GetPrevSibling();
+    if( prev_paragraph ) {
+      return prev_paragraph->GetLastCharacter();
+    } else {
+      return nullptr;
+    }
+  }
+}
+
+Character* BasicCharacter::GetNextParagraphCharacter()
 {
   auto next_runchar = GetNextRunCharacter();
   if( next_runchar ) {
@@ -29,7 +58,7 @@ Character* BasicCharacter::GetNextCharacter()
   }
 }
 
-Character* BasicCharacter::GetPrevCharacter()
+Character* BasicCharacter::GetPrevParagraphCharacter()
 {
   auto prev_runchar = GetPrevRunCharacter();
   if( prev_runchar ) {
@@ -37,9 +66,9 @@ Character* BasicCharacter::GetPrevCharacter()
   } else {
     auto prev_run = GetRun()->GetPrevRun();
     if( prev_run ) {
-      return prev_run->GetFirstCharacter();
+      return prev_run->GetLastCharacter();
     } else {
-      return GetRun()->GetParagraph()->GetEnterChar();
+      return nullptr;
     }
   }
 }

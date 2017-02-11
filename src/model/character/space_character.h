@@ -3,6 +3,7 @@
 
 #include "model/character/character.h"
 #include "view/character/space_character_view.h"
+#include "model/run.h"
 
 namespace le {
 
@@ -16,6 +17,11 @@ class SpaceCharacter : public Character
   
   Character* GetNextCharacter() override;
   Character* GetPrevCharacter() override;
+
+  Character* GetNextParagraphCharacter() override;
+  Character* GetPrevParagraphCharacter() override;
+
+  Paragraph* GetParagraph() override { return GetRun()->GetParagraph(); }
 
  private:
   SpaceCharacterView view_;

@@ -19,33 +19,33 @@ namespace le {
 
 namespace {
 
-void BackSpaceWordInternal(Paragraph& paragraph)
-{
-  auto last_word = paragraph.GetLastWord();
-  if( last_word == nullptr ) {
+// void BackSpaceWordInternal(Paragraph& paragraph)
+// {
+//   auto last_word = paragraph.GetLastWord();
+//   if( last_word == nullptr ) {
 
-  } else {
-    auto prev_char = last_word->GetLastCharacter();
-    last_word->RemoveCharacter(prev_char);
+//   } else {
+//     auto prev_char = last_word->GetLastCharacter();
+//     last_word->RemoveCharacter(prev_char);
 
-    if( last_word->GetFirstCharacter() == nullptr )
-      paragraph.RemoveWord(last_word);
-  }
-}
+//     if( last_word->GetFirstCharacter() == nullptr )
+//       paragraph.RemoveWord(last_word);
+//   }
+// }
 
-void BackSpaceRunInternal(Paragraph& paragraph)
-{
-  auto last_run = paragraph.GetLastRun();
-  if( last_run == nullptr ) {
+// void BackSpaceRunInternal(Paragraph& paragraph)
+// {
+//   auto last_run = paragraph.GetLastRun();
+//   if( last_run == nullptr ) {
 
-  } else {
-    auto prev_char = last_run->GetLastCharacter();
-    last_run->RemoveCharacter(prev_char);
+//   } else {
+//     auto prev_char = last_run->GetLastCharacter();
+//     last_run->RemoveCharacter(prev_char);
 
-    if( last_run->GetFirstCharacter() == nullptr )
-      paragraph.RemoveRun(last_run);
-  }
-}
+//     if( last_run->GetFirstCharacter() == nullptr )
+//       paragraph.RemoveRun(last_run);
+//   }
+// }
 
 }
 
@@ -65,16 +65,16 @@ void EnterCharController::InsertText(std::string text)
 void EnterCharController::InsertChar(Character* character)
 {
   auto paragraph = enter_char_.GetRun()->GetParagraph();
-  auto command = new InsertCharCommand(paragraph, nullptr, character);
+  auto command = new InsertCharCommand(character, &enter_char_);
   CommitTree::GetInstance()->AddCommand(command);
 }
 
 void EnterCharController::BackSpaceChar()
 {
-  auto paragraph = enter_char_.GetRun()->GetParagraph();
+  // auto paragraph = enter_char_.GetRun()->GetParagraph();
 
-  BackSpaceWordInternal(*paragraph);
-  BackSpaceRunInternal(*paragraph);
+  // BackSpaceWordInternal(*paragraph);
+  // BackSpaceRunInternal(*paragraph);
 }
 
 void EnterCharController::SetBold(bool bold)
@@ -138,7 +138,7 @@ void EnterCharController::OnKeyDown(const KeyEvent& event)
   std::cout << "KEY DOWN" << std::endl;
   std::cout << "KEY : " << event.GetChar() << std::endl;
 
-  if( event.GetCtrlDown() || event.GetCtrlDown() ) {
+  if( event.GetCtrlDown() || event.GetAltDown() ) {
     
     if( event.GetCtrlDown() && event.GetCode() == KeyboardCode::VKEY_Z )
       CommitTree::GetInstance()->UnDo();
@@ -150,7 +150,7 @@ void EnterCharController::OnKeyDown(const KeyEvent& event)
     auto character = CreateCharacter(event.GetChar());
     auto paragraph = enter_char_.GetRun()->GetParagraph();
 
-    auto command = new InsertCharCommand(paragraph, nullptr, character);
+    auto command = new InsertCharCommand(character, &enter_char_);
     CommitTree::GetInstance()->AddCommand(command);
 
   } else {

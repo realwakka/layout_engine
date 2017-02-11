@@ -26,6 +26,7 @@ int main(int argc, char* argv[])
   le::KeyEvent keyevent;
   keyevent.SetCode(le::KeyboardCode::VKEY_LEFT);
   rendertext.OnKeyDown(keyevent);
+  rendertext.InsertText(text);
 
   
   // rendertext.UnDo();

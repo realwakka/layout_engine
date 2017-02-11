@@ -56,7 +56,7 @@ WordLineBreaker::~WordLineBreaker()
   
 void WordLineBreaker::BreakLine(Paragraph& paragraph)
 {
-  auto& paragraph_view = paragraph.GetView();
+  auto&& paragraph_view = paragraph.GetView();
 
   auto linewidth = paragraph_view.GetWidth();
 

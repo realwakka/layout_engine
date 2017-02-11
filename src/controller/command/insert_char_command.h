@@ -7,13 +7,12 @@ namespace le {
 
 class Paragraph;
 class Character;
-class CharCommandDelegate;
+class Run;
 
 class InsertCharCommand : public Command
 {
  public:
-  InsertCharCommand(Paragraph* paragraph, Character* character, Character* inserted);
-
+  InsertCharCommand(Character* inserted, Character* selected);
   virtual ~InsertCharCommand();
 
   void Apply() override;
@@ -23,9 +22,9 @@ class InsertCharCommand : public Command
 
  private:
   //selected
-  Paragraph* paragraph_;
-  Character* character_;
+  Character* selected_;
   Character* inserted_;
+  Run* inserted_run_;
 
 };
 

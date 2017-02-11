@@ -1,6 +1,9 @@
 #include "paragraph.h"
 
 #include "model/word.h"
+#include "model/character/enter_character.h"
+#include "model/character/space_character.h"
+#include "model/character/basic_character.h"
 
 #include <algorithm>
 #include <iostream>
@@ -114,6 +117,49 @@ void Paragraph::PrintInfo() {
 }
 
 
+Character* Paragraph::GetFirstCharacter()
+{
+  auto first_run = GetFirstRun();
+  if( first_run ) {
+    return first_run->GetFirstCharacter();
+  } else {
+    return GetLastCharacter();
+  }
+}
+
+Character* Paragraph::GetLastCharacter()
+{
+  return GetEnterChar();
+}
+
+
+void Paragraph::CreateWords()
+{
+  while(GetFirstWord()){
+    RemoveWord(GetFirstWord());
+  }
+
+  std::vector<Word*> words;
+  words.push_back( new Word() );
+  
+  for( auto character = GetFirstCharacter() ;
+       character != GetEnterChar() ;
+       character = character->GetNextParagraphCharacter() ) {
+
+    words.back()->InsertCharacter(character, nullptr);
+    
+    if( typeid(*character) == typeid(SpaceCharacter) ) {
+      auto next = character->GetNextParagraphCharacter();
+      if( typeid(*next) == typeid(BasicCharacter) ) {
+        words.push_back( new Word() );
+      }
+    }
+  }
+
+  for( auto&& word : words ) {
+    InsertWord(word, nullptr);
+  }
+}
 
 
 }  // le

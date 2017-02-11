@@ -2,6 +2,7 @@
 #define LE_BASIC_CHARACTER_H_
 
 #include "model/character/character.h"
+#include "model/run.h"
 
 namespace le {
 
@@ -15,7 +16,11 @@ class BasicCharacter : public Character
 
   Character* GetNextCharacter() override;
   Character* GetPrevCharacter() override;
-  
+
+  Character* GetNextParagraphCharacter() override;
+  Character* GetPrevParagraphCharacter() override;
+
+  Paragraph* GetParagraph() override { return GetRun()->GetParagraph();}
 
  private:
   CharacterView view_;

@@ -18,6 +18,10 @@ class Paragraph
   Paragraph();
   virtual ~Paragraph();
 
+
+  Character* GetFirstCharacter();
+  Character* GetLastCharacter();
+
   EnterRun* GetEnterRun() { return &enter_run_; }
   EnterCharacter* GetEnterChar() { return GetEnterRun()->GetEnterChar(); }
   
@@ -44,7 +48,8 @@ class Paragraph
   void SetParent(Document* parent) { child_.SetParent(parent); }
   Paragraph* GetNextSibling() { child_.GetNextSibling(this); }
   Paragraph* GetPrevSibling() { child_.GetPrevSibling(this); }
-  
+
+  void CreateWords();
 
  private:
   Container<Run> runs_;

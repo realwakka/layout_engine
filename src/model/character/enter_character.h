@@ -3,6 +3,7 @@
 
 #include "character.h"
 #include "view/character/enter_character_view.h"
+#include "model/run.h"
 
 namespace le {
 
@@ -20,6 +21,11 @@ class EnterCharacter : public Character
 
   Character* GetNextCharacter() override;
   Character* GetPrevCharacter() override;
+
+  Character* GetNextParagraphCharacter() override;
+  Character* GetPrevParagraphCharacter() override;
+
+  Paragraph* GetParagraph() override { return GetRun()->GetParagraph(); }
   
  private:
   EnterCharacterView view_;

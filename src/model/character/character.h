@@ -15,6 +15,7 @@ class Word;
 class Run;
 class Face;
 class Controller;
+class Paragraph;
 
 class Character
 {
@@ -45,6 +46,11 @@ class Character
 
   virtual Character* GetNextCharacter() = 0;
   virtual Character* GetPrevCharacter() = 0;
+
+  virtual Character* GetNextParagraphCharacter() = 0;
+  virtual Character* GetPrevParagraphCharacter() = 0;
+
+  virtual Paragraph* GetParagraph() = 0;
   
   void UpdateGlyph();
 

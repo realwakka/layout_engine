@@ -55,6 +55,22 @@ Character* EnterCharacter::GetPrevCharacter()
   }
 }
 
+Character* EnterCharacter::GetNextParagraphCharacter()
+{
+  return nullptr;
+}
+
+Character* EnterCharacter::GetPrevParagraphCharacter()
+{
+  auto last_run = GetRun()->GetParagraph()->GetFirstRun();
+  if( last_run ) {
+    return last_run->GetLastCharacter();
+  } else {
+    return nullptr;
+  }
+}
+
+
 
 
 }  // le
