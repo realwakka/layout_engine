@@ -19,8 +19,8 @@ int main(int argc, char* argv[])
   // rendertext.SetBold(true);
   // rendertext.SetSize(30);
   rendertext.InsertText(text);
-  
   rendertext.Layout();
+  
   le::KeyEvent keyevent;
   keyevent.SetCode(le::KeyboardCode::VKEY_BACK);
   rendertext.OnKeyDown(keyevent);

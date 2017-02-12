@@ -53,6 +53,7 @@ set(LE_SRCS
   view/character/enter_character_view.cc
   view/run/run_view.cc
   view/page/page_view.cc
+  view/page/column_view.cc
   view/layer.cc
   view/hititem.cc
 
@@ -66,10 +67,8 @@ set(LE_SRCS
   controller/command/delete_char_command.cc
   controller/command/set_selection_command.cc
 
-
   controller/command/commit.cc
   controller/command/commit_tree.cc
-  
   
   graphic/canvas.cc
   graphic/point.cc

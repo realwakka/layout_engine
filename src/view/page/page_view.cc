@@ -1,7 +1,7 @@
 #include "page_view.h"
 
 #include "model/prop/section_prop.h"
-
+#include "view/column_view.h"
 
 namespace le {
 

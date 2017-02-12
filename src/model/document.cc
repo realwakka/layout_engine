@@ -10,7 +10,6 @@ Document::Document(RenderText* rendertext)
 {
   //AppendChild(new Paragraph());
   AddChildAt(0, new Paragraph());
-
   view_.createPageViews();
 }
 
