@@ -13,77 +13,77 @@ namespace le {
 
 namespace {
 
-void InsertWordInternal(Paragraph* paragraph, Character* character)
-{
-  auto last_word = paragraph->GetLastWord();
+// void InsertWordInternal(Paragraph* paragraph, Character* character)
+// {
+//   auto last_word = paragraph->GetLastWord();
   
-  if( last_word == nullptr ) {
-    last_word = new Word();
-    paragraph->InsertWord(last_word, nullptr);
-    last_word->InsertCharacter(character, nullptr);
-  } else {
+//   if( last_word == nullptr ) {
+//     last_word = new Word();
+//     paragraph->InsertWord(last_word, nullptr);
+//     last_word->InsertCharacter(character, nullptr);
+//   } else {
     
-    auto prev_char = last_word->GetLastCharacter();
-    if( typeid(*character) == typeid(BasicCharacter) ) {
-      if( typeid(*prev_char) == typeid(BasicCharacter) ) {
-        last_word->InsertCharacter(character, nullptr);
-      } else if ( typeid(*prev_char) == typeid(SpaceCharacter) ) {
-        last_word->InsertCharacter(character, nullptr);
-        last_word->Split(character);
-      } else {
+//     auto prev_char = last_word->GetLastCharacter();
+//     if( typeid(*character) == typeid(BasicCharacter) ) {
+//       if( typeid(*prev_char) == typeid(BasicCharacter) ) {
+//         last_word->InsertCharacter(character, nullptr);
+//       } else if ( typeid(*prev_char) == typeid(SpaceCharacter) ) {
+//         last_word->InsertCharacter(character, nullptr);
+//         last_word->Split(character);
+//       } else {
 
-      }
-    } else if (typeid(*character) == typeid(SpaceCharacter) ) {
-      if( typeid(*prev_char) == typeid(BasicCharacter) ) {
-        last_word->InsertCharacter(character, nullptr);
-      } else if( typeid(*prev_char) == typeid(SpaceCharacter) ) {
-        last_word->InsertCharacter(character, nullptr);
-        last_word->Split(character);
-      } else {
+//       }
+//     } else if (typeid(*character) == typeid(SpaceCharacter) ) {
+//       if( typeid(*prev_char) == typeid(BasicCharacter) ) {
+//         last_word->InsertCharacter(character, nullptr);
+//       } else if( typeid(*prev_char) == typeid(SpaceCharacter) ) {
+//         last_word->InsertCharacter(character, nullptr);
+//         last_word->Split(character);
+//       } else {
 
-      }
+//       }
       
-    } else {
+//     } else {
 
-    }
-  }
-}
+//     }
+//   }
+// }
 
-void InsertRunInternal(Paragraph* paragraph, Character* character)
-{
-  auto cached = Run::GetCachedRun();
-  if( cached ) {
-    paragraph->InsertRun(cached, nullptr);
-  }
+// void InsertRunInternal(Paragraph* paragraph, Character* character)
+// {
+//   auto cached = Run::GetCachedRun();
+//   if( cached ) {
+//     paragraph->InsertRun(cached, nullptr);
+//   }
   
-  auto last_run =  paragraph->GetLastRun();
+//   auto last_run =  paragraph->GetLastRun();
 
-  if(last_run == nullptr) {
-    last_run = new TextRun();
-    paragraph->InsertRun(last_run, nullptr);
-  }
+//   if(last_run == nullptr) {
+//     last_run = new TextRun();
+//     paragraph->InsertRun(last_run, nullptr);
+//   }
   
-  last_run->InsertCharacter(character, nullptr);
+//   last_run->InsertCharacter(character, nullptr);
 
-  Run::SetCachedRun(nullptr);
-}
+//   Run::SetCachedRun(nullptr);
+// }
 
 
-void BackSpaceWordInternal(Paragraph& paragraph)
-{
-  auto last_word = paragraph.GetLastWord();
-  if( last_word == nullptr ) {
+// void BackSpaceWordInternal(Paragraph& paragraph)
+// {
+//   auto last_word = paragraph.GetLastWord();
+//   if( last_word == nullptr ) {
 
-  } else {
-    auto prev_char = last_word->GetLastCharacter();
-    last_word->RemoveCharacter(prev_char);
+//   } else {
+//     auto prev_char = last_word->GetLastCharacter();
+//     last_word->RemoveCharacter(prev_char);
 
-    if( last_word->GetFirstCharacter() == nullptr )
-      paragraph.RemoveWord(last_word);
-  }
-}
+//     if( last_word->GetFirstCharacter() == nullptr )
+//       paragraph.RemoveWord(last_word);
+//   }
+// }
 
-Run* BackSpaceRunInternal(Paragraph& paragraph)
+Run* BackSpaceRunInternal(Character* selected)
 {
   auto last_run = paragraph.GetLastRun();
   Run* ret = nullptr;
@@ -104,9 +104,9 @@ Run* BackSpaceRunInternal(Paragraph& paragraph)
 
 }
 
-DeleteCharCommand::DeleteCharCommand(Paragraph* paragraph, Character* character)
-    : paragraph_(paragraph),
-      character_(character)
+DeleteCharCommand::DeleteCharCommand(Character* selected)
+    : selected_(selected),
+      deleted_(nullptr)
 {}
 
 DeleteCharCommand::~DeleteCharCommand()
@@ -114,10 +114,12 @@ DeleteCharCommand::~DeleteCharCommand()
 
 void DeleteCharCommand::Apply()
 {
-  if( paragraph_ ) {
-    BackSpaceWordInternal(*paragraph_);
-    BackSpaceRunInternal(*paragraph_);
-  }
+  // if( paragraph_ ) {
+  //   BackSpaceWordInternal(*paragraph_);
+  //   BackSpaceRunInternal(*paragraph_);
+  // }
+
+  
 }
 
 void DeleteCharCommand::UnApply()

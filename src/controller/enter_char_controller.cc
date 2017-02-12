@@ -184,9 +184,10 @@ void EnterCharController::OnKeyDown(const KeyEvent& event)
   } else {
     switch( event.GetCode() ) {
       case KeyboardCode::VKEY_BACK: {
-        auto paragraph = enter_char_.GetRun()->GetParagraph();
-        auto command = new DeleteCharCommand(paragraph, nullptr);
+        //auto paragraph = enter_char_.GetRun()->GetParagraph();
+        auto command = new DeleteCharCommand(&enter_char_);
         CommitTree::GetInstance()->AddCommand(command);
+        
         break;
       }
       case KeyboardCode::VKEY_RIGHT: {

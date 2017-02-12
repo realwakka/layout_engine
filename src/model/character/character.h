@@ -57,6 +57,9 @@ class Character
   virtual CharacterView& GetView() = 0;
   virtual std::unique_ptr<Controller> GetController() {}
 
+  virtual Character* RemoveThis(Run* &removed) = 0;
+  virtual void InsertThis(Character* selected) = 0;
+
  private:
   Glyph glyph_;
   char c_;

@@ -11,7 +11,7 @@ class Character;
 class DeleteCharCommand : public Command
 {
  public:
-  DeleteCharCommand(Paragraph* paragraph, Character* character);
+  DeleteCharCommand(Character* selected);
   virtual ~DeleteCharCommand();
 
   void Apply() override;
@@ -21,9 +21,8 @@ class DeleteCharCommand : public Command
   std::string GetDecription() override { "Modify Char"; }
 
  private:
-  Paragraph* paragraph_;
-  Character* character_;
-  Character* inserted_;
+  Character* selected_;
+  Character* deleted_;
 
   
 };
