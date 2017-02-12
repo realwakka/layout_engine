@@ -20,13 +20,10 @@ int main(int argc, char* argv[])
   // rendertext.SetSize(30);
   rendertext.InsertText(text);
   
-  
+  rendertext.Layout();
   le::KeyEvent keyevent;
-  keyevent.SetCode(le::KeyboardCode::VKEY_LEFT);
+  keyevent.SetCode(le::KeyboardCode::VKEY_BACK);
   rendertext.OnKeyDown(keyevent);
-  
-  rendertext.InsertText("a");
-
   
   // rendertext.UnDo();
   // rendertext.ReDo();

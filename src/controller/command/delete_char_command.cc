@@ -83,11 +83,12 @@ namespace {
 //   }
 // }
 
-void BackSpaceRunInternal(Character* selected, Character* &deleted, Run* &deleted_run )
+void BackSpaceRunInternal(Character* selected, Character* &deleted, Run* &deleted_run, Run* &ref_run )
 {
-  deleted_run = nullptr;
+
   
   deleted = selected->GetPrevCharacter();
+  deleted_run = deleted->GetRun();
   if( deleted ) {
     if( typeid(*deleted) == typeid(BasicCharacter) ||
         typeid(*deleted) == typeid(SpaceCharacter) ) {
@@ -95,18 +96,19 @@ void BackSpaceRunInternal(Character* selected, Character* &deleted, Run* &delete
       auto prev_run = deleted->GetRun();
       prev_run->RemoveCharacter(deleted);
       if( prev_run->GetFirstCharacter() == nullptr ) {
-        deleted_run = prev_run;
+        ref_run = prev_run->GetNextRun();
       } 
     }
   }
-
 }
 
 }
 
 DeleteCharCommand::DeleteCharCommand(Character* selected)
     : selected_(selected),
-      deleted_(nullptr)
+      deleted_(nullptr),
+      deleted_run_(nullptr),
+      ref_run_(nullptr)
 {}
 
 DeleteCharCommand::~DeleteCharCommand()
@@ -114,7 +116,7 @@ DeleteCharCommand::~DeleteCharCommand()
 
 void DeleteCharCommand::Apply()
 {
-  BackSpaceRunInternal(selected_, deleted_, deleted_run_);
+  BackSpaceRunInternal(selected_, deleted_, deleted_run_, ref_run_);
   selected_->GetParagraph()->CreateWords();
   
   // if( paragraph_ ) {
@@ -125,12 +127,24 @@ void DeleteCharCommand::Apply()
 
 void DeleteCharCommand::UnApply()
 {
-  
+  auto paragraph = selected_->GetParagraph();
+  if( ref_run_ ) {
+    paragraph->InsertRun( deleted_run_ , ref_run_ );
+    deleted_run_->InsertCharacter(deleted_, nullptr);
+  } else {
+    if( selected_->GetRun() == deleted_run_ ) {
+      deleted_run_->InsertCharacter(deleted_, selected_);
+    } else {
+      deleted_run_->InsertCharacter(deleted_, nullptr);
+    }
+  }
+  selected_->GetParagraph()->CreateWords();
 }
 
 void DeleteCharCommand::ReApply()
 {
-  
+  BackSpaceRunInternal(selected_, deleted_, deleted_run_, ref_run_);
+  selected_->GetParagraph()->CreateWords();
 }
 
 }  // le
