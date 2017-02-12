@@ -83,23 +83,23 @@ namespace {
 //   }
 // }
 
-Run* BackSpaceRunInternal(Character* selected)
+void BackSpaceRunInternal(Character* selected, Character* &deleted, Run* &deleted_run )
 {
-  auto last_run = paragraph.GetLastRun();
-  Run* ret = nullptr;
-  if( last_run == nullptr ) {
+  deleted_run = nullptr;
+  
+  deleted = selected->GetPrevCharacter();
+  if( deleted ) {
+    if( typeid(*deleted) == typeid(BasicCharacter) ||
+        typeid(*deleted) == typeid(SpaceCharacter) ) {
 
-  } else {
-    auto prev_char = last_run->GetLastCharacter();
-    last_run->RemoveCharacter(prev_char);
-
-    if( last_run->GetFirstCharacter() == nullptr ) {
-      paragraph.RemoveRun(last_run);
-      ret = last_run;
+      auto prev_run = deleted->GetRun();
+      prev_run->RemoveCharacter(deleted);
+      if( prev_run->GetFirstCharacter() == nullptr ) {
+        deleted_run = prev_run;
+      } 
     }
   }
 
-  return ret;
 }
 
 }
@@ -114,12 +114,13 @@ DeleteCharCommand::~DeleteCharCommand()
 
 void DeleteCharCommand::Apply()
 {
+  BackSpaceRunInternal(selected_, deleted_, deleted_run_);
+  selected_->GetParagraph()->CreateWords();
+  
   // if( paragraph_ ) {
   //   BackSpaceWordInternal(*paragraph_);
   //   BackSpaceRunInternal(*paragraph_);
   // }
-
-  
 }
 
 void DeleteCharCommand::UnApply()

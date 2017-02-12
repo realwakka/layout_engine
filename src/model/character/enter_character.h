@@ -26,6 +26,9 @@ class EnterCharacter : public Character
   Character* GetPrevParagraphCharacter() override;
 
   Paragraph* GetParagraph() override { return GetRun()->GetParagraph(); }
+
+  Character* RemoveThis() override;
+  void InsertThis(Character* selected) override;
   
  private:
   EnterCharacterView view_;

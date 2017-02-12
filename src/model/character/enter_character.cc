@@ -70,6 +70,15 @@ Character* EnterCharacter::GetPrevParagraphCharacter()
   }
 }
 
+Character* EnterCharacter::RemoveThis()
+{
+
+}
+
+void EnterCharacter::InsertThis(Character* selected)
+{
+
+}
 
 
 

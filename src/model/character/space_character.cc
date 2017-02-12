@@ -74,6 +74,15 @@ Character* SpaceCharacter::GetPrevParagraphCharacter()
   }
 }
 
+Character* SpaceCharacter::RemoveThis()
+{
+
+}
+
+void SpaceCharacter::InsertThis(Character* selected)
+{
+
+}
 
 
 

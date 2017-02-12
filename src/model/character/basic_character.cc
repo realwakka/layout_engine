@@ -73,6 +73,32 @@ Character* BasicCharacter::GetPrevParagraphCharacter()
   }
 }
 
+Character* BasicCharacter::RemoveThis()
+{
+  // auto prev = GetPrevRunCharacter();
+  // GetRun()->RemoveCharacter(this);
+  // if( !GetRun()->GetFirstCharacter() ) {
+  //   GetRun()->RemoveThis();
+  // }
+  
+  
+  // auto prev = GetPrevCharacter();
+  // if( GetRun()->GetFirstCharacter() == GetRun()->GetLastCharacter() ) {
+  //   GetRun()->GetParagraph()->RemoveRun(GetRun());
+  // } else {
+  //   GetRun()->RemoveCharacter(this);
+  // }
+  // return prev;
+}
+
+void BasicCharacter::InsertThis(Character* selected)
+{
+  // if( GetRun() ) {
+    
+  // } else {
+  //   selected->GetPrevCharacter();
+  // }
+}
 
 
 }  // le

@@ -7,6 +7,7 @@ namespace le {
 
 class Paragraph;
 class Character;
+class Run;
 
 class DeleteCharCommand : public Command
 {
@@ -23,7 +24,7 @@ class DeleteCharCommand : public Command
  private:
   Character* selected_;
   Character* deleted_;
-
+  Run* deleted_run_;
   
 };
 

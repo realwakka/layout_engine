@@ -22,6 +22,9 @@ class BasicCharacter : public Character
 
   Paragraph* GetParagraph() override { return GetRun()->GetParagraph();}
 
+  Character* RemoveThis() override;
+  void InsertThis(Character* selected) override;
+
  private:
   CharacterView view_;
   
