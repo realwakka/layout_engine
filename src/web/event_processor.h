@@ -23,7 +23,6 @@ class EventProcessor
   virtual ~EventProcessor();
 
   bool PushEvent(const std::string& str);
-
   RenderText& GetRenderText() { return rendertext_; }
 
  private:

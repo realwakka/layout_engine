@@ -24,6 +24,37 @@ namespace web {
 namespace {
 
 
+pollfd pollfds[100];
+int pollfds_size = 0;
+#define MAX_POLL_ELEMENTS 100
+
+
+void PrintReason(lws_callback_reasons reason)
+{
+  switch(reason) {
+    case LWS_CALLBACK_CHANGE_MODE_POLL_FD:
+      std::cout << "change mode pool" << std::endl;
+      break;
+    case LWS_CALLBACK_LOCK_POLL:
+      std::cout << "lock poll "<< std::endl;
+      break;
+    case LWS_CALLBACK_UNLOCK_POLL:
+      std::cout << "unlock poll "<< std::endl;
+      break;
+    case LWS_CALLBACK_ADD_POLL_FD:
+      std::cout << "add pool fd "<< std::endl;
+      break;
+    case LWS_CALLBACK_DEL_POLL_FD:
+      std::cout << "delete pool fd "<< std::endl;
+      break;
+
+    case LWS_CALLBACK_PROTOCOL_INIT:
+      std::cout << "protocol init "<< std::endl;
+      break;
+  }
+}
+
+
 int CallBackLe(lws* wsi,
                lws_callback_reasons reason,
                void *user,
@@ -41,7 +72,6 @@ int CallBackLe(lws* wsi,
       auto event_processor_map = static_cast<std::unordered_map<lws*, EventProcessor*>*>(lws_get_protocol(wsi)->user);
       event_processor_map->emplace(wsi, new EventProcessor(wsi));
       // auto rendertext = new RenderText();
-
       // std::cout << "user : " << user << std::endl;
       // rendertext_map->emplace(wsi, rendertext);
       break;
@@ -55,7 +85,6 @@ int CallBackLe(lws* wsi,
         delete removed;
 
       }
-
       
       // auto rendertext_map = static_cast<std::unordered_map<lws*, RenderText*>*>(lws_get_protocol(wsi)->user);
       // printf("connection closed\n");
@@ -74,28 +103,8 @@ int CallBackLe(lws* wsi,
       }
       break;
     }
-    case LWS_CALLBACK_GET_THREAD_ID: {
-      std::cout << "thread!!" << std::endl;
-      std::cout<< "pid : " << getpid() << std::endl;
-      return getpid();
-    }
-    case LWS_CALLBACK_CHANGE_MODE_POLL_FD:
-      std::cout << "change mode pool\n" << std::endl;
-      break;
-    case LWS_CALLBACK_LOCK_POLL:
-      std::cout << "lock poll "<< std::endl;
-      break;
-    case LWS_CALLBACK_UNLOCK_POLL:
-      std::cout << "unlock poll "<< std::endl;
-      break;
-    case LWS_CALLBACK_ADD_POLL_FD:
-      std::cout << "add pool fd "<< std::endl;
-      break;
-    case LWS_CALLBACK_DEL_POLL_FD:
-      std::cout << "delete pool fd "<< std::endl;
-      break;
     default:
-      std::cout << "unhandled callback " << reason << std::endl;
+      PrintReason(reason);
       break;
   }
 
@@ -110,6 +119,8 @@ int CallBackHttp(lws* wsi,
                  void *user,
                  void *in, size_t len)
 {
+  lws_pollargs *pa = (struct lws_pollargs *)in;
+  
   switch (reason) {
     case LWS_CALLBACK_CLIENT_WRITEABLE:
       printf("connection client established\n");
@@ -117,10 +128,47 @@ int CallBackHttp(lws* wsi,
     case LWS_CALLBACK_HTTP: {
       char *requested_uri = (char *) in;
       printf("requested URI: %s\n", requested_uri);
-
       lws_serve_http_file(wsi, "../../src/web/index.html", "text/html", nullptr, 0);
       break;
     }
+    case LWS_CALLBACK_ADD_POLL_FD: {
+
+      pollfds[pollfds_size].fd = pa->fd;
+      pollfds[pollfds_size].events = pa->events;
+      pollfds[pollfds_size++].revents = 0;
+
+      std::cout << "add pool fd!!! "<< pa->fd <<std::endl;
+      break;
+    }
+
+    case LWS_CALLBACK_DEL_POLL_FD:
+      std::cout << "DELETE POLL!"<< std::endl;
+      for (int n = 0; n < pollfds_size; n++)
+        if (pollfds[n].fd == pa->fd)
+          while (n < pollfds_size) {
+            pollfds[n] = pollfds[n + 1];
+            n++;
+          }
+      pollfds_size--;
+      break;
+
+    case LWS_CALLBACK_CHANGE_MODE_POLL_FD:
+      std::cout << "CHANGE MODE POLL!"<< std::endl;
+      for (int n = 0; n < pollfds_size; n++)
+        if (pollfds[n].fd == pa->fd)
+          pollfds[n].events = pa->events;
+      break;
+
+    // case LWS_CALLBACK_CLEAR_MODE_POLL_FD:
+    //   for (int n = 0; n < pollfds_size; n++)
+    //     if (pollfds[n].fd == (int)(long)user)
+    //       pollfds[n].events &= ~(int)(long)len;
+    //   break;
+      
+      
+    default:
+      PrintReason(reason);
+      break;
   }
   return 0;
 }
@@ -175,7 +223,20 @@ void Server::Start()
   printf("starting server...\n");
 
   while (1) {
-    auto n = lws_service(context, 50);
+    // auto n = lws_service(context, 50);
+
+    auto n = poll(pollfds, pollfds_size, 25);
+
+    if ( n < 0 ) {
+      exit(1);
+    }
+    if(n) {
+      for (int i = 0; i < pollfds_size; ++i) {
+        if( pollfds[i].revents ) {
+          auto res = lws_service_fd(context, &pollfds[i]);
+        }
+      }
+    }
   }
 
   lws_context_destroy(context);

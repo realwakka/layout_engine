@@ -1,14 +1,14 @@
 #include "page_view.h"
 
 #include "model/prop/section_prop.h"
-#include "view/column_view.h"
+#include "view/page/column_view.h"
 
 namespace le {
 
 PageView::PageView(SectionProp& section_prop)
     : section_prop_(section_prop)
 {
-  auto& size = section_prop_.GetPageSize();
+  auto&& size = section_prop_.GetPageSize();
   SetWidth(conv_util::Twip2Pixel(size.GetWidth()));
   SetHeight(conv_util::Twip2Pixel(size.GetHeight()));
 }
