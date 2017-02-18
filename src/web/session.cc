@@ -14,12 +14,12 @@ int CallBackEvent(lws* wsi,
 {
   switch(reason) {
     case LWS_CALLBACK_ESTABLISHED: {
-      printf("connection established\n");
+      printf("SSSSSSSSSSS connection established\n");
       break;
     }
 
     case LWS_CALLBACK_CLOSED: {
-      printf("connection closed\n");
+      printf("SSSSSSSSSSSSconnection closed\n");
       break;
     }
     case LWS_CALLBACK_RECEIVE: {
@@ -31,12 +31,12 @@ int CallBackEvent(lws* wsi,
     default:
       break;
   }
-
 }
 
 }
 
 Session::Session()
+    : exit_(false)
 {}
 Session::~Session()
 {}
@@ -48,6 +48,26 @@ void Session::Start()
     { "le_web_protocol", CallBackEvent, 0, 0, 0, &rendertext_, },
     { nullptr, nullptr, 0 }
   };
+
+  lws_context_creation_info info;
+  memset(&info, 0, sizeof(info));
+  
+  info.port = 8080;
+  info.iface = nullptr;
+  info.protocols = protocols;
+  info.extensions = nullptr;
+  info.ssl_cert_filepath = NULL;
+  info.ssl_private_key_filepath = NULL;
+  info.gid = -1;
+  info.uid = -1;
+  info.options = 0;
+
+  context = lws_create_context(&info);
+
+  while(exit == false) {
+    auto n = lws_service(context, 50);
+  }
+  
   
 }
 

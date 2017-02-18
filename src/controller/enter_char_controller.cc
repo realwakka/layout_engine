@@ -21,34 +21,6 @@ namespace le {
 
 namespace {
 
-// void BackSpaceWordInternal(Paragraph& paragraph)
-// {
-//   auto last_word = paragraph.GetLastWord();
-//   if( last_word == nullptr ) {
-
-//   } else {
-//     auto prev_char = last_word->GetLastCharacter();
-//     last_word->RemoveCharacter(prev_char);
-
-//     if( last_word->GetFirstCharacter() == nullptr )
-//       paragraph.RemoveWord(last_word);
-//   }
-// }
-
-// void BackSpaceRunInternal(Paragraph& paragraph)
-// {
-//   auto last_run = paragraph.GetLastRun();
-//   if( last_run == nullptr ) {
-
-//   } else {
-//     auto prev_char = last_run->GetLastCharacter();
-//     last_run->RemoveCharacter(prev_char);
-
-//     if( last_run->GetFirstCharacter() == nullptr )
-//       paragraph.RemoveRun(last_run);
-//   }
-// }
-
 void ProcessLeftKey(RenderText* rendertext, Character* selected)
 {
   auto prev_char = selected->GetPrevCharacter();
@@ -58,7 +30,7 @@ void ProcessLeftKey(RenderText* rendertext, Character* selected)
         new CaretSelection(*prev_char),
         rendertext->GetSelection() );
 
-    CommitTree::GetInstance()->AddCommand(command);
+    rendertext->GetCommitTree()->AddCommand(command);
   }
 
 }
@@ -71,7 +43,7 @@ void ProcessRightKey( RenderText* rendertext, Character* selected )
         new CaretSelection(*next_char),
         rendertext->GetSelection() );
 
-    CommitTree::GetInstance()->AddCommand(command);
+    rendertext->GetCommitTree()->AddCommand(command);
   }
 }
 
@@ -94,7 +66,7 @@ void EnterCharController::InsertChar(Character* character)
 {
   auto paragraph = enter_char_.GetRun()->GetParagraph();
   auto command = new InsertCharCommand(character, &enter_char_);
-  CommitTree::GetInstance()->AddCommand(command);
+  rendertext_->GetCommitTree()->AddCommand(command);
 }
 
 void EnterCharController::BackSpaceChar()
@@ -169,25 +141,24 @@ void EnterCharController::OnKeyDown(const KeyEvent& event)
   if( event.GetCtrlDown() || event.GetAltDown() ) {
     
     if( event.GetCtrlDown() && event.GetCode() == KeyboardCode::VKEY_Z )
-      CommitTree::GetInstance()->UnDo();
+      rendertext_->GetCommitTree()->UnDo();
 
     if( event.GetCtrlDown() && event.GetCode() == KeyboardCode::VKEY_Y )
-      CommitTree::GetInstance()->ReDo();
+      rendertext_->GetCommitTree()->ReDo();
 
   } else if( event.GetChar() != 0 ) {
     auto character = CreateCharacter(event.GetChar());
     auto paragraph = enter_char_.GetRun()->GetParagraph();
 
     auto command = new InsertCharCommand(character, &enter_char_);
-    CommitTree::GetInstance()->AddCommand(command);
+    rendertext_->GetCommitTree()->AddCommand(command);
 
   } else {
     switch( event.GetCode() ) {
       case KeyboardCode::VKEY_BACK: {
         //auto paragraph = enter_char_.GetRun()->GetParagraph();
         auto command = new DeleteCharCommand(&enter_char_);
-        CommitTree::GetInstance()->AddCommand(command);
-        
+        rendertext_->GetCommitTree()->AddCommand(command);
         break;
       }
       case KeyboardCode::VKEY_RIGHT: {

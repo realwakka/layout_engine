@@ -5,6 +5,7 @@
 #include "render_text.h"
 #include <libwebsockets.h>
 #include "event_processor.h"
+#include "session.h"
 
 namespace le {
 namespace web {
@@ -20,6 +21,7 @@ class Server
  private:
   std::unordered_map<lws*, RenderText*> rendertext_map_;
   std::unordered_map<lws*, EventProcessor*> event_processor_map_;
+  std::unordered_map<std::string, int> session_map_;
 };
 
 

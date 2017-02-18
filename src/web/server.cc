@@ -119,6 +119,7 @@ int CallBackHttp(lws* wsi,
                  void *user,
                  void *in, size_t len)
 {
+  auto session_map = static_cast<std::unordered_map<std::string, int>*>(lws_get_protocol(wsi)->user);
   lws_pollargs *pa = (struct lws_pollargs *)in;
   
   switch (reason) {
@@ -127,6 +128,12 @@ int CallBackHttp(lws* wsi,
       break;
     case LWS_CALLBACK_HTTP: {
       char *requested_uri = (char *) in;
+      auto pid = fork();
+      if( pid == 0 ) {
+        Session session;
+        session.Start();
+      }
+      session_map->emplace(requested_uri, pid);
       printf("requested URI: %s\n", requested_uri);
       lws_serve_http_file(wsi, "../../src/web/index.html", "text/html", nullptr, 0);
       break;
@@ -194,7 +201,7 @@ void Server::Start()
 
   lws_protocols protocols[] = {
     { "http_protocol", CallBackHttp, 0, 0, },
-    { "le_web_protocol", CallBackLe, 0, 0, 0, &event_processor_map_, },
+    // { "le_web_protocol", CallBackLe, 0, 0, 0, &event_processor_map_, },
     { nullptr, nullptr, 0 }
   };
 

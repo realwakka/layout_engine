@@ -5,7 +5,7 @@
 
 namespace le {
 
-CommitTree* CommitTree::instance_ = nullptr;
+// CommitTree* CommitTree::instance_ = nullptr;
 
 CommitTree::CommitTree()
     : current_(new Commit())
@@ -41,13 +41,13 @@ void CommitTree::AddCommand(Command* command)
   current_->AddCommand(command);
 }
 
-CommitTree* CommitTree::GetInstance()
-{
-  if( instance_ == nullptr )
-    instance_ = new CommitTree();
+// CommitTree* CommitTree::GetInstance()
+// {
+//   if( instance_ == nullptr )
+//     instance_ = new CommitTree();
   
-  return instance_;
-}
+//   return instance_;
+// }
 
 void CommitTree::UnDo()
 {

@@ -3,6 +3,7 @@
 
 #include "model/document.h"
 #include "model/selection/selection.h"
+#include "controller/command/commit_tree.h"
 
 namespace le {
 
@@ -36,10 +37,13 @@ class RenderText
   void Commit();
   void UnDo();
   void ReDo();
+
+  CommitTree* GetCommitTree() { return &commit_tree_; }
   
  private:
   Document document_;
   Selection* selection_;
+  CommitTree commit_tree_;
 
 };
 

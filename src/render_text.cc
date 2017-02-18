@@ -50,7 +50,7 @@ void RenderText::SetPageSize(int width, int height)
 
 void RenderText::Commit()
 {
-  CommitTree::GetInstance()->DoCommit();
+  commit_tree_.DoCommit();
 }
 
 void RenderText::Layout()
@@ -89,12 +89,13 @@ void RenderText::BackSpace()
 
 void RenderText::UnDo()
 {
-  CommitTree::GetInstance()->UnDo();
+  commit_tree_.UnDo();
 }
 
 void RenderText::ReDo()
 {
-  CommitTree::GetInstance()->ReDo();
+
+  commit_tree_.ReDo();
 }
 
 

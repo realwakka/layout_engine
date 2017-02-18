@@ -3,6 +3,7 @@
 
 #include "render_text.h"
 #include <libwebsockets.h>
+#include <atomic>
 
 namespace le {
 namespace web {
@@ -17,6 +18,8 @@ class Session
 
  private:
   RenderText rendertext_;
+  std::atomic<bool> exit_;
+
 };
 
 }  // web

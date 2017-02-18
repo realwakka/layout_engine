@@ -17,13 +17,13 @@ class CommitTree
   void UnDo();
   void ReDo();
 
-  static CommitTree* GetInstance();
+  //static CommitTree* GetInstance();
 
  private:
   Commit* current_;
 
  private:
-  static CommitTree* instance_;
+  //static CommitTree* instance_;
   
 };
 
