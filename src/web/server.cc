@@ -119,8 +119,8 @@ int CallBackHttp(lws* wsi,
                  void *user,
                  void *in, size_t len)
 {
-  auto session_map = static_cast<std::unordered_map<std::string, int>*>(lws_get_protocol(wsi)->user);
-  lws_pollargs *pa = (struct lws_pollargs *)in;
+  // auto session_map = static_cast<std::unordered_map<std::string, int>*>(lws_get_protocol(wsi)->user);
+  // lws_pollargs *pa = (struct lws_pollargs *)in;
   
   switch (reason) {
     case LWS_CALLBACK_CLIENT_WRITEABLE:
@@ -128,43 +128,43 @@ int CallBackHttp(lws* wsi,
       break;
     case LWS_CALLBACK_HTTP: {
       char *requested_uri = (char *) in;
-      auto pid = fork();
-      if( pid == 0 ) {
-        Session session;
-        session.Start();
-      }
-      session_map->emplace(requested_uri, pid);
+      // auto pid = fork();
+      // if( pid == 0 ) {
+      //   Session session;
+      //   session.Start();
+      // }
+      // session_map->emplace(requested_uri, pid);
       printf("requested URI: %s\n", requested_uri);
       lws_serve_http_file(wsi, "../../src/web/index.html", "text/html", nullptr, 0);
       break;
     }
-    case LWS_CALLBACK_ADD_POLL_FD: {
+    // case LWS_CALLBACK_ADD_POLL_FD: {
 
-      pollfds[pollfds_size].fd = pa->fd;
-      pollfds[pollfds_size].events = pa->events;
-      pollfds[pollfds_size++].revents = 0;
+    //   pollfds[pollfds_size].fd = pa->fd;
+    //   pollfds[pollfds_size].events = pa->events;
+    //   pollfds[pollfds_size++].revents = 0;
 
-      std::cout << "add pool fd!!! "<< pa->fd <<std::endl;
-      break;
-    }
+    //   std::cout << "add pool fd!!! "<< pa->fd <<std::endl;
+    //   break;
+    // }
 
-    case LWS_CALLBACK_DEL_POLL_FD:
-      std::cout << "DELETE POLL!"<< std::endl;
-      for (int n = 0; n < pollfds_size; n++)
-        if (pollfds[n].fd == pa->fd)
-          while (n < pollfds_size) {
-            pollfds[n] = pollfds[n + 1];
-            n++;
-          }
-      pollfds_size--;
-      break;
+    // case LWS_CALLBACK_DEL_POLL_FD:
+    //   std::cout << "DELETE POLL!"<< std::endl;
+    //   for (int n = 0; n < pollfds_size; n++)
+    //     if (pollfds[n].fd == pa->fd)
+    //       while (n < pollfds_size) {
+    //         pollfds[n] = pollfds[n + 1];
+    //         n++;
+    //       }
+    //   pollfds_size--;
+    //   break;
 
-    case LWS_CALLBACK_CHANGE_MODE_POLL_FD:
-      std::cout << "CHANGE MODE POLL!"<< std::endl;
-      for (int n = 0; n < pollfds_size; n++)
-        if (pollfds[n].fd == pa->fd)
-          pollfds[n].events = pa->events;
-      break;
+    // case LWS_CALLBACK_CHANGE_MODE_POLL_FD:
+    //   std::cout << "CHANGE MODE POLL!"<< std::endl;
+    //   for (int n = 0; n < pollfds_size; n++)
+    //     if (pollfds[n].fd == pa->fd)
+    //       pollfds[n].events = pa->events;
+    //   break;
 
     // case LWS_CALLBACK_CLEAR_MODE_POLL_FD:
     //   for (int n = 0; n < pollfds_size; n++)
@@ -201,7 +201,7 @@ void Server::Start()
 
   lws_protocols protocols[] = {
     { "http_protocol", CallBackHttp, 0, 0, },
-    // { "le_web_protocol", CallBackLe, 0, 0, 0, &event_processor_map_, },
+    { "le_web_protocol", CallBackLe, 0, 0, 0, &event_processor_map_, },
     { nullptr, nullptr, 0 }
   };
 
@@ -229,21 +229,21 @@ void Server::Start()
 
   printf("starting server...\n");
 
-  while (1) {
-    // auto n = lws_service(context, 50);
+  while (true) {
+    auto n = lws_service(context, 50);
 
-    auto n = poll(pollfds, pollfds_size, 25);
+    // auto n = poll(pollfds, pollfds_size, 25);
 
-    if ( n < 0 ) {
-      exit(1);
-    }
-    if(n) {
-      for (int i = 0; i < pollfds_size; ++i) {
-        if( pollfds[i].revents ) {
-          auto res = lws_service_fd(context, &pollfds[i]);
-        }
-      }
-    }
+    // if ( n < 0 ) {
+    //   exit(1);
+    // }
+    // if(n) {
+    //   for (int i = 0; i < pollfds_size; ++i) {
+    //     if( pollfds[i].revents ) {
+    //       auto res = lws_service_fd(context, &pollfds[i]);
+    //     }
+    //   }
+    // }
   }
 
   lws_context_destroy(context);

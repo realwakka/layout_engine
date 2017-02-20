@@ -4,7 +4,7 @@
 namespace le {
 
 RunProp::RunProp()
-    : size_(72),
+    : size_(10),
       color_(kColorBlack),
       italic_(false),
       bold_(false),

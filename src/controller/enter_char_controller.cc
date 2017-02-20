@@ -18,7 +18,6 @@
 #include <iostream>
 
 namespace le {
-
 namespace {
 
 void ProcessLeftKey(RenderText* rendertext, Character* selected)
@@ -175,5 +174,4 @@ void EnterCharController::OnKeyDown(const KeyEvent& event)
   }
 
 }
-
 }  // le
