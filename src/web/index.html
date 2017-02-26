@@ -1,8 +1,8 @@
-<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	-->
   </head>
   <body>
     <div id="ribbon_div">
@@ -25,64 +25,9 @@
     </div>
     <div id="canvas_div" style="position:absolute; top:75; left:75; z-index:3">
       <canvas id="canvas" width=1000 height=1000>
+      </canvas>
     </div>
 
-    <script>
-
-      document.addEventListener("keydown", function(event) {
-
-      console.log(event);
-
-      switch( event.keyCode ) {
-      case 8:
-      case 32:
-      case 37:
-      case 38:
-      case 39:
-      case 40:
-      event.preventDefault();
-      default:
-      }
-      websocket.send(JSON.stringify({type: "keydown", key: event.key,keyCode: event.keyCode, ctrlKey: event.ctrlKey, altKey: event.altKey, shiftKey: event.shiftKey}));
-
-      }, true );
-
-      
-
-      var canvas = document.getElementById('canvas');
-      var ctx = canvas.getContext('2d');
-
-      canvas.addEventListener("mousedown", function(event) {
-      
-      console.log(event);
-      websocket.send(JSON.stringify({type: "mousedown", x: event.clientX, y: event.clientY}));
-
-      } );
-
-      var websocket = new WebSocket('ws://127.0.0.1:8080','le_web_protocol');
-      websocket.onopen = function() {
-      console.log("onopen");
-      }
-
-      websocket.onerror = function() {
-      console.log("onerror");
-      }
-
-      websocket.onmessage = function(message) {
-      var reader = new FileReader();
-
-      reader.onload = function(e) {
-      var img = new Image();
-      img.src = e.target.result;
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-      };
-
-      reader.readAsDataURL(message.data);
-      }
-
-    </script>
-
+    <script type="text/javascript" src="/myscript.js"></script>
   </body>
 </html>

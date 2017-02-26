@@ -23,15 +23,16 @@ class EventProcessor
   virtual ~EventProcessor();
 
   bool PushEvent(const std::string& str);
-  RenderText& GetRenderText() { return rendertext_; }
+  // RenderText& GetRenderText() { return rendertext_; }
+  // void Loop();
 
  private:
   std::queue<std::string> event_queue_;
   RenderText rendertext_;
   std::thread* event_executor_;
-  std::atomic<bool> running_;
+  bool running_;
   std::atomic<bool> empty_;
-  std::mutex processing_;
+  std::atomic<bool> processing_;
   lws* wsi_;
 };
 

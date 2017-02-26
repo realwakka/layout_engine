@@ -109,9 +109,13 @@ void InsertCharCommand::Apply()
   // InsertWordInternal(character_, inserted_);
   std::cout << "insert char apply" << std::endl;
   inserted_run_ = Run::GetCachedRun();
+  std::cout << "1" << std::endl;
   inserted_run_ = InsertRunInternal(inserted_, selected_, inserted_run_);
+  std::cout << "2" << std::endl;
   selected_->GetParagraph()->CreateWords();
+  
   Run::SetCachedRun(nullptr);
+
 }
 
 void InsertCharCommand::UnApply() 

@@ -26,5 +26,3 @@ target_link_libraries(le_web LINK_PUBLIC websockets le jsoncpp)
 
 add_executable(webserver main.cc)
 target_link_libraries(webserver LINK_PUBLIC le_web)
-
-configure_file(index.html index.html copyonly)

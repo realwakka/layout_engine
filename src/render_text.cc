@@ -23,9 +23,7 @@ void RenderText::InsertText(const std::string& text)
   for( char c : text ) {
     auto character = CreateCharacter(c);
     selection_->GetController(this)->InsertChar(character);
-    //paragraph_.PrintInfo();
   }
-  //paragraph_.GetFirstRun()->UpdateGlyph();
 }
 
 void RenderText::SetBold(bool bold)

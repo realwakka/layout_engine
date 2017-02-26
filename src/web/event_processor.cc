@@ -2,6 +2,7 @@
 
 #include <jsoncpp/json/json.h>
 #include <iostream>
+#include <fstream>
 #include <cstring>
 
 #include "controller/event/mouse_event.h"
@@ -65,12 +66,22 @@ bool ProcessEvent(const std::string& json, RenderText& rendertext, lws* wsi)
   } else if( event_type == "paint" ) {
     Painter painter;
     auto out =  painter.PaintToPng(rendertext);
-    std::unique_ptr<unsigned char[]> send_data(new unsigned char[LWS_PRE + out.size()]);
-
-    std::memcpy(&send_data.get()[LWS_PRE], out.data(), out.size());
-    lws_write(wsi, (unsigned char*)&send_data.get()[LWS_PRE], out.size(), LWS_WRITE_BINARY);
+    // std::ofstream ofs("output.png");
+    // ofs.write(out.data(), out.size());
+    // ofs.close();
+    
+    // std::unique_ptr<unsigned char[]> send_data(new unsigned char[LWS_PRE + out.size()]);
+    auto data = new unsigned char[LWS_PRE + out.size()];
+    std::memset(data, 0, LWS_PRE + out.size());
+    std::memcpy(&data[LWS_PRE], out.data(), out.size());
+    auto result = lws_write(wsi, &data[LWS_PRE], out.size(), LWS_WRITE_BINARY);
+    std::cout << "paint result : " << result << std::endl;
+    
+    // std::memcpy(&send_data.get()[LWS_PRE], out.data(), out.size());
+    // lws_write(wsi, (unsigned char*)&send_data.get()[LWS_PRE], out.size(), LWS_WRITE_BINARY);
 
   }
+  return true;
 }
 
 }
@@ -82,17 +93,17 @@ EventProcessor::EventProcessor(lws* wsi)
 {
   event_executor_ = new std::thread([this]() {
       while( running_ ) {
-        while( empty_ );
-        std::lock_guard<std::mutex> lock(processing_);
         if( !event_queue_.empty() ) {
           auto&& json = event_queue_.front();
           ProcessEvent(json, rendertext_, wsi_);
+	  processing_ = true;
           event_queue_.pop();
-          empty_ = event_queue_.empty();
+	  processing_ = false;
         }
       }
     });
 }
+
 
 EventProcessor::~EventProcessor()
 {
@@ -101,12 +112,13 @@ EventProcessor::~EventProcessor()
   event_executor_->join();
 }
 
-
 bool EventProcessor::PushEvent(const std::string& str)
 {
-  std::lock_guard<std::mutex> lock(processing_);
+  while( processing_ == true );
   event_queue_.push(str);
-  empty_ = false;
+  // while( processing_ == false ) {
+    
+  // }
 }
 
 }  // web

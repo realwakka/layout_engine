@@ -29,6 +29,7 @@ FaceManager* FaceManager::GetInstance()
 }
 
 FaceManager::FaceManager()
+  : default_face_(nullptr)
 {
   auto error = FT_Init_FreeType( &ft_library_ );
   // error = FTC_Manager_New(ft_library_, 0, 0, 0, &FaceRequester, nullptr, &ft_manager_ );

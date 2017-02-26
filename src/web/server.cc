@@ -60,8 +60,6 @@ int CallBackLe(lws* wsi,
                void *user,
                void *in, size_t len)
 {
-
-
   switch (reason) {
     case LWS_CALLBACK_CLIENT_WRITEABLE:
       printf("connection client established\n");
@@ -71,9 +69,6 @@ int CallBackLe(lws* wsi,
       printf("connection established\n");
       auto event_processor_map = static_cast<std::unordered_map<lws*, EventProcessor*>*>(lws_get_protocol(wsi)->user);
       event_processor_map->emplace(wsi, new EventProcessor(wsi));
-      // auto rendertext = new RenderText();
-      // std::cout << "user : " << user << std::endl;
-      // rendertext_map->emplace(wsi, rendertext);
       break;
     }
     case LWS_CALLBACK_CLOSED: {
@@ -83,23 +78,17 @@ int CallBackLe(lws* wsi,
         auto removed = it->second;
         event_processor_map->erase(wsi);
         delete removed;
-
       }
-      
-      // auto rendertext_map = static_cast<std::unordered_map<lws*, RenderText*>*>(lws_get_protocol(wsi)->user);
-      // printf("connection closed\n");
-      // rendertext_map->erase(wsi);
       break;
     }
     case LWS_CALLBACK_RECEIVE: {
       auto event_processor_map = static_cast<std::unordered_map<lws*, EventProcessor*>*>(lws_get_protocol(wsi)->user);
-      // auto rendertext_map = static_cast<std::unordered_map<lws*, RenderText*>*>(lws_get_protocol(wsi)->user);
       std::string str = reinterpret_cast<char*>(in);
       std::cout << str << std::endl;
       auto it = event_processor_map->find(wsi);
       if( it != event_processor_map->end() ) {
         it->second->PushEvent(str);
-        it->second->PushEvent("{\"type\":\"paint\"}");
+        // it->second->PushEvent("{\"type\":\"paint\"}");
       }
       break;
     }
@@ -119,60 +108,22 @@ int CallBackHttp(lws* wsi,
                  void *user,
                  void *in, size_t len)
 {
-  // auto session_map = static_cast<std::unordered_map<std::string, int>*>(lws_get_protocol(wsi)->user);
-  // lws_pollargs *pa = (struct lws_pollargs *)in;
-  
   switch (reason) {
     case LWS_CALLBACK_CLIENT_WRITEABLE:
       printf("connection client established\n");
       break;
     case LWS_CALLBACK_HTTP: {
-      char *requested_uri = (char *) in;
-      // auto pid = fork();
-      // if( pid == 0 ) {
-      //   Session session;
-      //   session.Start();
-      // }
-      // session_map->emplace(requested_uri, pid);
-      printf("requested URI: %s\n", requested_uri);
-      lws_serve_http_file(wsi, "../../src/web/index.html", "text/html", nullptr, 0);
+      std::string uri(static_cast<char*>(in));
+      std::cout << "requested URI: "<< uri << std::endl;
+      std::string base("../../src/web");
+      if( uri == "/" ) {
+	lws_serve_http_file(wsi, "../../src/web/index.html", "text/html", nullptr, 0);
+      } else {
+	lws_serve_http_file(wsi, (base + uri).c_str(), "text/html", nullptr, 0);
+      }
+      
       break;
     }
-    // case LWS_CALLBACK_ADD_POLL_FD: {
-
-    //   pollfds[pollfds_size].fd = pa->fd;
-    //   pollfds[pollfds_size].events = pa->events;
-    //   pollfds[pollfds_size++].revents = 0;
-
-    //   std::cout << "add pool fd!!! "<< pa->fd <<std::endl;
-    //   break;
-    // }
-
-    // case LWS_CALLBACK_DEL_POLL_FD:
-    //   std::cout << "DELETE POLL!"<< std::endl;
-    //   for (int n = 0; n < pollfds_size; n++)
-    //     if (pollfds[n].fd == pa->fd)
-    //       while (n < pollfds_size) {
-    //         pollfds[n] = pollfds[n + 1];
-    //         n++;
-    //       }
-    //   pollfds_size--;
-    //   break;
-
-    // case LWS_CALLBACK_CHANGE_MODE_POLL_FD:
-    //   std::cout << "CHANGE MODE POLL!"<< std::endl;
-    //   for (int n = 0; n < pollfds_size; n++)
-    //     if (pollfds[n].fd == pa->fd)
-    //       pollfds[n].events = pa->events;
-    //   break;
-
-    // case LWS_CALLBACK_CLEAR_MODE_POLL_FD:
-    //   for (int n = 0; n < pollfds_size; n++)
-    //     if (pollfds[n].fd == (int)(long)user)
-    //       pollfds[n].events &= ~(int)(long)len;
-    //   break;
-      
-      
     default:
       PrintReason(reason);
       break;
