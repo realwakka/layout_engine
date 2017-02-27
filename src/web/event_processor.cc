@@ -53,7 +53,6 @@ bool ProcessEvent(const std::string& json, RenderText& rendertext, lws* wsi)
     return true;
     
   } else if ( event_type == "mousedown" ) {
-    
     auto x = root.get("x", "0" ).asInt();
     auto y = root.get("y", "0" ).asInt();
 

@@ -10,7 +10,8 @@
 namespace le {
 
 RenderText::RenderText()
-    : document_(this)
+  : document_(this),
+    cached_run_(nullptr)
 {
   selection_ = new CaretSelection(*document_.GetFirstChild()->GetEnterRun()->GetEnterChar());
 }

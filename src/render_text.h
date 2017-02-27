@@ -39,11 +39,16 @@ class RenderText
   void ReDo();
 
   CommitTree* GetCommitTree() { return &commit_tree_; }
+
+  Run* GetCachedRun() { return cached_run_; }
+  void SetCachedRun(Run* cached_run){ cached_run_ =  cached_run; }
   
  private:
   Document document_;
   Selection* selection_;
   CommitTree commit_tree_;
+
+  Run* cached_run_;
 
 };
 
