@@ -8,8 +8,9 @@
 #include "model/character/space_character.h"
 #include "model/text_run.h"
 
-namespace le {
+#include "render_text.h"
 
+namespace le {
 namespace {
 
 Run* InsertRunInternal(Character* inserted, Character* selected, Run* cached)
@@ -108,13 +109,12 @@ void InsertCharCommand::Apply()
 {
   // InsertWordInternal(character_, inserted_);
   std::cout << "insert char apply" << std::endl;
-  inserted_run_ = Run::GetCachedRun();
-  std::cout << "1" << std::endl;
+  auto rendertext = selected_->GetRun()->GetParagraph()->GetParent()->GetRenderText();
+  inserted_run_ = rendertext->GetCachedRun();
   inserted_run_ = InsertRunInternal(inserted_, selected_, inserted_run_);
-  std::cout << "2" << std::endl;
   selected_->GetParagraph()->CreateWords();
   
-  Run::SetCachedRun(nullptr);
+  rendertext->SetCachedRun(nullptr);
 
 }
 
@@ -128,26 +128,12 @@ void InsertCharCommand::UnApply()
   }
   
   selected_->GetParagraph()->CreateWords();
-  
-  // std::cout << "unapply!!!!!!!!!!!!!!!!!!!!!!!" << inserted_->GetChar() << std::endl;
-  // if( paragraph_ ) {
-  //   std::cout << "remove word" << std::endl;
-  //   BackSpaceWordInternal(paragraph_);
-  //   std::cout << "remove run" << std::endl;
-  //   BackSpaceRunInternal(paragraph_);
-  //   std::cout << "complete" << std::endl;
-  // }
 }
 
 void InsertCharCommand::ReApply() 
 {
   InsertRunInternal(inserted_, selected_, inserted_run_);
   selected_->GetParagraph()->CreateWords();
-  
-  // if( paragraph_ ) {
-  //   InsertWordInternal(paragraph_, inserted_);
-  //   InsertRunInternal(paragraph_, inserted_);
-  // }
 }
 
 }  // le

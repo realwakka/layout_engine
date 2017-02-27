@@ -78,10 +78,10 @@ void EnterCharController::BackSpaceChar()
 
 void EnterCharController::SetBold(bool bold)
 {
-  auto cached = Run::GetCachedRun();
+  auto cached = rendertext_->GetCachedRun();
   if( cached == nullptr ) {
-    Run::SetCachedRun(new TextRun());
-    cached = Run::GetCachedRun();
+    rendertext_->SetCachedRun(new TextRun());
+    cached = rendertext_->GetCachedRun();
   }
 
   cached->GetRunProp().SetBold(bold);
@@ -89,10 +89,10 @@ void EnterCharController::SetBold(bool bold)
 
 void EnterCharController::SetItalic(bool italic)
 {
-  auto cached = Run::GetCachedRun();
+  auto cached = rendertext_->GetCachedRun();
   if( cached == nullptr ) {
-    Run::SetCachedRun(new TextRun());
-    cached = Run::GetCachedRun();
+    rendertext_->SetCachedRun(new TextRun());
+    cached = rendertext_->GetCachedRun();
   }
 
   cached->GetRunProp().SetItalic(italic);
@@ -100,10 +100,10 @@ void EnterCharController::SetItalic(bool italic)
 
 void EnterCharController::SetSize(int size)
 {
-  auto cached = Run::GetCachedRun();
+  auto cached = rendertext_->GetCachedRun();
   if( cached == nullptr ) {
-    Run::SetCachedRun(new TextRun());
-    cached = Run::GetCachedRun();
+    rendertext_->SetCachedRun(new TextRun());
+    cached = rendertext_->GetCachedRun();
   }
 
   cached->GetRunProp().SetSize(size);
