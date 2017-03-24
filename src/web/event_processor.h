@@ -6,6 +6,7 @@
 #include <thread>
 #include <mutex>
 #include <atomic>
+#include <condition_variable>
 #include <libwebsockets.h>
 
 #include "render_text.h"
@@ -21,19 +22,16 @@ class EventProcessor
  public:
   EventProcessor(lws* wsi);
   virtual ~EventProcessor();
-
   bool PushEvent(const std::string& str);
-  // RenderText& GetRenderText() { return rendertext_; }
-  // void Loop();
 
  private:
   std::queue<std::string> event_queue_;
   RenderText rendertext_;
   std::thread* event_executor_;
   bool running_;
-  std::atomic<bool> empty_;
-  std::atomic<bool> processing_;
   lws* wsi_;
+  std::condition_variable cv_;
+  std::mutex mutex_;
 };
 
 

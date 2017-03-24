@@ -92,13 +92,11 @@ EventProcessor::EventProcessor(lws* wsi)
 {
   event_executor_ = new std::thread([this]() {
       while( running_ ) {
-        if( !event_queue_.empty() ) {
-          auto&& json = event_queue_.front();
-          ProcessEvent(json, rendertext_, wsi_);
-	  processing_ = true;
-          event_queue_.pop();
-	  processing_ = false;
-        }
+        std::unique_lock<std::mutex> lk(mutex_);
+        cv_.wait(lk, [this]{ return !event_queue_.empty(); });
+        auto&& json = event_queue_.front();
+        ProcessEvent(json, rendertext_, wsi_);
+        event_queue_.pop();
       }
     });
 }
@@ -113,11 +111,9 @@ EventProcessor::~EventProcessor()
 
 bool EventProcessor::PushEvent(const std::string& str)
 {
-  while( processing_ == true );
+  std::unique_lock<std::mutex> lk(mutex_);  
   event_queue_.push(str);
-  // while( processing_ == false ) {
-    
-  // }
+  cv_.notify_all();
 }
 
 }  // web

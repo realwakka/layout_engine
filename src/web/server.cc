@@ -182,19 +182,6 @@ void Server::Start()
 
   while (true) {
     auto n = lws_service(context, 50);
-
-    // auto n = poll(pollfds, pollfds_size, 25);
-
-    // if ( n < 0 ) {
-    //   exit(1);
-    // }
-    // if(n) {
-    //   for (int i = 0; i < pollfds_size; ++i) {
-    //     if( pollfds[i].revents ) {
-    //       auto res = lws_service_fd(context, &pollfds[i]);
-    //     }
-    //   }
-    // }
   }
 
   lws_context_destroy(context);
