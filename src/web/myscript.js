@@ -14,7 +14,8 @@ canvas.addEventListener("mousedown", function(event) {
     ));
 } );
 
-var websocket = new WebSocket('ws://127.0.0.1:8080','le_web_protocol');
+var host = window.location.hostname;
+var websocket = new WebSocket('ws://'+host+':8080','le_web_protocol');
 websocket.onopen = function() {
     console.log("onopen");
 }
