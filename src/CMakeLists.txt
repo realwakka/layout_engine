@@ -72,6 +72,7 @@ set(LE_SRCS
   
   graphic/canvas.cc
   graphic/bitmap_canvas.cc
+  graphic/svg_canvas.cc
   graphic/point.cc
   graphic/matrix.cc
   graphic/bitmap.cc
