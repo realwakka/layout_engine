@@ -85,9 +85,6 @@ target_link_libraries(le LINK_PUBLIC freetype fontconfig)
 add_executable(test_driver test.cc)
 target_link_libraries(test_driver LINK_PUBLIC le)
 
-add_executable(web_server web_server.cc)
-target_link_libraries(web_server LINK_PUBLIC le png jsoncpp)
-
 add_subdirectory(web)
 
 
