@@ -87,7 +87,6 @@ bool ProcessEvent(const std::string& json, RenderText& rendertext, lws* wsi)
 
 EventProcessor::EventProcessor(lws* wsi)
     : running_(true),
-      empty_(true),
       wsi_(wsi)
 {
   event_executor_ = new std::thread([this]() {
@@ -104,7 +103,6 @@ EventProcessor::EventProcessor(lws* wsi)
 
 EventProcessor::~EventProcessor()
 {
-  empty_ = false;
   running_ = false;
   event_executor_->join();
 }
