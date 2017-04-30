@@ -15,7 +15,7 @@ class Painter
   Painter();
   virtual ~Painter();
 
-  std::vector<char> PaintToPng(RenderText& rendertext);
+  std::vector<unsigned char> PaintToPng(RenderText& rendertext);
   
 };
 

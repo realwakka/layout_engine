@@ -6,7 +6,7 @@ namespace le {
 
 namespace {
 
-void WriteBitmap(const std::string& filename, int w, int h, const char* img) {
+void WriteBitmap(const std::string& filename, int w, int h, const unsigned char* img) {
   
   FILE *f;
   int filesize = 54 + 3*w*h;  //w is your image width, h is image height, both int
@@ -48,7 +48,7 @@ Bitmap::Bitmap(int width, int height, int depth)
       height_(height),
       depth_(depth)
 {
-  data_ = new char[width * height * depth];
+  data_ = new unsigned char[width * height * depth];
   std::memset(data_, 0xFF, width*height*depth);
 }
 

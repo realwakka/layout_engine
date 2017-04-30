@@ -19,9 +19,9 @@ void PngWriteCallback(png_structp png_ptr, png_bytep data, png_size_t length)
   p->insert(p->end(), data, data + length);
 }
 
-std::vector<char> Buffer2Png(int width, int height, char* buffer)
+std::vector<unsigned char> Buffer2Png(int width, int height, unsigned char* buffer)
 {
-  std::vector<char> out;
+  std::vector<unsigned char> out;
   
   png_structp p = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
   png_infop info_ptr = png_create_info_struct(p);
@@ -33,7 +33,7 @@ std::vector<char> Buffer2Png(int width, int height, char* buffer)
                PNG_FILTER_TYPE_DEFAULT);
 
 
-  std::vector<char*> rows(height);
+  std::vector<unsigned char*> rows(height);
   for (size_t y = 0; y < height; ++y)
     rows[y] = buffer + y * width * 3;
 
@@ -55,7 +55,7 @@ Painter::Painter()
 Painter::~Painter()
 {}
 
-std::vector<char> Painter::PaintToPng(RenderText& rendertext)
+std::vector<unsigned char> Painter::PaintToPng(RenderText& rendertext)
 {
   auto&& document_view = rendertext.GetDocument().GetView();
   auto bitmap = new le::Bitmap(document_view.GetWidth(), document_view.GetHeight(), 3);
@@ -74,7 +74,7 @@ std::vector<char> Painter::PaintToPng(RenderText& rendertext)
   auto bitmap_height = bitmap->GetHeight();
   auto bitmap_depth = bitmap->GetDepth();
 
-  auto out = Buffer2Png(bitmap_width, bitmap_height, (char*)data);
+  auto out = Buffer2Png(bitmap_width, bitmap_height, const_cast<unsigned char*>(data));
   
   return out;
 }

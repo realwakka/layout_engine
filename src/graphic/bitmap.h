@@ -16,13 +16,13 @@ class Bitmap
   int GetWidth() const { return width_; }
   int GetHeight() const { return height_; }
   int GetDepth() const { return depth_; }
-  const char* GetData() const { return data_; }
+  const unsigned char* GetData() const { return data_; }
 
   void SetPixel(int x, int y, Color color);
   void WriteBitmapFile(const std::string& filename);
 
  private:
-  char* data_;
+  unsigned char* data_;
   
   int width_;
   int height_;

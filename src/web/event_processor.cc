@@ -44,11 +44,7 @@ bool ProcessEvent(const std::string& json, RenderText& rendertext, lws* wsi)
     keyevent.SetAltDown(alt);
     keyevent.SetShiftDown(shift);
 
-    std::cout << "before  : " << code << std::endl;
-    
     rendertext.OnKeyDown(keyevent);
-
-    std::cout << "layout  : " << code << std::endl;
     rendertext.Layout();
     return true;
     
@@ -70,15 +66,15 @@ bool ProcessEvent(const std::string& json, RenderText& rendertext, lws* wsi)
     // ofs.close();
     
     // std::unique_ptr<unsigned char[]> send_data(new unsigned char[LWS_PRE + out.size()]);
-    auto data = new unsigned char[LWS_PRE + out.size()];
-    std::memset(data, 0, LWS_PRE + out.size());
-    std::memcpy(&data[LWS_PRE], out.data(), out.size());
-    auto result = lws_write(wsi, &data[LWS_PRE], out.size(), LWS_WRITE_BINARY);
+    out.insert(out.begin(), LWS_PRE, 0);
+    auto result = lws_write(wsi, out.data() + LWS_PRE, out.size() - LWS_PRE, LWS_WRITE_BINARY);
+    // auto data = new unsigned char[LWS_PRE + out.size()];
+    // std::memset(data, 0, LWS_PRE + out.size());
+    // std::copy(std::begin(out), std::end(out),  &data[LWS_PRE]);
+    // auto result = lws_write(wsi, &data[LWS_PRE], out.size(), LWS_WRITE_BINARY);
     std::cout << "paint result : " << result << std::endl;
-    
-    // std::memcpy(&send_data.get()[LWS_PRE], out.data(), out.size());
-    // lws_write(wsi, (unsigned char*)&send_data.get()[LWS_PRE], out.size(), LWS_WRITE_BINARY);
 
+    // delete[] data;
   }
   return true;
 }
