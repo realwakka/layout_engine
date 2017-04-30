@@ -19,27 +19,20 @@ class Canvas
  public:
   Canvas();
   virtual ~Canvas();
-
- public:
-  void DrawRect(const Point& p1, const Point& p2, const Paint& paint);
-  void DrawGlyph(const Point& point, const Glyph& glyph);
+  
+  virtual void DrawRect(const Point& p1, const Point& p2, const Paint& paint) = 0;
+  virtual void DrawGlyph(const Point& point, const Glyph& glyph) = 0;
   void Save();
   void Restore();
-  void SetPixel(const Point& point, int color);
-  void WriteBitmap(const std::string filename);
-  void DrawLine(const Point& p1, const Point& p2, const Paint& paint);
+  virtual void SetPixel(const Point& point, int color) = 0;
+  virtual void DrawLine(const Point& p1, const Point& p2, const Paint& paint) = 0;
 
   Matrix& GetMatrix() { matrix_stack_.top(); }
-
-  void SetBitmap(Bitmap* bitmap) { bitmap_.reset(bitmap); }
-
+  
  private:
-  //char* buffer_;
-  std::unique_ptr<Bitmap> bitmap_;
   std::stack<Matrix> matrix_stack_;
   
 };
-
 
 }  // le
 

@@ -71,6 +71,7 @@ set(LE_SRCS
   controller/command/commit_tree.cc
   
   graphic/canvas.cc
+  graphic/bitmap_canvas.cc
   graphic/point.cc
   graphic/matrix.cc
   graphic/bitmap.cc

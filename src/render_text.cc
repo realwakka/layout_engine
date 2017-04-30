@@ -1,5 +1,5 @@
 #include "render_text.h"
-#include "graphic/canvas.h"
+#include "graphic/bitmap_canvas.h"
 
 #include "model/selection/selection.h"
 #include "model/selection/caret_selection.h"
@@ -67,7 +67,7 @@ void RenderText::Paint(Canvas& canvas)
 
 void RenderText::WriteBitmapFile(std::string path)
 {
-  Canvas canvas;
+  BitmapCanvas canvas;
   auto& document_view = document_.GetView();
   auto bitmap = new Bitmap(document_view.GetWidth(), document_view.GetHeight(), 3);
   canvas.SetBitmap(bitmap);

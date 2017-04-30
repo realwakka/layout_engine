@@ -46,6 +46,7 @@ bool ProcessEvent(const std::string& json, RenderText& rendertext, lws* wsi)
 
     rendertext.OnKeyDown(keyevent);
     rendertext.Layout();
+
     return true;
     
   } else if ( event_type == "mousedown" ) {
@@ -58,23 +59,18 @@ bool ProcessEvent(const std::string& json, RenderText& rendertext, lws* wsi)
 
     rendertext.OnMousePressed(event);
     return false;
+    
   } else if( event_type == "paint" ) {
     Painter painter;
     auto out =  painter.PaintToPng(rendertext);
-    // std::ofstream ofs("output.png");
-    // ofs.write(out.data(), out.size());
-    // ofs.close();
+    std::ofstream ofs("output.png");
+    ofs.write(reinterpret_cast<char*>(out.data()), out.size());
+    ofs.close();
     
-    // std::unique_ptr<unsigned char[]> send_data(new unsigned char[LWS_PRE + out.size()]);
     out.insert(out.begin(), LWS_PRE, 0);
     auto result = lws_write(wsi, out.data() + LWS_PRE, out.size() - LWS_PRE, LWS_WRITE_BINARY);
-    // auto data = new unsigned char[LWS_PRE + out.size()];
-    // std::memset(data, 0, LWS_PRE + out.size());
-    // std::copy(std::begin(out), std::end(out),  &data[LWS_PRE]);
-    // auto result = lws_write(wsi, &data[LWS_PRE], out.size(), LWS_WRITE_BINARY);
     std::cout << "paint result : " << result << std::endl;
 
-    // delete[] data;
   }
   return true;
 }
@@ -88,10 +84,11 @@ EventProcessor::EventProcessor(lws* wsi)
   event_executor_ = new std::thread([this]() {
       while( running_ ) {
         std::unique_lock<std::mutex> lk(mutex_);
-        cv_.wait(lk, [this]{ return !event_queue_.empty(); });
-        auto&& json = event_queue_.front();
+	if( event_queue_.empty() )
+	  cv_.wait(lk, [this]{ return !event_queue_.empty(); });
+        auto json = event_queue_.front();
+	event_queue_.pop();
         ProcessEvent(json, rendertext_, wsi_);
-        event_queue_.pop();
       }
     });
 }
@@ -105,7 +102,7 @@ EventProcessor::~EventProcessor()
 
 bool EventProcessor::PushEvent(const std::string& str)
 {
-  std::unique_lock<std::mutex> lk(mutex_);  
+  std::lock_guard<std::mutex> lk(mutex_);  
   event_queue_.push(str);
   cv_.notify_all();
 }

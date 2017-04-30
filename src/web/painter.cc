@@ -4,7 +4,7 @@
 #include <png.h>
 
 #include "graphic/bitmap.h"
-#include "graphic/canvas.h"
+#include "graphic/bitmap_canvas.h"
 
 #include "render_text.h"
 
@@ -60,7 +60,7 @@ std::vector<unsigned char> Painter::PaintToPng(RenderText& rendertext)
   auto&& document_view = rendertext.GetDocument().GetView();
   auto bitmap = new le::Bitmap(document_view.GetWidth(), document_view.GetHeight(), 3);
   
-  le::Canvas canvas;
+  le::BitmapCanvas canvas;
   canvas.SetBitmap(bitmap);
   rendertext.Paint(canvas);
   std::cout << "complete!" <<std::endl;

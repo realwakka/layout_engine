@@ -26,7 +26,7 @@ websocket.onerror = function() {
 
 websocket.onmessage = function(message) {
     console.log("onmessage!!");
-    console.log(message);
+    console.log(message.data);
     var reader = new FileReader();
 
     reader.onload = function(e) {
@@ -45,6 +45,6 @@ websocket.onmessage = function(message) {
 	console.log(img.height);
 	console.log(e);
     };
-    
-    reader.readAsDataURL(message.data);
+    if( message.data != 'okay' )
+	reader.readAsDataURL(message.data);
 }
