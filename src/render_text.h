@@ -1,6 +1,8 @@
 #ifndef LE_RENDER_TEXT_H_
 #define LE_RENDER_TEXT_H_
 
+#include <memory>
+
 #include "model/document.h"
 #include "model/selection/selection.h"
 #include "controller/command/commit_tree.h"
@@ -30,8 +32,8 @@ class RenderText
   void OnKeyDown(const KeyEvent& event);
   Document& GetDocument() { return document_; }
 
-  void SetSelection(Selection* selection) { selection_ = selection; }
-  Selection* GetSelection() { return selection_; }
+  void SetSelection(std::shared_ptr<Selection> selection) { selection_ = selection; }
+  std::shared_ptr<Selection> GetSelection() { return selection_; }
   
   
   void Commit();
@@ -45,7 +47,7 @@ class RenderText
   
  private:
   Document document_;
-  Selection* selection_;
+  std::shared_ptr<Selection> selection_;
   CommitTree commit_tree_;
 
   Run* cached_run_;

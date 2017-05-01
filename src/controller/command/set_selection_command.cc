@@ -5,7 +5,7 @@
 namespace le {
 
 
-SetSelectionCommand::SetSelectionCommand(RenderText* rendertext, Selection* new_selection, Selection* old_selection)
+SetSelectionCommand::SetSelectionCommand(RenderText* rendertext, std::shared_ptr<Selection> new_selection, std::shared_ptr<Selection> old_selection)
     : rendertext_(rendertext),
       new_selection_(new_selection),
       old_selection_(old_selection)

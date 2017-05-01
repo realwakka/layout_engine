@@ -5,6 +5,8 @@
 #include "model/character/space_character.h"
 #include "model/text_run.h"
 #include "model/selection/caret_selection.h"
+#include "model/selection/block_selection.h"
+
 #include "controller/event/mouse_event.h"
 #include "view/hititem.h"
 #include "controller/event/key_event.h"
@@ -16,6 +18,7 @@
 #include "render_text.h"
 
 #include <iostream>
+#include <memory>
 
 namespace le {
 namespace {
@@ -26,7 +29,7 @@ void ProcessLeftKey(RenderText* rendertext, Character* selected)
   if( prev_char ) {
     auto command = new SetSelectionCommand(
         rendertext,
-        new CaretSelection(*prev_char),
+        std::make_shared<CaretSelection>(*prev_char),
         rendertext->GetSelection() );
 
     rendertext->GetCommitTree()->AddCommand(command);
@@ -39,7 +42,7 @@ void ProcessRightKey( RenderText* rendertext, Character* selected )
   if (next_char) {
     auto command = new SetSelectionCommand(
         rendertext,
-        new CaretSelection(*next_char),
+        std::make_shared<CaretSelection>(*next_char),
         rendertext->GetSelection() );
 
     rendertext->GetCommitTree()->AddCommand(command);
@@ -145,6 +148,35 @@ void EnterCharController::OnKeyDown(const KeyEvent& event)
     if( event.GetCtrlDown() && event.GetCode() == KeyboardCode::VKEY_Y )
       rendertext_->GetCommitTree()->ReDo();
 
+  } else if( event.GetShiftDown() ) {
+    if( event.GetCode() == KeyboardCode::VKEY_RIGHT ) {
+      auto next = enter_char_.GetNextCharacter();
+      if( next ) {
+        auto command = new SetSelectionCommand(
+            rendertext_,
+            std::make_shared<BlockSelection>(enter_char_, *next, false),
+            rendertext_->GetSelection() );
+
+        rendertext_->GetCommitTree()->AddCommand(command);
+      }
+
+    } else if( event.GetCode() == KeyboardCode::VKEY_LEFT ) {
+      auto prev = enter_char_.GetPrevCharacter();
+      if( prev ) {
+        auto command = new SetSelectionCommand(
+            rendertext_,
+            std::make_shared<BlockSelection>(*prev, enter_char_, false),
+            rendertext_->GetSelection() );
+
+        rendertext_->GetCommitTree()->AddCommand(command);
+      }
+
+
+    } else if( event.GetCode() == KeyboardCode::VKEY_DOWN ) {
+
+    } else if( event.GetCode() == KeyboardCode::VKEY_UP ) {
+
+    }
   } else if( event.GetChar() != 0 ) {
     auto character = CreateCharacter(event.GetChar());
     auto paragraph = enter_char_.GetRun()->GetParagraph();

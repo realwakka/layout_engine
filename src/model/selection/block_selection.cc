@@ -4,9 +4,11 @@
 
 namespace le {
 
-BlockSelection::BlockSelection(Character& start, Character& end)
+BlockSelection::BlockSelection(Character& start, Character& end, bool reversed)
     : start_(start),
-      end_(end)
+      end_(end),
+      reversed_(reversed),
+      view_(std::static_pointer_cast<BlockSelection>(shared_from_this()))
 {
 
 }

@@ -30,6 +30,7 @@ class BlockSelectionController : public Controller
   RenderText& rendertext_;
   Character& start_;
   Character& end_;
+  bool reversed_;
 
   
   

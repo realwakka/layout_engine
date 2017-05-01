@@ -5,7 +5,8 @@ namespace le {
 BlockSelectionController::BlockSelectionController(RenderText& rendertext, Character& start, Character& end)
     : rendertext_(rendertext),
       start_(start),
-      end_(end)
+      end_(end),
+      reversed_(false)
 {
 }
 

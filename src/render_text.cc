@@ -13,7 +13,7 @@ RenderText::RenderText()
   : document_(this),
     cached_run_(nullptr)
 {
-  selection_ = new CaretSelection(*document_.GetFirstChild()->GetEnterRun()->GetEnterChar());
+  selection_.reset(new CaretSelection(*document_.GetFirstChild()->GetEnterRun()->GetEnterChar()));
 }
 
 RenderText::~RenderText()
