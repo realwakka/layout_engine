@@ -1,6 +1,6 @@
 document.addEventListener("keydown", function(event) {
 
-    console.log(event);
+    //console.log(event);
     event.preventDefault();
     
     websocket.send(JSON.stringify({type: "keydown", key: event.key,keyCode: event.keyCode, ctrlKey: event.ctrlKey, altKey: event.altKey, shiftKey: event.shiftKey}));
@@ -8,7 +8,7 @@ document.addEventListener("keydown", function(event) {
 }, true );
 
 canvas.addEventListener("mousedown", function(event) {
-    console.log(event);
+    //console.log(event);
     websocket.send(JSON.stringify(
 	{type: "mousedown", x: event.clientX, y: event.clientY}
     ));
@@ -31,20 +31,16 @@ websocket.onmessage = function(message) {
 
     reader.onload = function(e) {
 	var img = new Image();
-	var canvas = document.getElementById('canvas');
-	var ctx = canvas.getContext('2d');
+
+	img.onload = function() {
+	    var canvas = document.getElementById('canvas');
+	    var ctx = canvas.getContext('2d');
+	    canvas.width = img.width;
+	    canvas.height = img.height;
+	    ctx.drawImage(img, 0, 0);
+	};
 	
 	img.src = e.target.result;
-	canvas.width = img.width;
-	canvas.height = img.height;
-	//canvas.width = 1000;
-	//canvas.height = 1000;
-
-	ctx.drawImage(img, 0, 0);
-	console.log(img.width);
-	console.log(img.height);
-	console.log(e);
     };
-    if( message.data != 'okay' )
-	reader.readAsDataURL(message.data);
+    reader.readAsDataURL(message.data);
 }

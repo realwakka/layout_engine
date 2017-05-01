@@ -21,7 +21,7 @@ RenderText::~RenderText()
 
 void RenderText::InsertText(const std::string& text)
 {
-  for( char c : text ) {
+  for( auto c : text ) {
     auto character = CreateCharacter(c);
     selection_->GetController(this)->InsertChar(character);
   }

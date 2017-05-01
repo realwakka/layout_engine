@@ -24,5 +24,10 @@ void SvgCanvas::DrawLine(const Point& p1, const Point& p2, const Paint& paint)
 
 }
 
+std::string SvgCanvas::ToString()
+{
+  return std::string();
+}
+
 
 }  // le

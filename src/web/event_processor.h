@@ -27,7 +27,7 @@ class EventProcessor
  private:
   std::queue<std::string> event_queue_;
   RenderText rendertext_;
-  std::thread* event_executor_;
+  std::thread event_executor_;
   bool running_;
   lws* wsi_;
   std::condition_variable cv_;

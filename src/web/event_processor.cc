@@ -79,25 +79,25 @@ bool ProcessEvent(const std::string& json, RenderText& rendertext, lws* wsi)
 
 EventProcessor::EventProcessor(lws* wsi)
     : running_(true),
-      wsi_(wsi)
+      wsi_(wsi),
+      event_executor_([this]() {
+          while( running_ ) {
+            std::unique_lock<std::mutex> lk(mutex_);
+            if( event_queue_.empty() )
+              cv_.wait(lk, [this]{ return !event_queue_.empty(); });
+            auto json = event_queue_.front();
+            event_queue_.pop();
+            ProcessEvent(json, rendertext_, wsi_);
+          }
+        })
 {
-  event_executor_ = new std::thread([this]() {
-      while( running_ ) {
-        std::unique_lock<std::mutex> lk(mutex_);
-	if( event_queue_.empty() )
-	  cv_.wait(lk, [this]{ return !event_queue_.empty(); });
-        auto json = event_queue_.front();
-	event_queue_.pop();
-        ProcessEvent(json, rendertext_, wsi_);
-      }
-    });
 }
 
 
 EventProcessor::~EventProcessor()
 {
   running_ = false;
-  event_executor_->join();
+  event_executor_.join();
 }
 
 bool EventProcessor::PushEvent(const std::string& str)
