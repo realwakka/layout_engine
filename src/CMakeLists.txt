@@ -40,6 +40,7 @@ set(LE_SRCS
   model/prop/underline/single_underline.cc
   model/prop/section_prop.cc
   model/selection/caret_selection.cc
+  model/selection/block_selection.cc
   model/document.cc
 
   view/view.cc
@@ -50,6 +51,7 @@ set(LE_SRCS
   view/character/character_view.cc
   view/character/space_character_view.cc
   view/selection/caret_selection_view.cc
+  view/selection/block_selection_view.cc
   view/character/enter_character_view.cc
   view/run/run_view.cc
   view/page/page_view.cc
@@ -60,6 +62,7 @@ set(LE_SRCS
   view/linebreaker/word_linebreaker.cc
   
   controller/enter_char_controller.cc
+  controller/block_selection_controller.cc
   controller/event/mouse_event.cc
   controller/event/key_event.cc
   controller/event/event.cc
