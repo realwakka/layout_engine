@@ -11,14 +11,14 @@ class BlockSelection;
 class BlockSelectionView : public View
 {
  public:
-  BlockSelectionView(std::shared_ptr<BlockSelection> block_selection);
+  BlockSelectionView(BlockSelection& block_selection);
   virtual ~BlockSelectionView();
 
   void Layout() override;
   void Paint(Canvas& canvas) override;
 
  private:
-  std::weak_ptr<BlockSelection> block_selection_;
+  BlockSelection& block_selection_;
   
 };
 

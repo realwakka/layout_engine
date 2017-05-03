@@ -163,6 +163,7 @@ void EnterCharController::OnKeyDown(const KeyEvent& event)
     } else if( event.GetCode() == KeyboardCode::VKEY_LEFT ) {
       auto prev = enter_char_.GetPrevCharacter();
       if( prev ) {
+        auto next_sel = new BlockSelection(*prev, enter_char_, false);
         auto command = new SetSelectionCommand(
             rendertext_,
             std::make_shared<BlockSelection>(*prev, enter_char_, false),
