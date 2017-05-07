@@ -9,7 +9,6 @@
 #include "controller/event/key_event.h"
 #include "controller/command/set_selection_command.h"
 
-
 namespace le {
 
 BlockSelectionController::BlockSelectionController(RenderText& rendertext, const BlockSelection& selection)
@@ -51,7 +50,7 @@ void BlockSelectionController::SetPageSize(int width, int height)
   
 void BlockSelectionController::OnMousePressed(const MouseEvent& event)
 {
-
+  
 }
 
 void BlockSelectionController::OnKeyDown(const KeyEvent& event)
@@ -72,13 +71,20 @@ void BlockSelectionController::OnKeyDown(const KeyEvent& event)
           rendertext_.GetCommitTree()->AddCommand(command);
         }
       } else {
+        auto next = end->GetNextCharacter();
+        if( next ) {
+          auto command = new SetSelectionCommand(
+              &rendertext_,
+              selection_util::createTextSelection(start, next, pos),
+              rendertext_.GetSelection() );
 
+          rendertext_.GetCommitTree()->AddCommand(command);
+        }
       }
     } else if( event.GetCode() == KeyboardCode::VKEY_LEFT ) {
       if( selection_.GetCaretPosition() == CaretPosition::kStart ) {
         auto prev = start->GetPrevCharacter();
         if( prev ) {
-          auto next_sel = new BlockSelection(*prev, *end, pos);
           auto command = new SetSelectionCommand(
               &rendertext_,
               std::make_shared<BlockSelection>(*prev, *end, pos),
@@ -88,6 +94,15 @@ void BlockSelectionController::OnKeyDown(const KeyEvent& event)
         }
 
       } else {
+        auto prev = end->GetPrevCharacter();
+        if( prev ) {
+          auto command = new SetSelectionCommand(
+              &rendertext_,
+              selection_util::createTextSelection(start, prev, pos),
+              rendertext_.GetSelection() );
+
+          rendertext_.GetCommitTree()->AddCommand(command);
+        }
 
       }
     }
