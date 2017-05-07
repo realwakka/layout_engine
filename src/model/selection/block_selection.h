@@ -8,10 +8,15 @@ namespace le {
 
 class Character;
 
+enum class CaretPosition
+{
+  kStart, kEnd
+};
+
 class BlockSelection : public Selection
 {
  public:
-  BlockSelection(Character& start, Character& end, bool reversed);
+  BlockSelection(Character& start, Character& end, CaretPosition pos);
   virtual ~BlockSelection();
 
   std::unique_ptr<Controller> GetController(RenderText* rendertext) const override;
@@ -23,7 +28,8 @@ class BlockSelection : public Selection
  private:
   Character& start_;
   Character& end_;
-  bool reversed_;
+  CaretPosition pos_;
+  // bool reversed_;
   BlockSelectionView view_;
 
 };

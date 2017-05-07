@@ -31,8 +31,6 @@ class BlockSelectionController : public Controller
   Character& start_;
   Character& end_;
   bool reversed_;
-
-  
   
 };
 

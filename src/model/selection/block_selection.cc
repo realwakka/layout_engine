@@ -4,10 +4,10 @@
 
 namespace le {
 
-BlockSelection::BlockSelection(Character& start, Character& end, bool reversed)
+BlockSelection::BlockSelection(Character& start, Character& end, CaretPosition pos)
     : start_(start),
       end_(end),
-      reversed_(reversed),
+      pos_(pos),
       view_(*this)
 {
 

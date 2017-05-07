@@ -154,7 +154,7 @@ void EnterCharController::OnKeyDown(const KeyEvent& event)
       if( next ) {
         auto command = new SetSelectionCommand(
             rendertext_,
-            std::make_shared<BlockSelection>(enter_char_, *next, false),
+            std::make_shared<BlockSelection>(enter_char_, *next, CaretPosition::kEnd),
             rendertext_->GetSelection() );
 
         rendertext_->GetCommitTree()->AddCommand(command);
@@ -163,10 +163,9 @@ void EnterCharController::OnKeyDown(const KeyEvent& event)
     } else if( event.GetCode() == KeyboardCode::VKEY_LEFT ) {
       auto prev = enter_char_.GetPrevCharacter();
       if( prev ) {
-        auto next_sel = new BlockSelection(*prev, enter_char_, false);
         auto command = new SetSelectionCommand(
             rendertext_,
-            std::make_shared<BlockSelection>(*prev, enter_char_, false),
+            std::make_shared<BlockSelection>(*prev, enter_char_, CaretPosition::kStart),
             rendertext_->GetSelection() );
 
         rendertext_->GetCommitTree()->AddCommand(command);

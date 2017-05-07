@@ -32,20 +32,18 @@ void BlockSelectionView::Paint(Canvas& canvas)
 {
   auto start = block_selection_.GetStart();
   auto end = block_selection_.GetEnd();
-  auto& startCharView = start->GetView();
-  auto& endCharView = start->GetView();
 
-  auto startLineView = startCharView.GetParent()->GetParent();
-  auto endLineView = endCharView.GetParent()->GetParent();
-
-  if( startLineView == endLineView ) {
-    auto st_pos = startCharView.GetAbsolutePosition();
-    auto ed_pos = endCharView.GetAbsolutePosition();
-    ed_pos.SetY(ed_pos.GetY() + startLineView->GetHeight());
+  auto character = start;
+  while( character != end ) {
+    auto& view = character->GetView();
+    auto pos1 = view.GetAbsolutePosition();
+    le::Point pos2(pos1.GetX() + view.GetWidth(), pos1.GetY() + view.GetHeight());
+               
     le::Paint paint;
-    paint.SetStyle(Paint::Style::kStroke);
-    canvas.DrawRect(st_pos, ed_pos, paint);
-
+    paint.SetStyle(Paint::Style::kFill);
+    canvas.DrawRect(pos1, pos2, paint);
+    
+    character = character->GetNextCharacter();
   }
 }
 
