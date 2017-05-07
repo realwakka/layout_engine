@@ -13,6 +13,7 @@ class SetSelectionCommand : public Command
 {
  public:
   SetSelectionCommand(RenderText* rendertext, std::shared_ptr<Selection> new_selection, std::shared_ptr<Selection> old_selection);
+  SetSelectionCommand(RenderText* rendertext, std::shared_ptr<Selection> new_selection);
   virtual ~SetSelectionCommand();
 
   void Apply() override;
@@ -22,9 +23,10 @@ class SetSelectionCommand : public Command
   std::string GetDecription() override { return "Set Selection"; }
 
  private:
+  RenderText* rendertext_;
   std::shared_ptr<Selection> old_selection_;
   std::shared_ptr<Selection> new_selection_;
-  RenderText* rendertext_;
+  
   
 };
 

@@ -11,6 +11,13 @@ SetSelectionCommand::SetSelectionCommand(RenderText* rendertext, std::shared_ptr
       old_selection_(old_selection)
 {}
 
+SetSelectionCommand::SetSelectionCommand(RenderText* rendertext, std::shared_ptr<Selection> new_selection)
+    : rendertext_(rendertext),
+      new_selection_(new_selection),
+      old_selection_(rendertext->GetSelection())
+{}
+
+
 SetSelectionCommand::~SetSelectionCommand()
 {}
 
