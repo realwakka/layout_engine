@@ -7,11 +7,12 @@ namespace le {
 
 class RenderText;
 class Character;
+class BlockSelection;
 
 class BlockSelectionController : public Controller
 {
  public:
-  BlockSelectionController(RenderText& rendertext, Character& start, Character& end);
+  BlockSelectionController(RenderText& rendertext, const BlockSelection& selection);
   virtual ~BlockSelectionController();
 
   void InsertText(std::string text) override;
@@ -28,9 +29,7 @@ class BlockSelectionController : public Controller
 
  private:
   RenderText& rendertext_;
-  Character& start_;
-  Character& end_;
-  bool reversed_;
+  const BlockSelection& selection_;
   
 };
 

@@ -24,6 +24,8 @@ class BlockSelection : public Selection
 
   Character* GetStart() const { return &start_; }
   Character* GetEnd() const { return &end_; }
+  Character* GetCaret() const;
+  CaretPosition GetCaretPosition() const { return pos_; }
 
  private:
   Character& start_;

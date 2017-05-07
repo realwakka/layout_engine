@@ -41,6 +41,7 @@ set(LE_SRCS
   model/prop/section_prop.cc
   model/selection/caret_selection.cc
   model/selection/block_selection.cc
+  model/selection/selection_util.cc
   model/document.cc
 
   view/view.cc

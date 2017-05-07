@@ -1,12 +1,20 @@
 #include "controller/block_selection_controller.h"
 
+#include "render_text.h"
+
+#include "model/selection/block_selection.h"
+#include "model/character/character.h"
+#include "model/selection/selection_util.h"
+
+#include "controller/event/key_event.h"
+#include "controller/command/set_selection_command.h"
+
+
 namespace le {
 
-BlockSelectionController::BlockSelectionController(RenderText& rendertext, Character& start, Character& end)
+BlockSelectionController::BlockSelectionController(RenderText& rendertext, const BlockSelection& selection)
     : rendertext_(rendertext),
-      start_(start),
-      end_(end),
-      reversed_(false)
+      selection_(selection)
 {
 }
 
@@ -48,33 +56,42 @@ void BlockSelectionController::OnMousePressed(const MouseEvent& event)
 
 void BlockSelectionController::OnKeyDown(const KeyEvent& event)
 {
-  // if( event.GetShiftDown() ) {
-  //   if( event.GetCode() == KeyboardCode::VKEY_RIGHT ) {
-  //     auto next = enter_char_.GetNextCharacter();
-  //     if( next ) {
-  //       auto command = new SetSelectionCommand(
-  //           rendertext_,
-  //           std::make_shared<BlockSelection>(enter_char_, *next, false),
-  //           rendertext_->GetSelection() );
+  auto start = selection_.GetStart();
+  auto end = selection_.GetEnd();
+  auto pos = selection_.GetCaretPosition();
+  if( event.GetShiftDown() ) {
+    if( event.GetCode() == KeyboardCode::VKEY_RIGHT ) {
+      if( selection_.GetCaretPosition() == CaretPosition::kStart ) {
+        auto next = start->GetNextCharacter();
+        if( next ) {
+          auto command = new SetSelectionCommand(
+              &rendertext_,
+              selection_util::createTextSelection(next, end, pos),
+              rendertext_.GetSelection() );
 
-  //       rendertext_->GetCommitTree()->AddCommand(command);
-  //     }
+          rendertext_.GetCommitTree()->AddCommand(command);
+        }
+      } else {
 
-  //   } else if( event.GetCode() == KeyboardCode::VKEY_LEFT ) {
-  //     auto prev = enter_char_.GetPrevCharacter();
-  //     if( prev ) {
-  //       auto next_sel = new BlockSelection(*prev, enter_char_, false);
-  //       auto command = new SetSelectionCommand(
-  //           rendertext_,
-  //           std::make_shared<BlockSelection>(*prev, enter_char_, false),
-  //           rendertext_->GetSelection() );
+      }
+    } else if( event.GetCode() == KeyboardCode::VKEY_LEFT ) {
+      if( selection_.GetCaretPosition() == CaretPosition::kStart ) {
+        auto prev = start->GetPrevCharacter();
+        if( prev ) {
+          auto next_sel = new BlockSelection(*prev, *end, pos);
+          auto command = new SetSelectionCommand(
+              &rendertext_,
+              std::make_shared<BlockSelection>(*prev, *end, pos),
+              rendertext_.GetSelection() );
 
-  //       rendertext_->GetCommitTree()->AddCommand(command);
-  //     }
-  //   }
+          rendertext_.GetCommitTree()->AddCommand(command);
+        }
 
-    
-  // }
+      } else {
+
+      }
+    }
+  }
 }
 
 }  // le
