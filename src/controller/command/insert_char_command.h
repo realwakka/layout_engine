@@ -25,6 +25,7 @@ class InsertCharCommand : public Command
   Character* selected_;
   Character* inserted_;
   Run* inserted_run_;
+  Paragraph* inserted_para_;
 
 };
 

@@ -8,6 +8,7 @@
 
 #include "controller/event/key_event.h"
 #include "controller/command/set_selection_command.h"
+#include "controller/command/delete_char_command.h"
 
 namespace le {
 
@@ -65,8 +66,7 @@ void BlockSelectionController::OnKeyDown(const KeyEvent& event)
         if( next ) {
           auto command = new SetSelectionCommand(
               &rendertext_,
-              selection_util::createTextSelection(next, end, pos),
-              rendertext_.GetSelection() );
+              selection_util::createTextSelection(next, end, pos));
 
           rendertext_.GetCommitTree()->AddCommand(command);
         }
@@ -75,8 +75,7 @@ void BlockSelectionController::OnKeyDown(const KeyEvent& event)
         if( next ) {
           auto command = new SetSelectionCommand(
               &rendertext_,
-              selection_util::createTextSelection(start, next, pos),
-              rendertext_.GetSelection() );
+              selection_util::createTextSelection(start, next, pos));
 
           rendertext_.GetCommitTree()->AddCommand(command);
         }
@@ -87,8 +86,7 @@ void BlockSelectionController::OnKeyDown(const KeyEvent& event)
         if( prev ) {
           auto command = new SetSelectionCommand(
               &rendertext_,
-              std::make_shared<BlockSelection>(*prev, *end, pos),
-              rendertext_.GetSelection() );
+              std::make_shared<BlockSelection>(*prev, *end, pos));
 
           rendertext_.GetCommitTree()->AddCommand(command);
         }
@@ -98,15 +96,41 @@ void BlockSelectionController::OnKeyDown(const KeyEvent& event)
         if( prev ) {
           auto command = new SetSelectionCommand(
               &rendertext_,
-              selection_util::createTextSelection(start, prev, pos),
-              rendertext_.GetSelection() );
+              selection_util::createTextSelection(start, prev, pos));
 
           rendertext_.GetCommitTree()->AddCommand(command);
         }
 
       }
     }
-  }
+  } else if ( event.GetCode() == KeyboardCode::VKEY_LEFT ) {
+    auto command = new SetSelectionCommand(
+        &rendertext_,
+        selection_util::createTextSelection(start, start, pos));
+    rendertext_.GetCommitTree()->AddCommand(command);
+    
+  } else if ( event.GetCode() == KeyboardCode::VKEY_RIGHT ) {
+    auto command = new SetSelectionCommand(
+        &rendertext_,
+        selection_util::createTextSelection(end, end, pos));
+    rendertext_.GetCommitTree()->AddCommand(command);
+    
+  } else if ( event.GetCode() == KeyboardCode::VKEY_BACK ) {
+    auto selected = selection_.GetEnd();
+    auto front = selection_.GetStart()->GetPrevCharacter();
+    while( selected->GetPrevCharacter() != front ) {
+      auto command = new DeleteCharCommand(selected);
+      rendertext_.GetCommitTree()->AddCommand(command);
+      //selected = selected->GetPrevCharacter();
+    }
+
+    auto command = new SetSelectionCommand(
+        &rendertext_,
+        selection_util::createTextSelection(end, end, pos));
+    rendertext_.GetCommitTree()->AddCommand(command);
+
+    rendertext_.GetCommitTree()->DoCommit();
+  } 
 }
 
 }  // le

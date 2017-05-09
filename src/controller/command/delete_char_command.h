@@ -25,6 +25,7 @@ class DeleteCharCommand : public Command
   Character* selected_;
   Character* deleted_;
   Run* deleted_run_;
+  Paragraph* deleted_para_;
   Run* ref_run_;
   
 };

@@ -18,7 +18,6 @@ class Paragraph
   Paragraph();
   virtual ~Paragraph();
 
-
   Character* GetFirstCharacter();
   Character* GetLastCharacter();
 

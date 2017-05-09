@@ -9,6 +9,7 @@ EnterRun::EnterRun(Paragraph* paragraph)
     : enter_char_(this)
 {
   SetParagraph(paragraph);
+  InsertCharacter(&enter_char_, nullptr);
 }
 
 EnterRun::~EnterRun()

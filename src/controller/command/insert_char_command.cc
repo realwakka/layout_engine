@@ -97,7 +97,8 @@ Run* InsertRunInternal(Character* inserted, Character* selected, Run* cached)
 InsertCharCommand::InsertCharCommand(Character* inserted, Character* selected)
     : selected_(selected),
       inserted_(inserted),
-      inserted_run_(nullptr)
+      inserted_run_(nullptr),
+      inserted_para_(nullptr)
 {
   
 }

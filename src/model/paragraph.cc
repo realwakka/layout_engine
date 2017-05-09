@@ -139,25 +139,27 @@ void Paragraph::CreateWords()
     RemoveWord(GetFirstWord());
   }
 
-  std::vector<Word*> words;
-  words.push_back( new Word() );
+  if( GetFirstCharacter() ) {
+    std::vector<Word*> words;
+    words.push_back( new Word() );
   
-  for( auto character = GetFirstCharacter() ;
-       character != GetEnterChar() ;
-       character = character->GetNextParagraphCharacter() ) {
+    for( auto character = GetFirstCharacter() ;
+         character != GetEnterChar() ;
+         character = character->GetNextParagraphCharacter() ) {
 
-    words.back()->InsertCharacter(character, nullptr);
+      words.back()->InsertCharacter(character, nullptr);
     
-    if( typeid(*character) == typeid(SpaceCharacter) ) {
-      auto next = character->GetNextParagraphCharacter();
-      if( typeid(*next) == typeid(BasicCharacter) ) {
-        words.push_back( new Word() );
+      if( typeid(*character) == typeid(SpaceCharacter) ) {
+        auto next = character->GetNextParagraphCharacter();
+        if( typeid(*next) == typeid(BasicCharacter) ) {
+          words.push_back( new Word() );
+        }
       }
     }
-  }
 
-  for( auto&& word : words ) {
-    InsertWord(word, nullptr);
+    for( auto&& word : words ) {
+      InsertWord(word, nullptr);
+    }
   }
 }
 

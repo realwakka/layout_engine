@@ -1,4 +1,4 @@
-#include "delete_char_command.h"
+#include "controller/command/delete_char_command.h"
 
 #include <typeinfo>
 #include <iostream>
@@ -12,21 +12,21 @@
 namespace le {
 namespace {
 
-void BackSpaceRunInternal(Character* selected, Character* &deleted, Run* &deleted_run, Run* &ref_run )
+void BackSpaceRunInternal(Character* selected, Character* &deleted, Run* &deleted_run)
 {
-
-  
   deleted = selected->GetPrevCharacter();
-  deleted_run = deleted->GetRun();
   if( deleted ) {
+    deleted_run = deleted->GetRun();
     if( typeid(*deleted) == typeid(BasicCharacter) ||
         typeid(*deleted) == typeid(SpaceCharacter) ) {
 
-      auto prev_run = deleted->GetRun();
-      prev_run->RemoveCharacter(deleted);
-      if( prev_run->GetFirstCharacter() == nullptr ) {
-        ref_run = prev_run->GetNextRun();
-      } 
+      deleted_run->RemoveCharacter(deleted);
+      if( deleted_run->GetFirstCharacter() == nullptr ) {
+        deleted_run->GetParagraph()->RemoveRun(deleted_run);
+      } // else {
+      //   deleted_run = 
+      //   deleted_run = nullptr;
+      // }
     }
   }
 }
@@ -37,7 +37,8 @@ DeleteCharCommand::DeleteCharCommand(Character* selected)
     : selected_(selected),
       deleted_(nullptr),
       deleted_run_(nullptr),
-      ref_run_(nullptr)
+      ref_run_(nullptr),
+      deleted_para_(nullptr)
 {}
 
 DeleteCharCommand::~DeleteCharCommand()
@@ -45,7 +46,7 @@ DeleteCharCommand::~DeleteCharCommand()
 
 void DeleteCharCommand::Apply()
 {
-  BackSpaceRunInternal(selected_, deleted_, deleted_run_, ref_run_);
+  BackSpaceRunInternal(selected_, deleted_, deleted_run_);
   selected_->GetParagraph()->CreateWords();
   
   // if( paragraph_ ) {
@@ -56,23 +57,28 @@ void DeleteCharCommand::Apply()
 
 void DeleteCharCommand::UnApply()
 {
-  auto paragraph = selected_->GetParagraph();
-  if( ref_run_ ) {
-    paragraph->InsertRun( deleted_run_ , ref_run_ );
-    deleted_run_->InsertCharacter(deleted_, nullptr);
-  } else {
-    if( selected_->GetRun() == deleted_run_ ) {
-      deleted_run_->InsertCharacter(deleted_, selected_);
-    } else {
+  if( deleted_para_ ) {
+
+  } else if ( deleted_run_ ) {
+    if( deleted_run_->GetParagraph() == nullptr) {
+      selected_->GetParagraph()->InsertRun(deleted_run_, selected_->GetRun());
       deleted_run_->InsertCharacter(deleted_, nullptr);
+    } else {
+      if( deleted_run_ == selected_->GetRun() )
+        deleted_run_->InsertCharacter(deleted_, selected_);
+      else 
+        deleted_run_->InsertCharacter(deleted_, nullptr);
     }
+  } else {
+    
   }
+  
   selected_->GetParagraph()->CreateWords();
 }
 
 void DeleteCharCommand::ReApply()
 {
-  BackSpaceRunInternal(selected_, deleted_, deleted_run_, ref_run_);
+  BackSpaceRunInternal(selected_, deleted_, deleted_run_);
   selected_->GetParagraph()->CreateWords();
 }
 
