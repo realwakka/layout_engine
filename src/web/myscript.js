@@ -1,3 +1,11 @@
+fontsize = document.getElementById("fontsize");
+
+fontsize.onchange = function() {
+    selected_size = fontsize.options[fontsize.selectedIndex].value;
+    websocket.send(JSON.stringify({type: "fontsize", size: selected_size}));
+    websocket.send(JSON.stringify({type: "paint"}));
+};
+
 document.addEventListener("keydown", function(event) {
 
     //console.log(event);

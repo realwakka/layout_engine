@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include <string>
 
 #include "controller/event/mouse_event.h"
 #include "controller/event/key_event.h"
@@ -71,6 +72,9 @@ bool ProcessEvent(const std::string& json, RenderText& rendertext, lws* wsi)
     auto result = lws_write(wsi, out.data() + LWS_PRE, out.size() - LWS_PRE, LWS_WRITE_BINARY);
     std::cout << "paint result : " << result << std::endl;
 
+  } else if( event_type == "fontsize" ) {
+    auto size = std::stoi(root.get("size", "0" ).asString());
+    rendertext.SetSize(size);
   }
   return true;
 }

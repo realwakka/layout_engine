@@ -51,7 +51,6 @@ void BlockSelectionController::SetPageSize(int width, int height)
   
 void BlockSelectionController::OnMousePressed(const MouseEvent& event)
 {
-  
 }
 
 void BlockSelectionController::OnKeyDown(const KeyEvent& event)

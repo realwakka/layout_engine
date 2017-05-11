@@ -48,11 +48,6 @@ void DeleteCharCommand::Apply()
 {
   BackSpaceRunInternal(selected_, deleted_, deleted_run_);
   selected_->GetParagraph()->CreateWords();
-  
-  // if( paragraph_ ) {
-  //   BackSpaceWordInternal(*paragraph_);
-  //   BackSpaceRunInternal(*paragraph_);
-  // }
 }
 
 void DeleteCharCommand::UnApply()

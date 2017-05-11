@@ -42,7 +42,7 @@ Character* EnterCharacter::GetNextCharacter()
 
 Character* EnterCharacter::GetPrevCharacter()
 {
-  auto last_run = GetRun()->GetParagraph()->GetFirstRun();
+  auto last_run = GetRun()->GetParagraph()->GetLastRun();
   if( last_run ) {
     return last_run->GetLastCharacter();
   } else {
