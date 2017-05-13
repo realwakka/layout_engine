@@ -15,7 +15,10 @@ EnterRun::EnterRun(Paragraph* paragraph)
 EnterRun::~EnterRun()
 {}
 
-
+// Run* EnterRun::Clone()
+// {
+//   return new EnterRun(*this);
+// }
 
 
 }  // le

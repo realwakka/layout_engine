@@ -103,13 +103,26 @@ void EnterCharController::SetItalic(bool italic)
 
 void EnterCharController::SetSize(int size)
 {
-  auto cached = rendertext_->GetCachedRun();
-  if( cached == nullptr ) {
-    rendertext_->SetCachedRun(new TextRun());
-    cached = rendertext_->GetCachedRun();
+  if( typeid(enter_char_) == typeid(BasicCharacter)
+      && enter_char_.GetNextWordCharacter() != nullptr ) {
+
+    // auto word = enter_char_.GetWord();
+    // auto begin = word->GetFirstCharacter();
+    // auto end = word->GetFirstSpaceCharacter();
+
+    // auto command = new SetPropCommand(begin, end);
+    // rendertext_->GetCommitTree()->AddCommand(command);
+    // rendertext_->Commit();
+  } else {
+    auto cached = rendertext_->GetCachedRun();
+    if( cached == nullptr ) {
+      rendertext_->SetCachedRun(new TextRun());
+      cached = rendertext_->GetCachedRun();
+    }
+    cached->GetRunProp().SetSize(size);
   }
 
-  cached->GetRunProp().SetSize(size);
+
 }
 
 void EnterCharController::SetPageSize(int width, int height)

@@ -185,6 +185,14 @@ std::vector<std::vector<Character*>> Word::GetSplittedWord(int width,int& space_
   return words;
 }
 
+Character* Word::GetFirstSpaceCharacter() const
+{
+  for( auto c = GetFirstCharacter() ; c ; c = c->GetNextWordCharacter() ) {
+    if( typeid(*c) == typeid(SpaceCharacter) )
+      return c;
+  }
+}
+
 namespace word_util
 {
 

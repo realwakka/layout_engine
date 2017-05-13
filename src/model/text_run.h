@@ -16,6 +16,15 @@ class TextRun : public Run
   TextRun();
   virtual ~TextRun();
 
+  //Run* Clone() override;
+
+  Run* Split(Character* character) override;
+  Run* Merge() override;
+
+
+ private:
+  int value_;
+
 };
 
 }  // le

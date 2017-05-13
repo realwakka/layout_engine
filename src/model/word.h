@@ -26,6 +26,7 @@ class Word
 
   Character* GetLastCharacter() const { return chars_.GetLastNode(); }
   Character* GetFirstCharacter() const { return chars_.GetFirstNode(); }
+  Character* GetFirstSpaceCharacter() const;
 
   std::list<Word*>::iterator GetIterator() { return node_.GetIterator(); }
   void SetIterator(std::list<Word*>::iterator iter) { node_.SetIterator(iter); }

@@ -14,6 +14,8 @@ class EnterRun : public Run
 
   EnterCharacter* GetEnterChar() { return &enter_char_; }
 
+  //Run* Clone() override;
+
  private:
   EnterCharacter enter_char_;
 };

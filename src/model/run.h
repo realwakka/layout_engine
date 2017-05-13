@@ -22,11 +22,11 @@ class Run
   void SetParagraph(Paragraph* paragraph) { node_.SetContainer(paragraph); }
   Paragraph* GetParagraph() { node_.GetContainer(); }
 
-  Run* GetPrevRun() const;
-  Run* GetNextRun() const;
+  virtual Run* GetPrevRun() const;
+  virtual Run* GetNextRun() const;
 
-  Character* GetLastCharacter() const { return chars_.GetLastNode(); }
-  Character* GetFirstCharacter() const { return chars_.GetFirstNode(); }
+  virtual Character* GetLastCharacter() const { return chars_.GetLastNode(); }
+  virtual Character* GetFirstCharacter() const { return chars_.GetFirstNode(); }
 
   std::list<Run*>::iterator GetIterator() { return node_.GetIterator(); }
   void SetIterator(std::list<Run*>::iterator iter) { node_.SetIterator(iter); }
@@ -41,8 +41,11 @@ class Run
   static Run* GetCachedRun() { return cached_run_; }
   static void SetCachedRun(Run* cached_run){ cached_run_ =  cached_run; }
 
-  void Split(Character* character);
-  
+  virtual Run* Split(Character* character);
+  virtual Run* Merge();
+
+  //virtual Run* Clone() = 0;
+
  private:
   Paragraph* paragraph_;
   Face* face_;
