@@ -22,6 +22,8 @@ class SetPropCommand
   std::vector<Run*> run_list_;
 };
 
+
+
 template<typename Setter, typename Getter, typename Value>
 SetPropCommand::SetPropCommand(Character* begin, Character *end, Setter setter, Value value)
     : begin_(begin),

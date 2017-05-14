@@ -1,5 +1,6 @@
 #include "controller/command/split_run_command.h"
 
+#include "model/paragraph.h"
 #include "model/character/character.h"
 #include "model/run.h"
 
@@ -28,7 +29,22 @@ void SplitRunCommand::UnApply()
 
 void SplitRunCommand::ReApply()
 {
-  Apply();
+  if( inserted_run_ ) {
+    auto ref_run = character_->GetRun();
+    std::vector<Character*> removed;
+    for( Character* ch = ref_run->GetFirstCharacter() ;
+         ch != character_ ; ch = ch->GetNextRunCharacter() ) {
+      removed.push_back(ch);
+    }
+
+    for( Character* ch : removed ) {
+      ref_run->RemoveCharacter(ch);
+      inserted_run_->InsertCharacter(ch, nullptr);
+    }
+
+    ref_run->GetParagraph()->InsertRun(inserted_run_, ref_run);
+  }
+
 }
 
 

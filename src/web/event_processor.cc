@@ -75,6 +75,7 @@ bool ProcessEvent(const std::string& json, RenderText& rendertext, lws* wsi)
   } else if( event_type == "fontsize" ) {
     auto size = std::stoi(root.get("size", "0" ).asString());
     rendertext.SetSize(size);
+    rendertext.Layout();
   }
   return true;
 }

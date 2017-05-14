@@ -41,8 +41,8 @@ class Run
   static Run* GetCachedRun() { return cached_run_; }
   static void SetCachedRun(Run* cached_run){ cached_run_ =  cached_run; }
 
-  virtual Run* Split(Character* character);
-  virtual Run* Merge();
+  virtual Run* Split(Character* character) = 0;
+  virtual Run* Merge() = 0;
 
   //virtual Run* Clone() = 0;
 

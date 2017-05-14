@@ -1,4 +1,4 @@
-#include "enter_char_controller.h"
+#include "caret_controller.h"
 
 #include "model/paragraph.h"
 #include "model/character/basic_character.h"
@@ -14,6 +14,7 @@
 #include "controller/command/delete_char_command.h"
 #include "controller/command/set_selection_command.h"
 #include "controller/command/commit_tree.h"
+#include "controller/command/run_prop/set_run_prop_command.h"
 
 #include "render_text.h"
 
@@ -49,29 +50,54 @@ void ProcessRightKey( RenderText* rendertext, Character* selected )
   }
 }
 
+template<typename Setter, typename Getter, typename Value>
+void ProcessRunProp(RenderText* rendertext, Character* selected, Setter&& setter, Getter&& getter, Value&& value)
+{
+  if( typeid(*selected) == typeid(BasicCharacter) ) {
+    rendertext->Commit();
+    
+    auto word = selected->GetWord();
+    auto begin = word->GetFirstCharacter();
+    auto end = word->GetFirstSpaceCharacter();
+
+    auto command = command_util::CreateSetRunPropCommand(begin, end, setter, getter, value);
+    rendertext->GetCommitTree()->AddCommand(command);
+    rendertext->Commit();
+    
+  } else {
+    auto cached = rendertext->GetCachedRun();
+    if( cached == nullptr ) {
+      rendertext->SetCachedRun(new TextRun());
+      cached = rendertext->GetCachedRun();
+    }
+    (cached->GetRunProp().*setter)(value);
+  }
+
+}
+
 }
 
 
-EnterCharController::EnterCharController(Character& enter_char, RenderText* rendertext)
+CaretController::CaretController(Character& enter_char, RenderText* rendertext)
     : enter_char_(enter_char),
       rendertext_(rendertext)
 {}
-EnterCharController::~EnterCharController()
+CaretController::~CaretController()
 {}
 
-void EnterCharController::InsertText(std::string text)
+void CaretController::InsertText(std::string text)
 {
 
 }
 
-void EnterCharController::InsertChar(Character* character)
+void CaretController::InsertChar(Character* character)
 {
   auto paragraph = enter_char_.GetRun()->GetParagraph();
   auto command = new InsertCharCommand(character, &enter_char_);
   rendertext_->GetCommitTree()->AddCommand(command);
 }
 
-void EnterCharController::BackSpaceChar()
+void CaretController::BackSpaceChar()
 {
   // auto paragraph = enter_char_.GetRun()->GetParagraph();
 
@@ -79,53 +105,22 @@ void EnterCharController::BackSpaceChar()
   // BackSpaceRunInternal(*paragraph);
 }
 
-void EnterCharController::SetBold(bool bold)
+void CaretController::SetBold(bool bold)
 {
-  auto cached = rendertext_->GetCachedRun();
-  if( cached == nullptr ) {
-    rendertext_->SetCachedRun(new TextRun());
-    cached = rendertext_->GetCachedRun();
-  }
-
-  cached->GetRunProp().SetBold(bold);
+  ProcessRunProp(rendertext_, &enter_char_, &RunProp::SetBold, &RunProp::GetBold, bold);
 }
 
-void EnterCharController::SetItalic(bool italic)
+void CaretController::SetItalic(bool italic)
 {
-  auto cached = rendertext_->GetCachedRun();
-  if( cached == nullptr ) {
-    rendertext_->SetCachedRun(new TextRun());
-    cached = rendertext_->GetCachedRun();
-  }
-
-  cached->GetRunProp().SetItalic(italic);
+  ProcessRunProp(rendertext_, &enter_char_, &RunProp::SetItalic, &RunProp::GetItalic, italic);
 }
 
-void EnterCharController::SetSize(int size)
+void CaretController::SetSize(int size)
 {
-  if( typeid(enter_char_) == typeid(BasicCharacter)
-      && enter_char_.GetNextWordCharacter() != nullptr ) {
-
-    // auto word = enter_char_.GetWord();
-    // auto begin = word->GetFirstCharacter();
-    // auto end = word->GetFirstSpaceCharacter();
-
-    // auto command = new SetPropCommand(begin, end);
-    // rendertext_->GetCommitTree()->AddCommand(command);
-    // rendertext_->Commit();
-  } else {
-    auto cached = rendertext_->GetCachedRun();
-    if( cached == nullptr ) {
-      rendertext_->SetCachedRun(new TextRun());
-      cached = rendertext_->GetCachedRun();
-    }
-    cached->GetRunProp().SetSize(size);
-  }
-
-
+  ProcessRunProp(rendertext_, &enter_char_, &RunProp::SetSize, &RunProp::GetSize, size);
 }
 
-void EnterCharController::SetPageSize(int width, int height)
+void CaretController::SetPageSize(int width, int height)
 {
   auto paragraph = enter_char_.GetRun()->GetParagraph();
   auto& sectionprop = paragraph->GetParent()->GetSectionProp();
@@ -133,7 +128,7 @@ void EnterCharController::SetPageSize(int width, int height)
   sectionprop.GetPageSize().SetHeight(height);
 }
 
-void EnterCharController::OnMousePressed(const MouseEvent& event)
+void CaretController::OnMousePressed(const MouseEvent& event)
 {
   auto document = enter_char_.GetRun()->GetParagraph()->GetParent();
   auto& view = document->GetView();
@@ -148,7 +143,7 @@ void EnterCharController::OnMousePressed(const MouseEvent& event)
   
 }
 
-void EnterCharController::OnKeyDown(const KeyEvent& event)
+void CaretController::OnKeyDown(const KeyEvent& event)
 {
   std::cout << "KEY DOWN" << std::endl;
   std::cout << "KEY : " << event.GetChar() << std::endl;

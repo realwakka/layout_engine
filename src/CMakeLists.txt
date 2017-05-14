@@ -66,7 +66,7 @@ set(LE_SRCS
 
   view/linebreaker/word_linebreaker.cc
   
-  controller/enter_char_controller.cc
+  controller/caret_controller.cc
   controller/block_selection_controller.cc
   controller/event/mouse_event.cc
   controller/event/key_event.cc

@@ -21,7 +21,6 @@ class TextRun : public Run
   Run* Split(Character* character) override;
   Run* Merge() override;
 
-
  private:
   int value_;
 

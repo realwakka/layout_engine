@@ -54,13 +54,15 @@ Run* TextRun::Merge() {
     std::vector<Character*> removed;
     for( auto ch = prev->GetFirstCharacter() ;
          ch ; ch = ch->GetNextRunCharacter() ) {
-      removed.push_back(ch);
+      removed.insert(removed.begin(), ch);
     }
 
     for( auto&& ch : removed ) {
       prev->RemoveCharacter(ch);
       InsertCharacter(ch, GetFirstCharacter());
     }
+
+    GetParagraph()->RemoveRun(prev);
   }
 
   return prev;

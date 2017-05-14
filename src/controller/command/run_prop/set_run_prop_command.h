@@ -1,13 +1,17 @@
 #ifndef LE_SET_RUN_PROP_COMMAND_H_
 #define LE_SET_RUN_PROP_COMMAND_H_
 
+#include <functional>
+#include "controller/command/command.h"
+#include "controller/command/split_run_command.h"
+
 namespace le {
 
 template<typename Setter, typename Getter, typename Value>
 class SetRunPropCommand : public Command
 {
  public:
-  SetRunPropCommand(Character* begin, Character* end, Setter setter, Value value);
+  SetRunPropCommand(Character* begin, Character* end, Setter setter, Getter getter, Value value);
   virtual ~SetRunPropCommand() {}
 
   void Apply() override;
@@ -16,43 +20,81 @@ class SetRunPropCommand : public Command
 
   std::string GetDecription() override { return "SetRunPropCommand"; }
 
-
  private:
   Character* begin_;
   Character* end_;
 
+  SplitRunCommand split_begin_;
+  SplitRunCommand split_end_;
+
   Setter setter_;
+  Getter getter_;
   Value value_;
 
-  Character* fixed_begin_;
-  Character* fixed_end_;
-  std::vector<Run*> run_list_;
-  
+  std::vector<std::pair<Run*, Value>> value_list_;
+
 };
 
 
+
 template<typename Setter, typename Getter, typename Value>
-SetRunPropCommand::SetRunPropCommand(Character* begin, Character *end, Setter setter, Value value)
+SetRunPropCommand<Setter, Getter, Value>::SetRunPropCommand(Character* begin, Character *end, Setter setter, Getter getter, Value value)
     : begin_(begin),
       end_(end),
+      split_begin_(begin),
+      split_end_(end),
+      value_(value),
       setter_(setter),
-      value_(value)
+      getter_(getter)
 {
-  fixed_begin_ = begin;
-  while( true ) {
-    auto next = fixed_begin_->GetPrevRunCharacter();
-    if( next )
-      fixed_begin_ = next;
-  }
-
-  fixed_end_ = end;
-  while( true ) {
-    auto next = fixed_end_->GetNextRunCharacter();
-    if( next )
-      fixed_end_ = next;
-  }
-  
 }
+
+template<typename Setter, typename Getter, typename Value>
+void SetRunPropCommand<Setter, Getter, Value>::Apply()
+{
+  split_begin_.Apply();
+  split_end_.Apply();
+
+  auto begin_run = begin_->GetRun();
+  auto end_run = end_->GetRun();
+
+  value_list_.clear();
+  for( auto run = begin_run ; run != end_run ; run = run->GetNextRun() ) {
+    auto old_value = (run->GetRunProp().*(getter_))();
+    value_list_.emplace_back(run, old_value);
+    (run->GetRunProp().*(setter_))(value_ );
+    run->UpdateGlyph();
+  }
+}
+
+template<typename Setter, typename Getter, typename Value>
+void SetRunPropCommand<Setter, Getter, Value>::UnApply()
+{
+  split_begin_.UnApply();
+  split_end_.UnApply();
+
+  value_list_.clear();
+  for( auto&& pair : value_list_ ) {
+    (pair.first->GetRunProp().*setter_)(pair.second);
+  }
+}
+
+template<typename Setter, typename Getter, typename Value>
+void SetRunPropCommand<Setter, Getter, Value>::ReApply()
+{
+  Apply();
+}
+
+namespace command_util {
+
+template<typename Setter, typename Getter, typename Value>
+SetRunPropCommand<Setter, Getter, Value>* CreateSetRunPropCommand(Character* begin, Character *end, Setter&& setter, Getter&& getter, Value&& value)
+{
+  return new SetRunPropCommand<Setter, Getter, Value>(begin, end, setter, getter, value);
+}
+
+
+}  // command_util
 
 
 }  // le

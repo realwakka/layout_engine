@@ -31,7 +31,6 @@ class BlockSelection : public Selection
   Character& start_;
   Character& end_;
   CaretPosition pos_;
-  // bool reversed_;
   BlockSelectionView view_;
 
 };

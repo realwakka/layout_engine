@@ -1,5 +1,5 @@
-#ifndef LE_ENTER_CHAR_CONTROLLER_H_
-#define LE_ENTER_CHAR_CONTROLLER_H_
+#ifndef LE_CARET_CONTROLLER_H_
+#define LE_CARET_CONTROLLER_H_
 
 #include "controller/controller.h"
 
@@ -8,11 +8,11 @@ namespace le {
 class Character;
 class RenderText;
 
-class EnterCharController : public Controller
+class CaretController : public Controller
 {
  public:
-  EnterCharController(Character& enter_char, RenderText* rendertext);
-  virtual ~EnterCharController();
+  CaretController(Character& enter_char, RenderText* rendertext);
+  virtual ~CaretController();
 
  public:
   void InsertText(std::string text) override;
@@ -34,4 +34,4 @@ class EnterCharController : public Controller
 
 }  // le
 
-#endif /* LE_ENTER_CHAR_CONTROLLER_H_ */
+#endif /* LE_CARET_CONTROLLER_H_ */

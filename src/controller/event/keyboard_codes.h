@@ -3,6 +3,36 @@
 
 namespace le {
 
+enum class EventFlags {
+  EF_NONE                 = 0,       // Used to denote no flags explicitly
+
+  // Universally applicable status bits.
+  EF_IS_SYNTHESIZED       = 1 << 0,
+
+  // Modifier key state.
+  EF_SHIFT_DOWN           = 1 << 1,
+  EF_CONTROL_DOWN         = 1 << 2,
+  EF_ALT_DOWN             = 1 << 3,
+  EF_COMMAND_DOWN         = 1 << 4,  // GUI Key (e.g. Command on OS X
+  // keyboards, Search on Chromebook
+  // keyboards, Windows on MS-oriented
+  // keyboards)
+  EF_ALTGR_DOWN           = 1 << 5,
+  EF_MOD3_DOWN            = 1 << 6,
+
+  // Other keyboard state.
+  EF_NUM_LOCK_ON          = 1 << 7,
+  EF_CAPS_LOCK_ON         = 1 << 8,
+  EF_SCROLL_LOCK_ON       = 1 << 9,
+
+  // Mouse buttons.
+  EF_LEFT_MOUSE_BUTTON    = 1 << 10,
+  EF_MIDDLE_MOUSE_BUTTON  = 1 << 11,
+  EF_RIGHT_MOUSE_BUTTON   = 1 << 12,
+  EF_BACK_MOUSE_BUTTON    = 1 << 13,
+  EF_FORWARD_MOUSE_BUTTON = 1 << 14,
+};
+
 enum class KeyboardCode {
   VKEY_CANCEL = 0x03,
   VKEY_BACK = 0x08,

@@ -59,54 +59,8 @@ void Run::RemoveCharacter(Character* character)
 
 void Run::UpdateGlyph()
 {
-  for( Character* character = GetFirstCharacter() ; character ; character = character->GetNextRunCharacter() ) {
-    character->UpdateGlyph();
-  }
-}
-
-Run* Run::Split(Character* character)
-{
-  if( character->GetRun() != this )
-    throw std::exception();
-
-  if( GetFirstCharacter() == character ) {
-    return nullptr;
-    
-  } else {
-    Run* run = new Run();
-    std::vector<Character*> removed;
-    for( Character* ch = GetFirstCharacter() ;
-         ch != character ; ch = ch->GetNextRunCharacter() ) {
-      removed.push_back(ch);
-    }
-
-    for( Character* ch : removed ) {
-      RemoveCharacter(ch);
-      run->InsertCharacter(ch, nullptr);
-    }
-
-    GetParagraph()->InsertRun(run, this);
-
-    return run;
-  }
-}
-
-Run* Run::Merge() {
-  auto prev = GetPrevRun();
-  if( prev ) {
-    std::vector<Character*> removed;
-    for( auto ch = prev->GetFirstCharacter() ;
-         ch ; ch = ch->GetNextRunCharacter() ) {
-      removed.push_back(ch);
-    }
-
-    for( auto&& ch : removed ) {
-      prev->RemoveCharacter(ch);
-      InsertCharacter(ch, GetFirstCharacter());
-    }
-  }
-
-  return prev;
+  for( auto c = GetFirstCharacter() ; c ; c = c->GetNextRunCharacter() )
+    c->UpdateGlyph();
 }
 
 }  // le

@@ -2,7 +2,7 @@
 
 #include "model/character/enter_character.h"
 #include "model/character/character.h"
-#include "controller/enter_char_controller.h"
+#include "controller/caret_controller.h"
 #include <memory>
 
 namespace le {
@@ -20,7 +20,7 @@ CaretSelection::~CaretSelection()
 
 std::unique_ptr<Controller> CaretSelection::GetController(RenderText* rendertext) const
 {
-  return std::unique_ptr<Controller>(new EnterCharController(character_, rendertext));
+  return std::unique_ptr<Controller>(new CaretController(character_, rendertext));
 }
 
 View& CaretSelection::GetView() 

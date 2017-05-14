@@ -5,7 +5,6 @@
 #include "basic_character.h"
 #include "model/text_run.h"
 #include "model/paragraph.h"
-#include "controller/enter_char_controller.h"
 #include <typeinfo>
 
 namespace le {
