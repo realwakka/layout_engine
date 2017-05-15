@@ -70,13 +70,12 @@ void SetRunPropCommand<Setter, Getter, Value>::Apply()
 template<typename Setter, typename Getter, typename Value>
 void SetRunPropCommand<Setter, Getter, Value>::UnApply()
 {
-  split_begin_.UnApply();
-  split_end_.UnApply();
-
-  value_list_.clear();
   for( auto&& pair : value_list_ ) {
     (pair.first->GetRunProp().*setter_)(pair.second);
   }
+
+  split_end_.UnApply();
+  split_begin_.UnApply();
 }
 
 template<typename Setter, typename Getter, typename Value>

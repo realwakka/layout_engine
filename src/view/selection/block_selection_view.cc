@@ -36,10 +36,12 @@ void BlockSelectionView::Paint(Canvas& canvas)
   auto character = start;
   while( character != end ) {
     auto& view = character->GetView();
+    auto lineview = character->GetView().GetParent()->GetParent();
     auto pos1 = view.GetAbsolutePosition();
-    le::Point pos2(pos1.GetX() + view.GetWidth(), pos1.GetY() + view.GetHeight());
+    le::Point pos2(pos1.GetX() + view.GetWidth(), pos1.GetY() + lineview->GetHeight());
                
     le::Paint paint;
+    paint.SetColor(0x66000000);
     paint.SetStyle(Paint::Style::kFill);
     canvas.DrawRect(pos1, pos2, paint);
     

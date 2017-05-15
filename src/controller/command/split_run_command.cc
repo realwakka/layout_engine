@@ -23,8 +23,10 @@ void SplitRunCommand::Apply()
 
 void SplitRunCommand::UnApply()
 {
-  if( inserted_run_ )
+  if( inserted_run_ ) {
     character_->GetRun()->Merge();
+    character_->GetRun()->UpdateGlyph();
+  }
 }
 
 void SplitRunCommand::ReApply()
