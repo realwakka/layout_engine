@@ -82,13 +82,25 @@ void SetRunPropCommand<Setter, Getter, Value>::UnApply()
 template<typename Setter, typename Getter, typename Value>
 void SetRunPropCommand<Setter, Getter, Value>::ReApply()
 {
-  Apply();
+  split_begin_.ReApply();
+  split_end_.ReApply();
+
+  auto begin_run = begin_->GetRun();
+  auto end_run = end_->GetRun();
+
+  value_list_.clear();
+  for( auto run = begin_run ; run != end_run ; run = run->GetNextRun() ) {
+    auto old_value = (run->GetRunProp().*(getter_))();
+    value_list_.emplace_back(run, old_value);
+    (run->GetRunProp().*(setter_))(value_ );
+    run->UpdateGlyph();
+  }
 }
 
 namespace command_util {
 
 template<typename Setter, typename Getter, typename Value>
-SetRunPropCommand<Setter, Getter, Value>* CreateSetRunPropCommand(Character* begin, Character *end, Setter&& setter, Getter&& getter, Value&& value)
+SetRunPropCommand<Setter, Getter, Value>* CreateSetRunPropCommand(Character* begin, Character *end, Setter setter, Getter getter, Value value)
 {
   return new SetRunPropCommand<Setter, Getter, Value>(begin, end, setter, getter, value);
 }

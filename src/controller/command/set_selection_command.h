@@ -30,7 +30,6 @@ class SetSelectionCommand : public Command
   
 };
 
-
 }  // le
 
 #endif /* LE_SET_SELECTION_COMMAND_H_ */

@@ -13,6 +13,22 @@
 
 namespace le {
 
+namespace {
+
+template<typename Setter, typename Getter, typename Value>
+void SetRunProp(RenderText& rendertext, const BlockSelection& selection, Setter setter,Getter getter, Value value){
+  rendertext.Commit();
+  
+  auto begin = selection.GetStart();
+  auto end = selection.GetEnd();
+  auto command = command_util::CreateSetRunPropCommand(begin, end, setter, getter, value);
+
+  rendertext.GetCommitTree()->AddCommand(command);
+  rendertext.Commit();
+}
+
+}
+
 BlockSelectionController::BlockSelectionController(RenderText& rendertext, const BlockSelection& selection)
     : rendertext_(rendertext),
       selection_(selection)
@@ -29,26 +45,22 @@ void BlockSelectionController::InsertText(std::string text)
 
 void BlockSelectionController::BackSpaceChar()
 {
+  
 }
 
 void BlockSelectionController::SetBold(bool bold) 
 {
+  SetRunProp(rendertext_, selection_, &RunProp::SetBold, &RunProp::GetBold, bold);
 }
 
 void BlockSelectionController::SetItalic(bool italic) 
 {
+  SetRunProp(rendertext_, selection_, &RunProp::SetItalic, &RunProp::GetItalic, italic);
 }
 
 void BlockSelectionController::SetSize(int size) 
 {
-  rendertext_.Commit();
-  
-  auto begin = selection_.GetStart();
-  auto end = selection_.GetEnd();
-  auto command = command_util::CreateSetRunPropCommand(begin, end, &RunProp::SetSize, &RunProp::GetSize, size);
-
-  rendertext_.GetCommitTree()->AddCommand(command);
-  rendertext_.Commit();
+  SetRunProp(rendertext_, selection_, &RunProp::SetSize, &RunProp::GetSize, size);
 }
 
 void BlockSelectionController::InsertChar(Character* character)
@@ -67,7 +79,13 @@ void BlockSelectionController::OnKeyDown(const KeyEvent& event)
   auto start = selection_.GetStart();
   auto end = selection_.GetEnd();
   auto pos = selection_.GetCaretPosition();
-  if( event.GetShiftDown() ) {
+  if( event.GetFlag(kControlDown) ) {
+    if( event.GetCode() == KeyboardCode::VKEY_Z )
+      rendertext_.GetCommitTree()->UnDo();
+    else if( event.GetCode() == KeyboardCode::VKEY_Y )
+      rendertext_.GetCommitTree()->ReDo();
+
+  } else if( event.GetFlag(kShiftDown) ) {
     if( event.GetCode() == KeyboardCode::VKEY_RIGHT ) {
       if( selection_.GetCaretPosition() == CaretPosition::kStart ) {
         auto next = start->GetNextCharacter();

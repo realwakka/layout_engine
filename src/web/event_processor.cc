@@ -41,9 +41,9 @@ bool ProcessEvent(const std::string& json, RenderText& rendertext, lws* wsi)
       keyevent.SetChar(str[0]);
     
     keyevent.SetCode(static_cast<le::KeyboardCode>(code));
-    keyevent.SetCtrlDown(ctrl);
-    keyevent.SetAltDown(alt);
-    keyevent.SetShiftDown(shift);
+    keyevent.SetFlag(kControlDown,ctrl);
+    keyevent.SetFlag(kAltDown,alt);
+    keyevent.SetFlag(kShiftDown,shift);
 
     rendertext.OnKeyDown(keyevent);
     rendertext.Layout();

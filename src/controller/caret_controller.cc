@@ -148,15 +148,13 @@ void CaretController::OnKeyDown(const KeyEvent& event)
   std::cout << "KEY DOWN" << std::endl;
   std::cout << "KEY : " << event.GetChar() << std::endl;
 
-  if( event.GetCtrlDown() || event.GetAltDown() ) {
-    
-    if( event.GetCtrlDown() && event.GetCode() == KeyboardCode::VKEY_Z )
+  if( event.GetFlag(kControlDown) ) {
+    if( event.GetCode() == KeyboardCode::VKEY_Z )
       rendertext_->GetCommitTree()->UnDo();
-
-    if( event.GetCtrlDown() && event.GetCode() == KeyboardCode::VKEY_Y )
+    else if( event.GetCode() == KeyboardCode::VKEY_Y )
       rendertext_->GetCommitTree()->ReDo();
 
-  } else if( event.GetShiftDown() ) {
+  } else if( event.GetFlag(kShiftDown) ) {
     if( event.GetCode() == KeyboardCode::VKEY_RIGHT ) {
       auto next = enter_char_.GetNextCharacter();
       if( next ) {
@@ -181,7 +179,7 @@ void CaretController::OnKeyDown(const KeyEvent& event)
 
 
     } else if( event.GetCode() == KeyboardCode::VKEY_DOWN ) {
-
+      
     } else if( event.GetCode() == KeyboardCode::VKEY_UP ) {
 
     }
