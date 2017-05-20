@@ -3,6 +3,7 @@
 
 #include <memory>
 #include "controller/command/command.h"
+#include "controller/controller.h"
 
 namespace le {
 
@@ -12,8 +13,8 @@ class RenderText;
 class SetSelectionCommand : public Command
 {
  public:
-  SetSelectionCommand(RenderText* rendertext, std::shared_ptr<Selection> new_selection, std::shared_ptr<Selection> old_selection);
-  SetSelectionCommand(RenderText* rendertext, std::shared_ptr<Selection> new_selection);
+  SetSelectionCommand(RenderText* rendertext, std::shared_ptr<Controller> new_selection, std::shared_ptr<Controller> old_selection);
+  SetSelectionCommand(RenderText* rendertext, std::shared_ptr<Controller> new_selection);
   virtual ~SetSelectionCommand();
 
   void Apply() override;
@@ -24,8 +25,8 @@ class SetSelectionCommand : public Command
 
  private:
   RenderText* rendertext_;
-  std::shared_ptr<Selection> old_selection_;
-  std::shared_ptr<Selection> new_selection_;
+  std::shared_ptr<Controller> old_selection_;
+  std::shared_ptr<Controller> new_selection_;
   
   
 };

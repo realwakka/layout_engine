@@ -7,10 +7,19 @@
 
 namespace le {
 
-
 CaretSelection::CaretSelection(Character& character)
     : character_(character),
-      view_(*this)
+      view_(*this),
+      x_(character.GetView().GetAbsolutePosition().GetX())
+
+{
+
+}
+
+CaretSelection::CaretSelection(Character& character, int x)
+    : character_(character),
+      view_(*this),
+      x_(x)
 {
   
 }
@@ -18,15 +27,12 @@ CaretSelection::CaretSelection(Character& character)
 CaretSelection::~CaretSelection()
 {}
 
-std::unique_ptr<Controller> CaretSelection::GetController(RenderText* rendertext) const
-{
-  return std::unique_ptr<Controller>(new CaretController(character_, rendertext));
-}
-
 View& CaretSelection::GetView() 
 {
   return view_;
 }
+
+
 
 
 }  // le

@@ -5,6 +5,7 @@
 #include "model/selection/caret_selection.h"
 #include "model/character/character.h"
 #include "controller/controller.h"
+#include "controller/caret_controller.h"
 #include "controller/command/commit_tree.h"
 
 namespace le {
@@ -13,7 +14,8 @@ RenderText::RenderText()
   : document_(this),
     cached_run_(nullptr)
 {
-  selection_.reset(new CaretSelection(*document_.GetFirstChild()->GetEnterRun()->GetEnterChar()));
+  auto character = document_.GetFirstChild()->GetEnterRun()->GetEnterChar();
+  controller_ = std::make_shared<CaretController>(*character, this);
 }
 
 RenderText::~RenderText()
@@ -23,23 +25,23 @@ void RenderText::InsertText(const std::string& text)
 {
   for( auto c : text ) {
     auto character = CreateCharacter(c);
-    selection_->GetController(this)->InsertChar(character);
+    controller_->InsertChar(character);
   }
 }
 
 void RenderText::SetBold(bool bold)
 {
-  selection_->GetController(this)->SetBold(bold);
+  controller_->SetBold(bold);
 }
 
 void RenderText::SetItalic(bool italic)
 {
-  selection_->GetController(this)->SetItalic(italic);
+  controller_->SetItalic(italic);
 }
 
 void RenderText::SetSize(int size)
 {
-  selection_->GetController(this)->SetSize(size);
+  controller_->SetSize(size);
 }
 
 void RenderText::SetPageSize(int width, int height)
@@ -55,35 +57,35 @@ void RenderText::Commit()
 void RenderText::Layout()
 {
   document_.GetView().Layout();
-  selection_->GetView().Layout();
+  controller_->Layout();
 }
 
 void RenderText::Paint(Canvas& canvas)
 {
   auto& document_view = document_.GetView();
   document_.GetView().Paint(canvas);
-  selection_->GetView().Paint(canvas);
+  controller_->Paint(canvas);
 }
 
 void RenderText::WriteBitmapFile(std::string path)
 {
-  BitmapCanvas canvas;
-  auto& document_view = document_.GetView();
-  auto bitmap = new Bitmap(document_view.GetWidth(), document_view.GetHeight(), 3);
-  canvas.SetBitmap(bitmap);
-  document_.GetView().Paint(canvas);
-  selection_->GetView().Paint(canvas);
-  canvas.WriteBitmap(path);
+  // BitmapCanvas canvas;
+  // auto& document_view = document_.GetView();
+  // auto bitmap = new Bitmap(document_view.GetWidth(), document_view.GetHeight(), 3);
+  // canvas.SetBitmap(bitmap);
+  // document_.GetView().Paint(canvas);
+  // selection_->GetView().Paint(canvas);
+  // canvas.WriteBitmap(path);
 }
 
 void RenderText::OnMousePressed(const MouseEvent& event)
 {
-  selection_->GetController(this)->OnMousePressed(event);
+  controller_->OnMousePressed(event);
 }
 
 void RenderText::BackSpace()
 {
-  selection_->GetController(this)->BackSpaceChar();
+  controller_->BackSpaceChar();
 }
 
 void RenderText::UnDo()
@@ -100,7 +102,7 @@ void RenderText::ReDo()
 
 void RenderText::OnKeyDown(const KeyEvent& event)
 {
-  selection_->GetController(this)->OnKeyDown(event);
+  controller_->OnKeyDown(event);
 }
 
 

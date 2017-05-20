@@ -11,6 +11,7 @@ namespace le {
 
 class MouseEvent;
 class KeyEvent;
+class Controller;
 
 class RenderText
 {
@@ -32,8 +33,8 @@ class RenderText
   void OnKeyDown(const KeyEvent& event);
   Document& GetDocument() { return document_; }
 
-  void SetSelection(std::shared_ptr<Selection> selection) { selection_ = selection; }
-  std::shared_ptr<Selection> GetSelection() { return selection_; }
+  void SetController(std::shared_ptr<Controller> controller) { controller_ = controller; }
+  const std::shared_ptr<Controller> GetController() const { return controller_; }
   
   
   void Commit();
@@ -47,9 +48,8 @@ class RenderText
   
  private:
   Document document_;
-  std::shared_ptr<Selection> selection_;
   CommitTree commit_tree_;
-
+  std::shared_ptr<Controller> controller_;
   Run* cached_run_;
 
 };

@@ -2,6 +2,7 @@
 #define LE_CARET_CONTROLLER_H_
 
 #include "controller/controller.h"
+#include "model/selection/caret_selection.h"
 
 namespace le {
 
@@ -11,7 +12,8 @@ class RenderText;
 class CaretController : public Controller
 {
  public:
-  CaretController(Character& enter_char, RenderText* rendertext);
+  CaretController(Character& character, int x, RenderText* rendertext);
+  CaretController(Character& character, RenderText* rendertext);
   virtual ~CaretController();
 
  public:
@@ -25,9 +27,14 @@ class CaretController : public Controller
   void SetPageSize(int width, int height) override;
   void OnMousePressed(const MouseEvent& event) override;
   void OnKeyDown(const KeyEvent& event) override;
+
+  void Paint(Canvas& canvas) override;
+  void Layout() override;
+
  private:
-  Character& enter_char_;
   RenderText* rendertext_;
+  CaretSelection selection_;
+  
 
 };
 

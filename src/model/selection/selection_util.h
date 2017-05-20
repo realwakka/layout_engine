@@ -8,10 +8,12 @@ namespace le {
 class Selection;
 class Character;
 enum class CaretPosition;
+class Controller;
+class RenderText;
 
 namespace selection_util {
 
-std::shared_ptr<Selection> createTextSelection(Character* start, Character* end, CaretPosition pos);
+std::shared_ptr<Controller> createTextSelection(RenderText* rendertext, Character* start, Character* end, CaretPosition pos);
 
 }  // selection_util
 }  // le

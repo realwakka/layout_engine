@@ -2,6 +2,7 @@
 
 #include "view/hititem.h"
 #include <iostream>
+#include <algorithm>
 #include <typeinfo>
 
 namespace le {
@@ -127,6 +128,10 @@ bool View::HitTest(HitItem& hititem, const Point& point)
 {
   if( view_util::HitTestRect(this, point) ) {
     hititem.SetView(this);
+    // std::for_each(childs_.begin(), childs_.end(),
+    //          [&hititem, &point](View* view)
+    //               { view->HitTest(hititem, point + view->GetLocalPosition()); });
+
     std::cout << "success hit : " << typeid(*this).name() << std::endl;
     return true;
   } else {
@@ -188,7 +193,7 @@ void PaintChilds(Canvas& canvas, View* view)
 
 bool HitTestRect(const View* view, const Point& point)
 {
-  return point.GetX() > 0 && point.GetY() > 0 &&
+  return point.GetX() >= 0 && point.GetY() >= 0 &&
     point.GetX() < view->GetWidth() && point.GetY() < view->GetHeight();
 }
 

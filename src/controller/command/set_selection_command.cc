@@ -5,16 +5,16 @@
 namespace le {
 
 
-SetSelectionCommand::SetSelectionCommand(RenderText* rendertext, std::shared_ptr<Selection> new_selection, std::shared_ptr<Selection> old_selection)
+SetSelectionCommand::SetSelectionCommand(RenderText* rendertext, std::shared_ptr<Controller> new_selection, std::shared_ptr<Controller> old_selection)
     : rendertext_(rendertext),
       new_selection_(new_selection),
       old_selection_(old_selection)
 {}
 
-SetSelectionCommand::SetSelectionCommand(RenderText* rendertext, std::shared_ptr<Selection> new_selection)
+SetSelectionCommand::SetSelectionCommand(RenderText* rendertext, std::shared_ptr<Controller> new_selection)
     : rendertext_(rendertext),
       new_selection_(new_selection),
-      old_selection_(rendertext->GetSelection())
+      old_selection_(rendertext->GetController())
 {}
 
 
@@ -23,15 +23,15 @@ SetSelectionCommand::~SetSelectionCommand()
 
 void SetSelectionCommand::Apply()
 {
-  rendertext_->SetSelection(new_selection_);
+  rendertext_->SetController(new_selection_);
 }
 void SetSelectionCommand::UnApply()
 {
-  rendertext_->SetSelection(old_selection_);
+  rendertext_->SetController(old_selection_);
 }
 void SetSelectionCommand::ReApply()
 {
-  rendertext_->SetSelection(new_selection_);
+  rendertext_->SetController(new_selection_);
 }
 
 

@@ -7,6 +7,7 @@
 #include "model/selection/caret_selection.h"
 #include "model/selection/block_selection.h"
 
+#include "controller/block_selection_controller.h"
 #include "controller/event/mouse_event.h"
 #include "view/hititem.h"
 #include "controller/event/key_event.h"
@@ -24,14 +25,40 @@
 namespace le {
 namespace {
 
+void ProcessUpKey(RenderText* rendertext, CaretSelection* selection)
+{
+  auto x = selection->GetX();
+  auto lineview = selection->GetCharacter().GetView().GetParent()->GetParent();
+  auto prevline = lineview->GetPrevSibling();
+
+  if( prevline ) {
+  
+    auto abspos = prevline->GetAbsolutePosition();
+    Point point(x, abspos.GetY());
+    HitItem item;
+    prevline->GetLayer()->HitTest(item , point);
+    auto hitted = item.GetView();
+
+    if( hitted && typeid(*hitted) == typeid(CharacterView) ) {
+      auto& hitted_char = static_cast<CharacterView*>(hitted)->GetCharacter();
+      auto command = new SetSelectionCommand(
+          rendertext,
+          std::make_shared<CaretController>(hitted_char, rendertext));
+      
+      rendertext->GetCommitTree()->AddCommand(command);
+
+    }
+  }
+}
+
 void ProcessLeftKey(RenderText* rendertext, Character* selected)
 {
   auto prev_char = selected->GetPrevCharacter();
   if( prev_char ) {
+    auto new_sel = std::make_shared<CaretController>(*prev_char, rendertext);
     auto command = new SetSelectionCommand(
         rendertext,
-        std::make_shared<CaretSelection>(*prev_char),
-        rendertext->GetSelection() );
+        std::make_shared<CaretController>(*prev_char, rendertext));
 
     rendertext->GetCommitTree()->AddCommand(command);
   }
@@ -43,8 +70,7 @@ void ProcessRightKey( RenderText* rendertext, Character* selected )
   if (next_char) {
     auto command = new SetSelectionCommand(
         rendertext,
-        std::make_shared<CaretSelection>(*next_char),
-        rendertext->GetSelection() );
+        std::make_shared<CaretController>(*next_char, rendertext));
 
     rendertext->GetCommitTree()->AddCommand(command);
   }
@@ -77,10 +103,17 @@ void ProcessRunProp(RenderText* rendertext, Character* selected, Setter&& setter
 
 }
 
+CaretController::CaretController(Character& character, RenderText* rendertext)
+    : rendertext_(rendertext),
+      selection_(character)
 
-CaretController::CaretController(Character& enter_char, RenderText* rendertext)
-    : enter_char_(enter_char),
-      rendertext_(rendertext)
+{
+  
+}
+
+CaretController::CaretController(Character& character, int x, RenderText* rendertext)
+    : rendertext_(rendertext),
+      selection_(character, x)
 {}
 CaretController::~CaretController()
 {}
@@ -92,8 +125,9 @@ void CaretController::InsertText(std::string text)
 
 void CaretController::InsertChar(Character* character)
 {
-  auto paragraph = enter_char_.GetRun()->GetParagraph();
-  auto command = new InsertCharCommand(character, &enter_char_);
+  auto& selected = selection_.GetCharacter();
+  auto paragraph = selected.GetRun()->GetParagraph();
+  auto command = new InsertCharCommand(character, &selected);
   rendertext_->GetCommitTree()->AddCommand(command);
 }
 
@@ -107,22 +141,22 @@ void CaretController::BackSpaceChar()
 
 void CaretController::SetBold(bool bold)
 {
-  ProcessRunProp(rendertext_, &enter_char_, &RunProp::SetBold, &RunProp::GetBold, bold);
+  ProcessRunProp(rendertext_, &selection_.GetCharacter(), &RunProp::SetBold, &RunProp::GetBold, bold);
 }
 
 void CaretController::SetItalic(bool italic)
 {
-  ProcessRunProp(rendertext_, &enter_char_, &RunProp::SetItalic, &RunProp::GetItalic, italic);
+  ProcessRunProp(rendertext_, &selection_.GetCharacter(), &RunProp::SetItalic, &RunProp::GetItalic, italic);
 }
 
 void CaretController::SetSize(int size)
 {
-  ProcessRunProp(rendertext_, &enter_char_, &RunProp::SetSize, &RunProp::GetSize, size);
+  ProcessRunProp(rendertext_, &selection_.GetCharacter(), &RunProp::SetSize, &RunProp::GetSize, size);
 }
 
 void CaretController::SetPageSize(int width, int height)
 {
-  auto paragraph = enter_char_.GetRun()->GetParagraph();
+  auto paragraph = selection_.GetCharacter().GetRun()->GetParagraph();
   auto& sectionprop = paragraph->GetParent()->GetSectionProp();
   sectionprop.GetPageSize().SetWidth(width);
   sectionprop.GetPageSize().SetHeight(height);
@@ -130,7 +164,7 @@ void CaretController::SetPageSize(int width, int height)
 
 void CaretController::OnMousePressed(const MouseEvent& event)
 {
-  auto document = enter_char_.GetRun()->GetParagraph()->GetParent();
+  auto document = selection_.GetCharacter().GetRun()->GetParagraph()->GetParent();
   auto& view = document->GetView();
 
   Point point(event.GetX(), event.GetY());
@@ -156,55 +190,70 @@ void CaretController::OnKeyDown(const KeyEvent& event)
 
   } else if( event.GetFlag(kShiftDown) ) {
     if( event.GetCode() == KeyboardCode::VKEY_RIGHT ) {
-      auto next = enter_char_.GetNextCharacter();
+      auto next = selection_.GetCharacter().GetNextCharacter();
       if( next ) {
         auto command = new SetSelectionCommand(
             rendertext_,
-            std::make_shared<BlockSelection>(enter_char_, *next, CaretPosition::kEnd),
-            rendertext_->GetSelection() );
+            std::make_shared<BlockSelectionController>(*rendertext_, selection_.GetCharacter(), *next, CaretPosition::kEnd));
 
         rendertext_->GetCommitTree()->AddCommand(command);
       }
 
     } else if( event.GetCode() == KeyboardCode::VKEY_LEFT ) {
-      auto prev = enter_char_.GetPrevCharacter();
+      auto prev = selection_.GetCharacter().GetPrevCharacter();
       if( prev ) {
         auto command = new SetSelectionCommand(
             rendertext_,
-            std::make_shared<BlockSelection>(*prev, enter_char_, CaretPosition::kStart),
-            rendertext_->GetSelection() );
+            std::make_shared<BlockSelectionController>(*rendertext_, *prev, selection_.GetCharacter(), CaretPosition::kStart));
 
         rendertext_->GetCommitTree()->AddCommand(command);
       }
 
 
     } else if( event.GetCode() == KeyboardCode::VKEY_DOWN ) {
+      auto caretview = selection_.GetCaretView();
+      //selection_->
+      // auto x = caretview->GetX();
+      // auto y = caretview->GetY();
+      
+      
       
     } else if( event.GetCode() == KeyboardCode::VKEY_UP ) {
 
     }
   } else if( event.GetChar() != 0 ) {
     auto character = CreateCharacter(event.GetChar());
-    auto paragraph = enter_char_.GetRun()->GetParagraph();
+    auto paragraph = selection_.GetCharacter().GetRun()->GetParagraph();
 
-    auto command = new InsertCharCommand(character, &enter_char_);
+    auto command = new InsertCharCommand(character, &selection_.GetCharacter());
     rendertext_->GetCommitTree()->AddCommand(command);
 
   } else {
     switch( event.GetCode() ) {
       case KeyboardCode::VKEY_BACK: {
-        //auto paragraph = enter_char_.GetRun()->GetParagraph();
-        auto command = new DeleteCharCommand(&enter_char_);
+        //auto paragraph = selection_.GetCharacter().GetRun()->GetParagraph();
+        auto command = new DeleteCharCommand(&selection_.GetCharacter());
         rendertext_->GetCommitTree()->AddCommand(command);
         break;
       }
       case KeyboardCode::VKEY_RIGHT: {
-        ProcessRightKey(rendertext_, &enter_char_);
+        ProcessRightKey(rendertext_, &selection_.GetCharacter());
+        Layout();
+        selection_.SetX(selection_.GetView().GetX());
         break;
       }
       case KeyboardCode::VKEY_LEFT: {
-        ProcessLeftKey(rendertext_, &enter_char_);
+        ProcessLeftKey(rendertext_, &selection_.GetCharacter());
+        Layout();
+        selection_.SetX(selection_.GetView().GetX());
         break;
+      }
+      case KeyboardCode::VKEY_UP: {
+        ProcessUpKey(rendertext_, &selection_);
+        break;
+      }
+      case KeyboardCode::VKEY_DOWN: {
+
       }
       
     }
@@ -212,4 +261,15 @@ void CaretController::OnKeyDown(const KeyEvent& event)
   }
 
 }
+
+void CaretController::Paint(Canvas& canvas)
+{
+  selection_.GetView().Paint(canvas);
+}
+void CaretController::Layout()
+{
+  selection_.GetView().Layout();
+}
+
+
 }  // le

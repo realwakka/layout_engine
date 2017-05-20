@@ -15,7 +15,7 @@ ParagraphView::ParagraphView(Paragraph& paragraph)
   auto firstline = new LineView();
   AddChildAt(0, firstline);
   auto& enterview = paragraph.GetEnterRun()->GetEnterChar()->GetView();
-  firstline->AddChildAt(0,&enterview);
+  firstline->AddChildAt(0,const_cast<CharacterView*>(&enterview));
 }
 ParagraphView::~ParagraphView()
 {

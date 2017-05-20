@@ -12,7 +12,7 @@ class BasicCharacter : public Character
   BasicCharacter(char c);
   virtual ~BasicCharacter();
   
-  virtual CharacterView& GetView() override { return view_; }
+  CharacterView& GetView() override { return view_; }
 
   Character* GetNextCharacter() override;
   Character* GetPrevCharacter() override;

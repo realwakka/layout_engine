@@ -17,10 +17,10 @@ BlockSelection::~BlockSelection()
 
 }
 
-std::unique_ptr<Controller> BlockSelection::GetController(RenderText* rendertext) const
-{
-  return std::unique_ptr<Controller>(new BlockSelectionController(*rendertext, *this));
-}
+// std::unique_ptr<Controller> BlockSelection::GetController(RenderText* rendertext) const
+// {
+//   return std::unique_ptr<Controller>(new BlockSelectionController(*rendertext, *this));
+// }
 
 View& BlockSelection::GetView()
 {

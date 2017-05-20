@@ -49,6 +49,8 @@ class View
 
   int GetIndex() const;
 
+  Point GetLocalPosition() const { return Point(x_,y_); }
+
   virtual int GetAvailableWidth() const;
   virtual View* GetNextParent() const { return nullptr; }
 

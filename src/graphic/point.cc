@@ -18,6 +18,19 @@ Point::Point(int x, int y)
 Point::~Point()
 {}
 
+Point Point::operator+(const Point& point) const
+{
+  return Point(x_ + point.x_, y_ + point.y_);
+}
+
+
+Point Point::operator-(const Point& point) const
+{
+  return Point(x_ - point.x_, y_ - point.y_);
+}
+
+  
+
 Point Point::Transform(const Matrix& matrix) const
 {
   Point result;

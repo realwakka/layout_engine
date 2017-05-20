@@ -2,17 +2,17 @@
 #define LE_BLOCK_SELECTION_CONTROLLER_H_
 
 #include "controller/controller.h"
+#include "model/selection/block_selection.h"
 
 namespace le {
 
 class RenderText;
 class Character;
-class BlockSelection;
 
 class BlockSelectionController : public Controller
 {
  public:
-  BlockSelectionController(RenderText& rendertext, const BlockSelection& selection);
+  BlockSelectionController(RenderText& rendertext, Character& begin, Character& end, CaretPosition pos);
   virtual ~BlockSelectionController();
 
   void InsertText(std::string text) override;
@@ -26,10 +26,12 @@ class BlockSelectionController : public Controller
   void OnMousePressed(const MouseEvent& event) override;
   void OnKeyDown(const KeyEvent& event) override;
   
-
+  void Paint(Canvas& canvas) override;
+  void Layout() override;
+  
  private:
   RenderText& rendertext_;
-  const BlockSelection& selection_;
+  BlockSelection selection_;
   
 };
 

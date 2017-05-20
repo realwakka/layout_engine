@@ -29,9 +29,10 @@ void SetRunProp(RenderText& rendertext, const BlockSelection& selection, Setter 
 
 }
 
-BlockSelectionController::BlockSelectionController(RenderText& rendertext, const BlockSelection& selection)
+BlockSelectionController::BlockSelectionController(RenderText& rendertext, Character& begin, Character& end, CaretPosition pos)
     : rendertext_(rendertext),
-      selection_(selection)
+      selection_(begin, end, pos)
+
 {
 }
 
@@ -92,7 +93,7 @@ void BlockSelectionController::OnKeyDown(const KeyEvent& event)
         if( next ) {
           auto command = new SetSelectionCommand(
               &rendertext_,
-              selection_util::createTextSelection(next, end, pos));
+              selection_util::createTextSelection(&rendertext_, next, end, pos));
 
           rendertext_.GetCommitTree()->AddCommand(command);
         }
@@ -101,7 +102,7 @@ void BlockSelectionController::OnKeyDown(const KeyEvent& event)
         if( next ) {
           auto command = new SetSelectionCommand(
               &rendertext_,
-              selection_util::createTextSelection(start, next, pos));
+              selection_util::createTextSelection(&rendertext_,start, next, pos));
 
           rendertext_.GetCommitTree()->AddCommand(command);
         }
@@ -112,7 +113,7 @@ void BlockSelectionController::OnKeyDown(const KeyEvent& event)
         if( prev ) {
           auto command = new SetSelectionCommand(
               &rendertext_,
-              std::make_shared<BlockSelection>(*prev, *end, pos));
+              std::make_shared<BlockSelectionController>(rendertext_, *prev, *end, pos));
 
           rendertext_.GetCommitTree()->AddCommand(command);
         }
@@ -122,7 +123,7 @@ void BlockSelectionController::OnKeyDown(const KeyEvent& event)
         if( prev ) {
           auto command = new SetSelectionCommand(
               &rendertext_,
-              selection_util::createTextSelection(start, prev, pos));
+              selection_util::createTextSelection(&rendertext_, start, prev, pos));
 
           rendertext_.GetCommitTree()->AddCommand(command);
         }
@@ -132,13 +133,13 @@ void BlockSelectionController::OnKeyDown(const KeyEvent& event)
   } else if ( event.GetCode() == KeyboardCode::VKEY_LEFT ) {
     auto command = new SetSelectionCommand(
         &rendertext_,
-        selection_util::createTextSelection(start, start, pos));
+        selection_util::createTextSelection(&rendertext_, start, start, pos));
     rendertext_.GetCommitTree()->AddCommand(command);
     
   } else if ( event.GetCode() == KeyboardCode::VKEY_RIGHT ) {
     auto command = new SetSelectionCommand(
         &rendertext_,
-        selection_util::createTextSelection(end, end, pos));
+        selection_util::createTextSelection(&rendertext_, end, end, pos));
     rendertext_.GetCommitTree()->AddCommand(command);
     
   } else if ( event.GetCode() == KeyboardCode::VKEY_BACK ) {
@@ -152,12 +153,22 @@ void BlockSelectionController::OnKeyDown(const KeyEvent& event)
 
     auto command = new SetSelectionCommand(
         &rendertext_,
-        selection_util::createTextSelection(end, end, pos));
+        selection_util::createTextSelection(&rendertext_, end, end, pos));
     rendertext_.GetCommitTree()->AddCommand(command);
 
     rendertext_.GetCommitTree()->DoCommit();
   } 
 }
+
+void BlockSelectionController::Paint(Canvas& canvas)
+{
+  selection_.GetView().Paint(canvas);  
+}
+void BlockSelectionController::Layout()
+{
+  selection_.GetView().Layout();
+}
+
 
 }  // le
 

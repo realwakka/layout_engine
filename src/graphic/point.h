@@ -13,6 +13,9 @@ class Point
   Point(const Point& point);
   virtual ~Point();
 
+  Point operator+(const Point& point) const;
+  Point operator-(const Point& point) const;
+
   int GetX() const { return x_; }
   int GetY() const { return y_; }
 
@@ -25,6 +28,9 @@ class Point
   int x_;
   int y_;
 };
+
+
+
 
 }  // le
 
