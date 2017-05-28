@@ -68,6 +68,12 @@ class Character
   Node<Run, Character> run_node_;
 };
 
+namespace character_util {
+
+bool GetOrderedCharacter(Character* char1, Character* char2);
+
+}  // character_util
+
 
 
 

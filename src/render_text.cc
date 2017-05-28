@@ -95,10 +95,8 @@ void RenderText::UnDo()
 
 void RenderText::ReDo()
 {
-
   commit_tree_.ReDo();
 }
-
 
 void RenderText::OnKeyDown(const KeyEvent& event)
 {

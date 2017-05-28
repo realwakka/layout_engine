@@ -74,6 +74,7 @@ set(LE_SRCS
   controller/command/insert_char_command.cc
   controller/command/split_run_command.cc
   controller/command/delete_char_command.cc
+  controller/command/delete_text_command.cc
   controller/command/set_selection_command.cc
 
   controller/command/commit.cc

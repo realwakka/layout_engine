@@ -57,6 +57,12 @@ class Run
   static Run* cached_run_;
 };
 
+namespace run_util {
+
+bool GetOrderedRun(Run* run1, Run* run2);
+
+}
+
 }  // le
 
 #endif /* LE_RUN_H_ */

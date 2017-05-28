@@ -115,12 +115,12 @@ int CallBackHttp(lws* wsi,
     case LWS_CALLBACK_HTTP: {
       std::string uri(static_cast<char*>(in));
       std::cout << "requested URI: "<< uri << std::endl;
-      std::string base("../../src/web");
-      if( uri == "/" ) {
-	lws_serve_http_file(wsi, "../../src/web/index.html", "text/html", nullptr, 0);
-      } else {
+      std::string base("../../src/web/html");
+      // if( uri == "/" ) {
+      //   lws_serve_http_file(wsi, "../../src/web/html/index.html", "text/html", nullptr, 0);
+      // } else {
 	lws_serve_http_file(wsi, (base + uri).c_str(), "text/html", nullptr, 0);
-      }
+      // }
       
       break;
     }

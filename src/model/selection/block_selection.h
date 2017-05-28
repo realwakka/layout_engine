@@ -19,19 +19,22 @@ class BlockSelection : public Selection
   BlockSelection(Character& start, Character& end, CaretPosition pos);
   virtual ~BlockSelection();
 
-  // std::unique_ptr<Controller> GetController(RenderText* rendertext) const override;
   View& GetView() override;
 
   Character* GetStart() const { return &start_; }
   Character* GetEnd() const { return &end_; }
   Character* GetCaret() const;
+  Character* GetTail() const;
   CaretPosition GetCaretPosition() const { return pos_; }
+
+  int GetX() const { return x_; }
 
  private:
   Character& start_;
   Character& end_;
   CaretPosition pos_;
   BlockSelectionView view_;
+  int x_;
 
 };
 

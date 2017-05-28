@@ -68,6 +68,28 @@ void Character::UpdateGlyph()
 }
 
 
+namespace character_util {
+
+bool GetOrderedCharacter(Character* char1, Character* char2)
+{
+  if( char1->GetParagraph() == char2->GetParagraph() ) {
+    if( char1->GetRun() == char2->GetRun() ) {
+      auto next_char = char1;
+      while( next_char ) {
+        if( next_char == char2 )
+          return true;
+        next_char = next_char->GetNextRunCharacter();
+      }
+      return false;
+    } else {
+      return run_util::GetOrderedRun(char1->GetRun(), char2->GetRun());
+    }
+  } else {
+    
+  }
+}
+
+}  // character_util
 
 
 }  // le

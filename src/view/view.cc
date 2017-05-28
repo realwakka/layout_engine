@@ -55,7 +55,7 @@ View* View::GetNextSibling() const
     return nullptr;
   } else {
     auto index = GetIndex();
-    return parent->GetChildAt(index - 1);
+    return parent->GetChildAt(index + 1);
   }
 }
 

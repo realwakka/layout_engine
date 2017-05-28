@@ -63,4 +63,26 @@ void Run::UpdateGlyph()
     c->UpdateGlyph();
 }
 
+namespace run_util {
+
+bool GetOrderedRun(Run* run1, Run* run2)
+{
+  if( run1->GetParagraph() == run2->GetParagraph() ) {
+    auto next_run = run1;
+    while( next_run ) {
+      if( next_run == run2 )
+        return true;
+      next_run = next_run->GetNextRun();
+    }
+    return false;
+  } else {
+    
+  }
+
+  
+}
+
+}
+
+
 }  // le

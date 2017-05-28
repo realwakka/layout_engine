@@ -1,5 +1,6 @@
 #include "model/selection/block_selection.h"
 
+#include "model/character/character.h"
 #include "controller/block_selection_controller.h"
 
 namespace le {
@@ -10,7 +11,10 @@ BlockSelection::BlockSelection(Character& start, Character& end, CaretPosition p
       pos_(pos),
       view_(*this)
 {
-
+  if( pos == CaretPosition::kStart )
+    x_ = start.GetView().GetAbsolutePosition().GetX();
+  else
+    x_ = end.GetView().GetAbsolutePosition().GetX();
 }
 BlockSelection::~BlockSelection()
 {
@@ -34,5 +38,14 @@ Character* BlockSelection::GetCaret() const
   else
     return &end_;
 }
+
+Character* BlockSelection::GetTail() const
+{
+  if( pos_ == CaretPosition::kStart )
+    return &end_;
+  else
+    return &start_;
+}
+
 
 }  // le

@@ -1,5 +1,6 @@
 #include "caret_controller.h"
 
+#include "model/selection/selection_util.h"
 #include "model/paragraph.h"
 #include "model/character/basic_character.h"
 #include "model/character/space_character.h"
@@ -7,9 +8,12 @@
 #include "model/selection/caret_selection.h"
 #include "model/selection/block_selection.h"
 
+#include "view/hititem.h"
+#include "view/line_view.h"
+
 #include "controller/block_selection_controller.h"
 #include "controller/event/mouse_event.h"
-#include "view/hititem.h"
+
 #include "controller/event/key_event.h"
 #include "controller/command/insert_char_command.h"
 #include "controller/command/delete_char_command.h"
@@ -25,14 +29,13 @@
 namespace le {
 namespace {
 
-void ProcessUpKey(RenderText* rendertext, CaretSelection* selection)
+template<typename Func>
+Character* GetHittedChar(Character* character, int x, Func func)
 {
-  auto x = selection->GetX();
-  auto lineview = selection->GetCharacter().GetView().GetParent()->GetParent();
-  auto prevline = lineview->GetPrevSibling();
+  auto lineview = character->GetView().GetLineView();
+  auto prevline = (lineview->*func)();
 
   if( prevline ) {
-  
     auto abspos = prevline->GetAbsolutePosition();
     Point point(x, abspos.GetY());
     HitItem item;
@@ -41,36 +44,77 @@ void ProcessUpKey(RenderText* rendertext, CaretSelection* selection)
 
     if( hitted && typeid(*hitted) == typeid(CharacterView) ) {
       auto& hitted_char = static_cast<CharacterView*>(hitted)->GetCharacter();
-      auto command = new SetSelectionCommand(
-          rendertext,
-          std::make_shared<CaretController>(hitted_char, rendertext));
-      
-      rendertext->GetCommitTree()->AddCommand(command);
-
+      return &hitted_char;
     }
   }
+  return nullptr;
 }
 
-void ProcessLeftKey(RenderText* rendertext, Character* selected)
+template<typename Func>
+void ProcessShiftVertKey(RenderText* rendertext, CaretSelection* selection, Func func, CaretPosition pos)
 {
-  auto prev_char = selected->GetPrevCharacter();
-  if( prev_char ) {
-    auto new_sel = std::make_shared<CaretController>(*prev_char, rendertext);
-    auto command = new SetSelectionCommand(
-        rendertext,
-        std::make_shared<CaretController>(*prev_char, rendertext));
+  auto hitted = GetHittedChar(&selection->GetCharacter(), selection->GetX(), func);
+  
+  if( hitted ) {
+    std::shared_ptr<Controller> controller;
+    if( pos == CaretPosition::kEnd )
+      controller = std::make_shared<BlockSelectionController>(*rendertext, selection->GetCharacter(), *hitted, pos);
+    else 
+      controller = std::make_shared<BlockSelectionController>(*rendertext, *hitted, selection->GetCharacter(), pos);
 
+    auto command = new SetSelectionCommand( rendertext, controller );
     rendertext->GetCommitTree()->AddCommand(command);
   }
-
 }
-void ProcessRightKey( RenderText* rendertext, Character* selected )
+
+// void ProcessShiftUpKey(RenderText* rendertext, CaretSelection* selection)
+// {
+//   auto hitted = GetHittedChar(selection, &LineView::GetPrevSibling);
+  
+//   if( hitted ) {
+//     auto controller = std::make_shared<BlockSelectionController>(*rendertext, *hitted, selection->GetCharacter(), CaretPosition::kStart);
+
+//     auto command = new SetSelectionCommand( rendertext, controller );
+//     rendertext->GetCommitTree()->AddCommand(command);
+//   }
+// }
+
+// void ProcessShiftDownKey(RenderText* rendertext, CaretSelection* selection)
+// {
+//   auto hitted = GetHittedChar(selection, &LineView::GetNextSibling);
+  
+//   if( hitted ) {
+//     auto controller = std::make_shared<BlockSelectionController>(*rendertext, selection->GetCharacter(), *hitted, CaretPosition::kEnd);
+
+//     auto command = new SetSelectionCommand( rendertext, controller );
+//     rendertext->GetCommitTree()->AddCommand(command);
+//   }
+// }
+
+
+
+
+// template<typename Func>
+// void ProcessUpDownKey(RenderText* rendertext, CaretSelection* selection, Func func)
+// {
+//   auto hitted = GetHittedChar(&selection->GetCharacter(), selection->GetX(), func);
+
+//   if( hitted ) {
+//       auto command = new SetSelectionCommand(
+//           rendertext,
+//           std::make_shared<CaretController>(*hitted, selection->GetX(), rendertext));
+      
+//       rendertext->GetCommitTree()->AddCommand(command);
+//   }
+// }
+
+void ProcessHorzKey(RenderText* rendertext, Character* next)
 {
-  auto next_char = selected->GetNextCharacter();
-  if (next_char) {
+  if( next ) {
+    auto new_sel = std::make_shared<CaretController>(*next, rendertext);
     auto command = new SetSelectionCommand(
         rendertext,
-        std::make_shared<CaretController>(*next_char, rendertext));
+        std::make_shared<CaretController>(*next, rendertext));
 
     rendertext->GetCommitTree()->AddCommand(command);
   }
@@ -211,15 +255,9 @@ void CaretController::OnKeyDown(const KeyEvent& event)
 
 
     } else if( event.GetCode() == KeyboardCode::VKEY_DOWN ) {
-      auto caretview = selection_.GetCaretView();
-      //selection_->
-      // auto x = caretview->GetX();
-      // auto y = caretview->GetY();
-      
-      
-      
+      ProcessShiftVertKey(rendertext_, &selection_, &LineView::GetNextSibling, CaretPosition::kEnd);
     } else if( event.GetCode() == KeyboardCode::VKEY_UP ) {
-
+      ProcessShiftVertKey(rendertext_, &selection_, &LineView::GetPrevSibling, CaretPosition::kStart);
     }
   } else if( event.GetChar() != 0 ) {
     auto character = CreateCharacter(event.GetChar());
@@ -231,29 +269,25 @@ void CaretController::OnKeyDown(const KeyEvent& event)
   } else {
     switch( event.GetCode() ) {
       case KeyboardCode::VKEY_BACK: {
-        //auto paragraph = selection_.GetCharacter().GetRun()->GetParagraph();
         auto command = new DeleteCharCommand(&selection_.GetCharacter());
         rendertext_->GetCommitTree()->AddCommand(command);
         break;
       }
       case KeyboardCode::VKEY_RIGHT: {
-        ProcessRightKey(rendertext_, &selection_.GetCharacter());
-        Layout();
-        selection_.SetX(selection_.GetView().GetX());
+        ProcessHorzKey(rendertext_, selection_.GetCharacter().GetNextCharacter());
         break;
       }
       case KeyboardCode::VKEY_LEFT: {
-        ProcessLeftKey(rendertext_, &selection_.GetCharacter());
-        Layout();
-        selection_.SetX(selection_.GetView().GetX());
+        ProcessHorzKey(rendertext_, selection_.GetCharacter().GetPrevCharacter());
         break;
       }
       case KeyboardCode::VKEY_UP: {
-        ProcessUpKey(rendertext_, &selection_);
+        selection_util::ProcessUpDownKey(rendertext_, &selection_.GetCharacter(), selection_.GetX(), &LineView::GetPrevSibling);
         break;
       }
       case KeyboardCode::VKEY_DOWN: {
-
+        selection_util::ProcessUpDownKey(rendertext_, &selection_.GetCharacter(), selection_.GetX(), &LineView::GetNextSibling);
+        break;
       }
       
     }

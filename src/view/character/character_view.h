@@ -6,6 +6,7 @@
 namespace le {
 
 class Character;
+class LineView;
 
 class CharacterView : public View
 {
@@ -20,6 +21,8 @@ class CharacterView : public View
 
   virtual int GetCharacterWidth() const;
   virtual int GetSpaceWidth() const;
+
+  LineView* GetLineView() const;
 
  private:
   Character& character_;

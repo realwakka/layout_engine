@@ -6,9 +6,13 @@
 #include "model/character/character.h"
 #include "model/selection/selection_util.h"
 
+#include "view/line_view.h"
+
 #include "controller/event/key_event.h"
 #include "controller/command/set_selection_command.h"
+#include "controller/command/insert_char_command.h"
 #include "controller/command/delete_char_command.h"
+#include "controller/command/delete_text_command.h"
 #include "controller/command/run_prop/set_run_prop_command.h"
 
 namespace le {
@@ -26,6 +30,8 @@ void SetRunProp(RenderText& rendertext, const BlockSelection& selection, Setter 
   rendertext.GetCommitTree()->AddCommand(command);
   rendertext.Commit();
 }
+
+
 
 }
 
@@ -129,7 +135,24 @@ void BlockSelectionController::OnKeyDown(const KeyEvent& event)
         }
 
       }
+    } else if( event.GetCode() == KeyboardCode::VKEY_UP ) {
+      auto hitted = selection_util::GetHittedChar(selection_.GetCaret(), selection_.GetX(), &LineView::GetPrevSibling);
+      auto command = new SetSelectionCommand(
+          &rendertext_,
+          selection_util::createSelection(&rendertext_, hitted, selection_.GetTail()));
+
+      rendertext_.GetCommitTree()->AddCommand(command);
+      
+    } else if( event.GetCode() == KeyboardCode::VKEY_DOWN ) {
+      auto hitted = selection_util::GetHittedChar(selection_.GetCaret(), selection_.GetX(), &LineView::GetNextSibling);
+      auto command = new SetSelectionCommand(
+          &rendertext_,
+          selection_util::createSelection(&rendertext_, hitted, selection_.GetTail()));
+
+      rendertext_.GetCommitTree()->AddCommand(command);
     }
+
+    
   } else if ( event.GetCode() == KeyboardCode::VKEY_LEFT ) {
     auto command = new SetSelectionCommand(
         &rendertext_,
@@ -142,6 +165,10 @@ void BlockSelectionController::OnKeyDown(const KeyEvent& event)
         selection_util::createTextSelection(&rendertext_, end, end, pos));
     rendertext_.GetCommitTree()->AddCommand(command);
     
+  } else if ( event.GetCode() == KeyboardCode::VKEY_UP ) {
+    selection_util::ProcessUpDownKey(&rendertext_, selection_.GetCaret(), selection_.GetX(), &LineView::GetPrevSibling);
+  } else if ( event.GetCode() == KeyboardCode::VKEY_DOWN ) {
+    selection_util::ProcessUpDownKey(&rendertext_, selection_.GetCaret(), selection_.GetX(), &LineView::GetNextSibling);
   } else if ( event.GetCode() == KeyboardCode::VKEY_BACK ) {
     auto selected = selection_.GetEnd();
     auto front = selection_.GetStart()->GetPrevCharacter();
@@ -157,7 +184,20 @@ void BlockSelectionController::OnKeyDown(const KeyEvent& event)
     rendertext_.GetCommitTree()->AddCommand(command);
 
     rendertext_.GetCommitTree()->DoCommit();
-  } 
+  } else if ( event.GetChar() != 0 ) {
+    rendertext_.GetCommitTree()->AddCommand(new DeleteTextCommand(selection_.GetStart(), selection_.GetEnd()));
+    
+    auto character = CreateCharacter(event.GetChar());
+    rendertext_.GetCommitTree()->AddCommand(new InsertCharCommand(character, selection_.GetEnd()));
+
+    auto command = new SetSelectionCommand(
+        &rendertext_,
+        selection_util::createSelection(&rendertext_, selection_.GetEnd(), selection_.GetEnd()));
+    rendertext_.GetCommitTree()->AddCommand(command);
+    
+    rendertext_.GetCommitTree()->DoCommit();
+
+  }
 }
 
 void BlockSelectionController::Paint(Canvas& canvas)

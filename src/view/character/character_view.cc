@@ -28,7 +28,7 @@ void CharacterView::Paint(Canvas& canvas)
   canvas.Save();
   canvas.GetMatrix().Translate(GetX(), GetY());
 
-  int baseline = static_cast<LineView*>(GetParent()->GetParent())->GetBaseline();
+  int baseline = GetLineView()->GetBaseline();
 
   auto glyph = GetCharacter().GetGlyph();
   canvas.DrawGlyph(Point(0, baseline), glyph);
@@ -43,6 +43,19 @@ int CharacterView::GetCharacterWidth() const
 int CharacterView::GetSpaceWidth() const
 {
   return 0;
+}
+
+LineView* CharacterView::GetLineView() const
+{
+  auto lineview = GetParent();
+  while( lineview && typeid(*lineview) != typeid(LineView) ) {
+    lineview = lineview->GetParent();
+  }
+
+  if( lineview )
+    return static_cast<LineView*>(lineview);
+  else
+    throw std::exception();
 }
 
 }  // le
